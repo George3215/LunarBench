@@ -1,0 +1,71 @@
+# Terrain Baking 配置模板
+#
+# 复制一份到你的资产目录（比如 environments/lunar/terrain/my_site/terrain.yaml），
+# 改完直接跑：python terrain_bake.py --config <资产目录>/terrain.yaml
+#
+# 所有相对路径都相对**本 YAML 所在目录**解析；产物也默认写到同一个目录，
+# 也就是说这个 YAML 所在的目录就是资产目录本身。
+
+terrain:
+  # 资产名。产物文件名用它做前缀，留空则取目录名
+  name: my_terrain
+
+  # 高程矩阵。支持 .npy（float，单位米）、16 位 .png、.tif
+  # OmniLRS 侧对应 TerrainManager 生成的 heightfield，或 LargeScale 的 DEM
+  heightfield: ../some_source/dem.npy
+
+  # 米/像素，标量或 [x, y]。OmniLRS 的 terrain_conf.resolution（MoonYard 是 0.01）
+  resolution_m: 0.01
+
+  # 高程乘数。高程已是米制时留 1.0
+  z_scale: 1.0
+
+  # 陨石坑掩码，可选。写了就用它给坑体定位做门控；留 null 就从高程自己推。
+  # 归一化后高值算命中。极性没有统一约定，先看运行日志里的「坑区占比」：
+  # 接近 100% 就说明反了，把 invert 改成 true
+  crater_mask:
+    path: ../some_source/mask.npy
+    invert: false
+  # 也可以只写路径： crater_mask: ../some_source/mask.npy
+  # 或者干脆不用： crater_mask: null
+
+  # 岩石掩码，可选。少了就从高程的高频凸起推
+  rock_mask: null
+
+material:
+  # 材质根目录，相对本文件。默认指向 assets/environments/lunar/materials
+  root: ../../materials
+
+  # 基础材质，目录名即可。贴图按后缀自动识别
+  # （LunarRegolith8k 是 _diff/_nor_gl/_rough/_ao，Sand 是 _BaseColor/_Normal/_ORM）
+  base: LunarRegolith8k
+
+  # 第二套材质，可选。在岩质 / 新鲜区域与基础材质混合
+  detail: null
+
+  # 世界空间平铺边长，单位 cm。1000 = 10 m
+  # 只影响基础材质贴图的重复密度；坑 / 岩 / 坡度层是按高程逐像素算的，
+  # 本来就与地形一一对应，不参与平铺。取值远小于地形跨度时贴图会明显重复
+  tile_cm: 1000
+
+baking:
+  # 输出长边像素数，另一边按物理长宽比推算
+  resolution: 2048
+
+  # 法线强度。1.0 是恒等变换，调小即压平
+  normal_strength: 1.0
+
+  # 第二套材质（detail）的混合上限，0 就是不用
+  detail_amount: 0.6
+
+  # 推导坑体用的邻域尺度，单位米，取大致等于坑半径
+  crater_radius_m: 1.2
+
+  # 推导岩石用的高频尺度，单位米，取大致等于石块高度
+  rock_sigma_m: 0.06
+
+  # 是否把 DEM 梯度也烘进法线。默认 false，理由见 SKILL.md：
+  # 本仓库的地形物理就是这份高程，UE 渲染同一份几何，再烘一遍是重复计算
+  normal_from_height: false
+
+  preview: true

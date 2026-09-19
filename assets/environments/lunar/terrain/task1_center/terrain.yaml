@@ -1,0 +1,30 @@
+# TASK1 地形裁片 center，由 tools/prepare_task1_terrain.py 生成，请勿手改。
+#
+# 高程来自 ue/import_data/Landscape_1_2795x2795.r16 上以 [13.97, 13.97] 为中心的
+# 20 m 窗口，与 field.py 的 PATCH_CENTERS['center'] 是同一块地。
+# 烘焙：python terrain_bake.py --config ../task1_center/terrain.yaml
+
+terrain:
+  name: task1_center
+  heightfield: dem.npy
+  resolution_m: 0.01
+  z_scale: 1.0
+  crater_mask: null
+  rock_mask: null
+
+material:
+  root: ../../materials
+  base: LunarRegolith8k
+  detail: null
+  # 20 m 的裁片，1000 cm 会铺 2x2 次。取 2000 让贴图在任务区里 1:1，
+  # 与 UE 侧换皮时传的 -TileCm 一致。
+  tile_cm: 2000
+
+baking:
+  resolution: 2048
+  normal_strength: 1.0
+  detail_amount: 0.0
+  crater_radius_m: 0.2
+  rock_sigma_m: 0.06
+  normal_from_height: false
+  preview: true

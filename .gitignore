@@ -1,0 +1,82 @@
+# ---- 本地 / 临时 ----
+.local/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+build/
+dist/
+.env
+.env.*
+*.log
+
+# ---- 运行产物 ----
+generated/
+*.tmp
+*.bin
+
+# ---- UE 生成物 ----
+*.umap
+*.uasset
+**/Binaries/
+**/Intermediate/
+**/Saved/
+**/DerivedDataCache/
+
+# ---- 大体量资产 ----
+# assets/ 下有 15 G 资产库（USD/USDZ、DEM .npy、贴图、网格）。
+# 仓库只收代码、配置、文档和小体积元数据，资产按 assets/README.md 自行准备。
+*.usd
+*.usda
+*.usdc
+*.usdz
+*.r16
+*.npy
+*.png
+*.jpg
+*.jpeg
+*.exr
+*.tif
+*.tiff
+*.obj
+*.stl
+*.dae
+*.fbx
+*.glb
+*.gltf
+*.ttf
+*.otf
+*.ies
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.bak
+
+# 上面那组要连着大写一起挡：Linux 下 gitignore 区分大小写，
+# 而资产里混着 link2.STL、xxx.usd.bak 这种写法。
+*.USD
+*.USDA
+*.USDC
+*.USDZ
+*.R16
+*.NPY
+*.PNG
+*.JPG
+*.JPEG
+*.EXR
+*.TIF
+*.TIFF
+*.OBJ
+*.STL
+*.DAE
+*.FBX
+*.GLB
+*.GLTF
+*.TTF
+*.OTF
+*.IES
+*.ZIP
+*.BAK

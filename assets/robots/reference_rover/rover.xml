@@ -1,0 +1,26 @@
+<mujoco model="MoonSim reference differential drive rover">
+  <compiler angle="radian"/>
+  <option timestep="0.002" gravity="0 0 -9.81" iterations="50"/>
+  <asset/>
+  <default><geom friction="1 .02 .002" condim="3" group="2"/><joint damping=".15"/></default>
+  <worldbody>
+    <body name="base_link" pos="0 0 .27">
+      <freejoint name="root"/>
+      <geom name="chassis" type="box" size=".30 .20 .08" mass="12" rgba=".15 .4 .8 1"/>
+      <body name="left_wheel" pos="0 .245 -.09">
+        <joint name="left_axle" axis="0 1 0"/>
+        <geom name="left_tire" type="cylinder" size=".16 .045" quat=".70710678 .70710678 0 0" mass="1" rgba=".08 .08 .08 1"/>
+      </body>
+      <body name="right_wheel" pos="0 -.245 -.09">
+        <joint name="right_axle" axis="0 1 0"/>
+        <geom name="right_tire" type="cylinder" size=".16 .045" quat=".70710678 .70710678 0 0" mass="1" rgba=".08 .08 .08 1"/>
+      </body>
+      <geom name="front_caster" type="sphere" pos=".24 0 -.20" size=".05" mass=".1" friction=".02 .001 .0001" rgba=".2 .2 .2 1"/>
+      <geom name="rear_caster" type="sphere" pos="-.24 0 -.20" size=".05" mass=".1" friction=".02 .001 .0001" rgba=".2 .2 .2 1"/>
+    </body>
+  </worldbody>
+  <actuator>
+    <velocity name="left_drive" joint="left_axle" kv="8" ctrlrange="-8 8" forcerange="-12 12"/>
+    <velocity name="right_drive" joint="right_axle" kv="8" ctrlrange="-8 8" forcerange="-12 12"/>
+  </actuator>
+</mujoco>

@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh"><meta charset="utf-8"><title>TASK1 传感器与 Baseline</title>
+<style>body{background:#111923;color:#dfe9f3;font:16px system-ui;margin:28px}h1{font-size:24px}section{display:flex;gap:20px;flex-wrap:wrap}figure{margin:0}img{width:480px;max-width:95vw;border:1px solid #3b5062}#rgb{cursor:crosshair}pre{white-space:pre-wrap;background:#1b2836;padding:16px}button{padding:10px;background:#285b80;color:white;border:0}</style>
+<h1>TASK1 · UE RGB-D / MuJoCo LiDAR / Z-Mobile-manip</h1>
+<p>在 RGB 图上拖一个框选择目标。目标来自图像；未选择、丢失或传感器过期时 baseline 停止底盘。WASD 可在 UE 中接管，B 恢复 baseline。</p>
+<section><figure><figcaption>腕部 RealSense D435 RGB（UE） · 拖框选目标</figcaption><img id="rgb"></figure><figure><figcaption>D435 对齐深度（理想仿真）· 显示 0–8 m</figcaption><img id="depth"></figure><figure><figcaption>机身 Livox Mid-360（MuJoCo）· 俯视投影</figcaption><img id="lidar"></figure></section><p id="target"></p><pre id="status">等待数据…</pre>
+<script>
+const rgb=document.querySelector('#rgb');let start;
+rgb.onmousedown=e=>{start=[e.offsetX,e.offsetY];e.preventDefault()};
+rgb.onmouseup=async e=>{if(!start)return;let sx=rgb.naturalWidth/rgb.width,sy=rgb.naturalHeight/rgb.height;
+let bbox=[Math.round(Math.min(start[0],e.offsetX)*sx),Math.round(Math.min(start[1],e.offsetY)*sy),Math.round(Math.abs(start[0]-e.offsetX)*sx),Math.round(Math.abs(start[1]-e.offsetY)*sy)];start=null;
+let r=await fetch('/frame/target',{method:'POST',body:JSON.stringify({bbox})});document.querySelector('#target').textContent=r.ok?'已发送图像目标框 '+bbox:await r.text()};
+async function update(){for(let id of ['rgb','depth','lidar']){let el=document.querySelector('#'+id);if(!start)el.src='/image/'+id+'?t='+Date.now()}
+try{let x=await(await fetch('/status')).json();document.querySelector('#status').textContent=JSON.stringify(x,null,2)}catch{}setTimeout(update,500)}update();
+</script></html>

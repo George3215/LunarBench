@@ -1,0 +1,36 @@
+# TASK1 实验条件；一般实现常数留在 Python，不要求记忆命令行参数。
+# 局部坐标为米，Z 向上；field.center_m 是 UE 世界米。
+field:
+  size_m: 20.0
+  patch: center          # center | southwest | northeast；同一原始高程的不同 20 m 裁片
+
+rock:
+  count: 150
+  seed: 0
+  region_m: [-8.0, -8.0, 8.0, 2.0]
+  scale: 0.014
+  volume_jitter: [1.5, 2.0] # 体积倍率；长度取立方根，质量等比变化
+  mass_kg: 0.002           # 基准仿真假设，非实测月岩密度
+
+collection_zone:
+  center_m: [6.0, 6.0]
+  size_m: [0.3, 0.3]       # 四面墙中心线间距；净空为 size - wall_thickness
+  wall_height_m: 0.3
+  wall_thickness_m: 0.05
+
+reward:
+  enabled: false          # 本轮只接传感器与 baseline，不计分
+  per_rock: 10.0           # 双指夹持抬离地面、释放并稳定进入框内，每个 ID 仅一次
+  fall_penalty: 20.0       # 跌倒一次扣分并终止
+
+episode:
+  time_limit_s: 0.0       # 接入阶段持续运行，0 表示无任务时限
+
+robot:
+  name: go2_piper
+  spawn_m: [0.2, 2.4]
+  yaw_deg: 0.0
+
+policy:
+  name: z_mobile_manip    # 独立进程，仅通过 bridge 接收观测和发送动作
+  seed: 0                 # 与场景 seed 独立

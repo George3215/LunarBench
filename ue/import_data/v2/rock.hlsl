@@ -1,0 +1,13 @@
+float4 soil=Texture2DSample(N1,N1Sampler,UV);
+float2 xy=soil.rg*2-1;
+float3 a=normalize(float3(xy,sqrt(saturate(1-dot(xy,xy)))));
+float4 rock=Texture2DSample(RockN,RockNSampler,UV);
+float2 rxy=rock.rg*2-1;
+float3 b=normalize(float3(rxy,sqrt(saturate(1-dot(rxy,rxy)))));
+float3 t=float3(a.xy,a.z+1),u=float3(-b.xy,b.z);
+NormalOut=normalize(t*dot(t,u)-t.z*u);
+float3 base=Texture2DSample(A1,A1Sampler,UV).rgb;
+float c1=Texture2DSample(Mask,MaskSampler,World.xy/16384).a;
+float c2=Texture2DSample(Mask,MaskSampler,World.xy/812900).a;
+SpecOut=.5;
+return saturate(lerp(lerp(base,base*.51,c1),base*.15,c2));

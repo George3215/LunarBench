@@ -1,0 +1,31 @@
+# 月面南极 Site20 DEM，来自 OmniLRS LargeScale 地形路径（真实 LOLA 数据）。
+# 源数据：assets/environments/lunar/terrain/SouthPole/Site20_final_adj_5mpp_surf/
+#   dem.npy  3200 x 3200，float32，5 m/px，约 16.0 x 16.0 km
+# 没有随附掩码，坑体与起伏全部从高程推导。
+# 注意 5 m/px 已经看不出单块岩石，rock_sigma_m 在这里只能当粗糙度分区看。
+
+terrain:
+  name: southpole_site20
+  heightfield: ../SouthPole/Site20_final_adj_5mpp_surf/dem.npy
+  resolution_m: 5.0
+  z_scale: 1.0
+  crater_mask: null
+  rock_mask: null
+
+material:
+  root: ../../materials
+  base: LunarRegolith8k
+  detail: null
+  # 16 km 跨度下贴图密度只是视觉效果，不构成物理量。
+  # 400 m 一次平铺，1024 贴图约合 0.4 m/像素
+  tile_cm: 40000
+
+baking:
+  resolution: 2048
+  normal_strength: 1.0
+  detail_amount: 0.0
+  # 5 m/px 下邻域尺度至少撑到 10 个像素才有意义
+  crater_radius_m: 60.0
+  rock_sigma_m: 20.0
+  normal_from_height: false
+  preview: true

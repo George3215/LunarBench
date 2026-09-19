@@ -1,0 +1,33 @@
+# Lunalab 试验场激光扫描地形，来自 OmniLRS 的程序化月面生成路径。
+# 源数据：assets/environments/lunar/terrain/Lunalab/Terrain_lidar01/
+#   dem.npy   998 x 652，float64，1 cm/px，约 6.5 x 10.0 m
+#   mask.npy  同尺寸 uint8，0=地面 / 1=坑心，标出 4 个陨石坑（直径约 0.27 m）
+# 这是 1 cm/px 的真实激光扫描，坑体在贴图上立得住，适合当端到端样例。
+
+terrain:
+  name: lunalab_lidar01
+  heightfield: ../Lunalab/Terrain_lidar01/dem.npy
+  resolution_m: 0.01
+  z_scale: 1.0
+  crater_mask:
+    path: ../Lunalab/Terrain_lidar01/mask.npy
+    invert: false
+  rock_mask: null
+
+material:
+  root: ../../materials
+  base: LunarRegolith8k
+  detail: null
+  # 地形跨度约 10 m，这里取 10 m 等于 1:1 铺满，不重复
+  tile_cm: 1000
+
+baking:
+  resolution: 2048
+  normal_strength: 1.0
+  detail_amount: 0.0
+  # 扫描范围内坑体直径约 0.27 m，半径取 0.15
+  crater_radius_m: 0.15
+  # 1 cm/px 下这个尺度对应几厘米的碎块
+  rock_sigma_m: 0.04
+  normal_from_height: false
+  preview: true

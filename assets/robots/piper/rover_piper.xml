@@ -1,0 +1,104 @@
+<mujoco model="Reference rover with Piper arm">
+  <compiler angle="radian" meshdir="assets" autolimits="true" />
+  <option timestep="0.002" gravity="0 0 -9.81" iterations="50" />
+  <asset>
+    <mesh name="arm_base_link" file="base_link.STL" />
+    <mesh name="link1" file="link1.STL" />
+    <mesh name="link2" file="link2.STL" />
+    <mesh name="link3" file="link3.STL" />
+    <mesh name="link4" file="link4.STL" />
+    <mesh name="link5" file="link5.STL" />
+    <mesh name="link6" file="link6.STL" />
+    <mesh name="gripper_base" file="gripper_base.STL" />
+    <mesh name="link7" file="link7.STL" />
+    <mesh name="link8" file="link8.STL" />
+  </asset>
+  <default>
+    <geom friction="1 .02 .002" condim="3" group="2" />
+    <joint damping=".15" />
+  </default>
+  <worldbody>
+    <body name="base_link" pos="0 0 .27">
+      <freejoint name="root" />
+      <geom name="chassis" type="box" size=".30 .20 .08" mass="12" rgba=".15 .4 .8 1" />
+      <body name="left_wheel" pos="0 .245 -.09">
+        <joint name="left_axle" axis="0 1 0" />
+        <geom name="left_tire" type="cylinder" size=".16 .045" quat=".70710678 .70710678 0 0" mass="1" rgba=".08 .08 .08 1" />
+      </body>
+      <body name="right_wheel" pos="0 -.245 -.09">
+        <joint name="right_axle" axis="0 1 0" />
+        <geom name="right_tire" type="cylinder" size=".16 .045" quat=".70710678 .70710678 0 0" mass="1" rgba=".08 .08 .08 1" />
+      </body>
+      <geom name="front_caster" type="sphere" pos=".24 0 -.20" size=".05" mass=".1" friction=".02 .001 .0001" rgba=".2 .2 .2 1" />
+      <geom name="rear_caster" type="sphere" pos="-.24 0 -.20" size=".05" mass=".1" friction=".02 .001 .0001" rgba=".2 .2 .2 1" />
+      <body name="arm_base" pos="0 0 .10">
+        <inertial pos="-0.00979274765955341 1.82905827587138E-06 0.0410100126360189" mass="0.1625485674036938" fullinertia="0.000226596924525071 0.000269444772561524 0.000222318258878636 -7.33972270153965E-08 2.13249977802622E-06 8.15169009611054E-09" />
+        <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="arm_base_link" group="2" condim="3" friction=".8 .02 .001" />
+        <body name="link1" pos="0 0 0.123">
+          <inertial pos="0.000121505 0.000104632 -0.00438597" quat="0.682111 0.730899 0.0143111 -0.0175062" mass="0.71" diaginertia="0.000489262 0.000439887 0.000404551" />
+          <joint name="joint1" pos="0 0 0" axis="0 0 1" limited="true" range="-2.618 2.168" damping="1" armature=".01" />
+          <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link1" group="2" condim="3" friction=".8 .02 .001" />
+          <body name="link2" pos="0 0 0" quat="0.0356735 -0.0356786 -0.706207 -0.706205">
+            <inertial pos="0.198666 -0.0109269 0.00142122" quat="0.510131 0.475585 0.525075 0.48773" mass="1.17" diaginertia="0.0679032 0.067745 0.00111966" />
+            <joint name="joint2" pos="0 0 0" axis="0 0 1" limited="true" range="0 3.14" damping="1" armature=".01" />
+            <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link2" group="2" condim="3" friction=".8 .02 .001" />
+            <body name="link3" pos="0.28503 0 0" quat="0.637536 0 0 -0.77042">
+              <inertial pos="-0.0202738 -0.133915 -0.000458683" quat="0.706282 0.705111 0.0532202 0.0339395" mass="0.5" diaginertia="0.0138227 0.0138032 0.000244685" />
+              <joint name="joint3" pos="0 0 0" axis="0 0 1" limited="true" range="-2.967 0" damping="1" armature=".01" />
+              <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link3" group="2" condim="3" friction=".8 .02 .001" />
+              <body name="link4" pos="-0.021984 -0.25075 0" quat="0.707105 0.707108 0 0">
+                <inertial pos="-9.66636e-05 0.000876064 -0.00496881" quat="0.714689 -0.0948484 0.0635223 0.690064" mass="0.38" diaginertia="0.000191586 0.000185052 0.000152863" />
+                <joint name="joint4" pos="0 0 0" axis="0 0 1" limited="true" range="-1.745 1.745" damping="1" armature=".01" />
+                <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link4" group="2" condim="3" friction=".8 .02 .001" />
+                <body name="link5" pos="0 0 0" quat="0.707105 -0.707108 0 0">
+                  <inertial pos="-4.10554e-05 -0.0566487 -0.00372058" quat="0.709589 0.704614 0.00134613 -0.00132656" mass="0.383" diaginertia="0.00166169 0.00164328 0.000185028" />
+                  <joint name="joint5" pos="0 0 0" axis="0 0 1" limited="true" range="-1.22 1.22" damping="1" armature=".01" />
+                  <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link5" group="2" condim="3" friction=".8 .02 .001" />
+                  <body name="link6" pos="8.8259e-05 -0.091 0" quat="0.707105 0.707108 0 0">
+                    <inertial pos="-0.000182345 7.94104e-05 0.0316214" quat="0.999977 6.30554e-05 0.00678017 0.000789386" mass="0.456991" diaginertia="0.000938039 0.000723068 0.000395388" />
+                    <joint name="joint6" pos="0 0 0" axis="0 0 1" limited="true" range="-2.0944 2.0944" damping="1" armature=".01" />
+                    <geom type="mesh" rgba="0.898039 0.917647 0.929412 1" mesh="link6" group="2" condim="3" friction=".8 .02 .001" />
+                    <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="gripper_base" group="2" condim="3" friction=".8 .02 .001" />
+                    <body name="link7" pos="0 0 0.1358" quat="0.707105 0.707108 0 0">
+                      <inertial pos="0.000651232 -0.049193 0.00972259" quat="0.477798 0.572974 -0.518028 0.418398" mass="0.025" diaginertia="7.74531e-05 7.36783e-05 5.0886e-06" />
+                      <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link7" group="2" condim="3" friction=".8 .02 .001" />
+                      <joint name="joint7" type="slide" axis="0 0 1" range="0 .035" damping="2" armature=".001" />
+                    </body>
+                    <body name="link8" pos="0 0 0.1358" quat="-2.59734e-06 -2.59735e-06 -0.707108 -0.707105">
+                      <inertial pos="0.000651232 -0.049193 0.00972259" quat="0.477798 0.572974 -0.518028 0.418398" mass="0.025" diaginertia="7.74531e-05 7.36783e-05 5.0886e-06" />
+                      <geom type="mesh" rgba="0.792157 0.819608 0.933333 1" mesh="link8" group="2" condim="3" friction=".8 .02 .001" />
+                      <joint name="joint8" type="slide" axis="0 0 1" range="0 .035" damping="2" armature=".001" />
+                    </body>
+                    <body name="end_effector" pos="0.0 0 0.13" quat="0.7071 0 -0.7071 0">
+                      <inertial pos="0 0 0" quat="1 0 0 0" mass="0.1" diaginertia="0.001 0.001 0.001" />
+                      <geom size="0.01" pos="0 0 0" quat="0 0 0 1" contype="0" conaffinity="0" group="2" density="0" />
+                      <site name="tool_tip" size=".008" rgba="0 1 0 1" />
+                    </body>
+                  </body>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <actuator>
+    <velocity name="left_drive" joint="left_axle" kv="8" ctrlrange="-8 8" forcerange="-12 12" />
+    <velocity name="right_drive" joint="right_axle" kv="8" ctrlrange="-8 8" forcerange="-12 12" />
+    <position name="arm_joint1" joint="joint1" kp="100" kv="10" ctrlrange="-2.618 2.168" forcerange="-20 20" />
+    <position name="arm_joint2" joint="joint2" kp="100" kv="10" ctrlrange="0 3.14" forcerange="-20 20" />
+    <position name="arm_joint3" joint="joint3" kp="100" kv="10" ctrlrange="-2.967 0" forcerange="-15 15" />
+    <position name="arm_joint4" joint="joint4" kp="100" kv="10" ctrlrange="-1.745 1.745" forcerange="-7 7" />
+    <position name="arm_joint5" joint="joint5" kp="100" kv="10" ctrlrange="-1.22 1.22" forcerange="-5 5" />
+    <position name="arm_joint6" joint="joint6" kp="100" kv="10" ctrlrange="-2.0944 2.0944" forcerange="-5 5" />
+    <position name="gripper" joint="joint7" kp="500" kv="20" ctrlrange="0 .035" forcerange="-20 20" />
+  </actuator>
+  <equality>
+    <joint joint1="joint7" joint2="joint8" polycoef="0 1 0 0 0" />
+  </equality>
+  <contact>
+    <exclude body1="link7" body2="link8" />
+    <exclude body1="arm_base" body2="link1" />
+  </contact>
+</mujoco>

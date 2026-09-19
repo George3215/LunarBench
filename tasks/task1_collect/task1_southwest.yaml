@@ -1,0 +1,39 @@
+# TASK1 地形裁片 southwest；内容与 task1.yaml 相同，只多一个 ue_map。
+# 地形贴图见 assets/environments/lunar/terrain/task1_southwest/，
+# 地图由 tools/build_task1_maps.py 换皮生成。
+field:
+  size_m: 20.0
+  patch: southwest
+
+rock:
+  count: 150
+  seed: 0
+  region_m: [-8.0, -8.0, 8.0, 2.0]
+  scale: 0.014
+  volume_jitter: [1.5, 2.0]
+  mass_kg: 0.002
+
+collection_zone:
+  center_m: [6.0, 6.0]
+  size_m: [0.3, 0.3]
+  wall_height_m: 0.3
+  wall_thickness_m: 0.05
+
+reward:
+  enabled: false
+  per_rock: 10.0
+  fall_penalty: 20.0
+
+episode:
+  time_limit_s: 0.0
+
+robot:
+  name: go2_piper
+  spawn_m: [0.2, 2.4]
+  yaw_deg: 0.0
+
+policy:
+  name: z_mobile_manip
+  seed: 0
+
+ue_map: /Game/MoonMacro/Maps/MoonTerrain_Task1Southwest
