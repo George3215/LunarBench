@@ -6,14 +6,14 @@
 
 | 分类 | 内容 | 体积 | 文件数 |
 | --- | --- | ---: | ---: |
-| `environments/` | 月面地形、岩石、材质、天空、场景 | 14 G | 1320 |
-| `robots/` | 机器人本体（移动、机械臂、着陆器、航天器） | 575 M | 110 |
+| `environments/` | 月面地形、岩石、材质、天空、场景 | 23 G | 2880 |
+| `robots/` | 机器人本体（移动、机械臂、着陆器、航天器） | 703 M | 300 |
 | `objects/` | 可交互物体（岩石样品、工具、构件、载荷） | 263 M | 188 |
 | `sensors/` | 独立传感器模型（相机、激光雷达） | 4.6 M | 4 |
-| **合计** | | **15 G** | **1622** |
+| **合计** | | **24 G** | **3373** |
 
-上表由 `du -sh` 与 `find <分类> -type f | wc -l` 实测；下面各小节表格里的细分数
-来自更早的一次统计，未随本次一并复核。
+上表由 `du -sh` 与 `find <分类> -type f | wc -l` 实测（2026-09-21 复核，含本轮新增的
+`robots/robotiq_2f85/`）；下面各小节表格里的细分数来自更早的一次统计，未随本次一并复核。
 
 ---
 
@@ -64,6 +64,11 @@ Asset/
 │   ├── manipulators/
 │   │   ├── manipulator/             机械臂
 │   │   └── gripper/                 夹爪 / 灵巧手
+│   ├── ur10/ ur10e/ ur12e/   固定基座六轴机械臂（自包含：MuJoCo + UE）
+│   ├── franka/               Franka Emika Panda 七轴机械臂 + 夹爪（原样取自 MuJoCo Menagerie，只有 MuJoCo）
+│   ├── robotiq_2f85/         Robotiq 2F-85 自适应两指夹爪（同上）
+│   ├── so101/                LeRobot SO-ARM101 桌面机械臂（同上）
+│   ├── piper/                Piper 机械臂与参考移动操作机器人（同上）
 │   ├── mobile_manipulators/  移动操作机器人
 │   ├── landers/              着陆器
 │   └── spacecraft/           航天器
@@ -120,6 +125,24 @@ Asset/
 | `spacecraft` | 193 M | `gateway`、`iss`、`starship`、`super_heavy`、`satellite_mockup`、`venus_express` |
 
 `ros2_husky_*`、`ros2_jackal_*` 等文件已内置相机、激光雷达与 IMU，可直接使用，无需再外挂 `sensors/` 下的模型。
+
+**自包含机械臂目录**（`ur10/`、`ur10e/`、`ur12e/`、`so101/`、`piper/`）结构与上面按类别分组的目录不同：每个目录是一个完整机械臂，含 `arm.xml`（MuJoCo 模型）、`urdf/` 与 `meshes/`、给 UE 的 `<名字>.usdz`、`source.json`（上游仓库与 commit、逐文件 SHA256、本次改动清单、未声明事项）、`UPSTREAM_LICENSE` 与 `README.md`。搬走整个目录即可用，不需要额外的路径配置。
+
+| 目录 | 体积 | 来源 | 说明 |
+| --- | ---: | --- | --- |
+| `ur10/` | 21 M | `ros-industrial/universal_robot` | UR10，6 关节 |
+| `ur10e/` | 23 M | 同上 | UR10e，6 关节 |
+| `ur12e/` | 23 M | 同上 | UR12e。上游这份 commit 里 UR12e 的描述文件与 UR10e 逐字节相同，网格目录也不存在，所以两个模型在把机器人名统一后完全一致——不是复制错误，详见其 `README.md` |
+| `franka/` | 42 M | `google-deepmind/mujoco_menagerie` | Franka Emika Panda，7 关节 + 夹爪。**与上面四个不同：这是原样搬运**，`panda.xml` 与 67 个网格逐字节等于上游 commit `71f066a`，本目录只加了 `source.json`/`README.md`/`fetch_report.json` 三个说明文件，且每个文件都对着上游 git blob SHA1 校验过。只有 MuJoCo 模型，没有 `.usdz`；上游 `panda.xml` 也没有 `tool_tip` site |
+| `robotiq_2f85/` | 3.1 M | 同上，同一个 commit `71f066a` | Robotiq 2F-85 自适应两指夹爪，8 关节 + 1 执行器（`ctrlrange` 0–255），指间距全开 0.0984 m / 闭合 0.0150 m，总质量 1.0526 kg。同样是**原样搬运**，8 个 STL 与 `2f85.xml` 逐字节等于上游。只有 MuJoCo 模型，没有 `.usdz`。TASK2 空白环境用它 |
+| `so101/` | 27 M | `TheRobotStudio/SO-ARM100` | LeRobot SO-ARM101，6 关节含夹爪。保留上游已调好的 MJCF 伺服增益与 geom class，只改 `meshdir`、补 `option`、`tool_tip` 与 `home` 关键帧 |
+| `piper/` | 8.9 M | 本机 ATEC_UE_sim | 见 `piper/README.md` |
+
+`ur10`/`ur10e`/`ur12e`/`so101` 由 `tools/prepare_arms.py` 从上游 xacro/URDF/MJCF 生成，`tools/validate_arms.py` 验收；验收覆盖 MuJoCo 载入与步进、home 位姿自接触与重力下垂、末端随动、以及 `.usdz` 的连杆坐标系与网格摆位是否逐一对上 MuJoCo 自身运动学。证据写在 `.local/validation/arms.json`。
+
+`franka/` 与 `robotiq_2f85/` 不走这条链：它们是原样搬运的 Menagerie 模型，没有 `.usdz` 可验收，`prepare_arms.py` 与 `validate_arms.py` 都不覆盖。它们的来源凭证是 `fetch_report.json` 里对着 GitHub API 的 blob SHA1 校验（`franka/` 69 个文件、`robotiq_2f85/` 13 个文件，全部一致）。`robotiq_2f85/` 的装配由 TASK2 空白环境端到端跑通，见该目录的 `README.md`；`franka/` 目前没有接入任何任务，没有超过"能载入"这一条的验收。
+
+生成的 `.obj`、`.stl`、`.dae`、`.usd`、`.usdz` 与上游缓存按 `.gitignore` 不入库，入库存放的是生成与验收脚本、`source.json`、许可与说明。第三方资产的公开再分发权尚未确认，`.usdz` 与网格仅在本机使用。
 
 ### objects/ — 可交互物体
 

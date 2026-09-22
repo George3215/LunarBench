@@ -1,0 +1,28 @@
+# 8 个 CPU 物理环境，共享一个 CUDA DrQ-v2 策略；总计 20 万 transition。
+seed: 17
+instruction: Use all ten stones to build a stable 4+3+2+1 dry-stone wall.
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses:
+  - 4
+  - 3
+  - 2
+  - 1
+  rock_style: paper
+  stone_seed: 17
+scene:
+  layout: upstream
+policy:
+  name: rl
+  rl:
+    algorithm: drqv2
+    observation: pixels
+    total_steps: 200000
+    episode_steps: 1000
+    wandb:
+      enabled: true
+      project: task2-stone-stack
+    device: cuda
+    num_envs: 8

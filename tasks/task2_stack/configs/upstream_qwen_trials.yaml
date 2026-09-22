@@ -1,0 +1,22 @@
+# 正式任务：全部十块石头、四层、三次可复盘尝试。
+# 上游 UR5e/Robotiq 与石头；料区在可达工作区内，不缩放、不扩候选池、trial 内不重定位。
+instruction: "Use ALL TEN stones to build a stable dry-stone wall of exactly 4+3+2+1 stones from bottom to top. Choose grasp EE poses, placement EE poses and every motion yourself. Record failures with observed evidence, analyze them and change the next attempt. Release the gripper and retract before declaring completion."
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses: [4, 3, 2, 1]
+  rock_style: paper
+  stone_seed: 17
+scene:
+  layout: upstream
+policy:
+  name: qwen-direct
+  direct:
+    cameras: [eye_in_hand, top, front]
+    trials: 3
+    max_delta_m: 0.05       # 目标相对实测 TCP 的最大欧氏距离；只能收紧
+    max_rotation_rad: 0.35 # 目标相对实测姿态的最短旋转角；只能收紧
+    max_steps: 400
+    max_tokens: 900
+    history_turns: 2

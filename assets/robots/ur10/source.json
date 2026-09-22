@@ -1,0 +1,84 @@
+{
+  "source": "https://github.com/ros-industrial/universal_robot",
+  "commit": "39ad110d8f2e8f66856a201cca88aa7a7025e3eb",
+  "package": "ur_description",
+  "xacro": "ur_description/urdf/ur10.xacro",
+  "urdf": "urdf/ur10.urdf",
+  "urdf_sha256": "5957603e9e41a5e7932e870bdd52178c1c797d3de1e8b38a09c44cc100045e4b",
+  "arm_xml_sha256": "27d433324db2d072d89fe12ad5d3c6eac29847d346e4ee2a70b86f6c462890e4",
+  "usdz_sha256": "983838cef06c5572d9f2bc6e7a13c4fd8ff8b97af634c13bfce55b44a538b1e5",
+  "meshes": {
+    "meshes/ur10/collision/base.stl": "c2049e55f6ddbd827d89342c5e3d277b62493db681d28f44ca555db1a288e2cf",
+    "meshes/ur10/collision/forearm.stl": "dc90009a4863cbdb350f2a40e40ca25db0ddba1eb6811e0e0d3c914293f365d0",
+    "meshes/ur10/collision/shoulder.stl": "8f2b5085694ffb5208da1099bd9c5b381155a82c5fec1bc72bb050f3c30c0ece",
+    "meshes/ur10/collision/upperarm.stl": "c84a410a76cf8d25e1d830d9033a4e501fb16baeb2bf0116367a0cdb98c75fbb",
+    "meshes/ur10/collision/wrist1.stl": "c33737b72a82d61a9d4b1c3abb75eab8349e935c60340f59b7d1ed004ac16142",
+    "meshes/ur10/collision/wrist2.stl": "8070916b9042dce67c85fccaa94fa60308722945405a58abc6070c1bb8de9bb9",
+    "meshes/ur10/collision/wrist3.stl": "07401ab0442bb02772aca606889146ff5fc0b30c8f037e4b2878cfefb1b7c443",
+    "meshes/ur10/visual/base.dae": "f0698e6429ce534b924367d9a4bc0fcb19165fbab8ce69063faacd469b4c6218",
+    "meshes/ur10/visual/base_visual.obj": "4fb93302c3fded3df66a9c7fd107140216ef1fad81861358a7b99ee321f93693",
+    "meshes/ur10/visual/forearm.dae": "41a6d9fb106d0f4ed427bf4281b437c0e721c06c92cc0f0d0b2ab95c748626ad",
+    "meshes/ur10/visual/forearm_visual.obj": "7117a9c4379ed5b2e3f842596029430075aabde01fcec4c47cda29f5e1b15007",
+    "meshes/ur10/visual/shoulder.dae": "db9233d31ed841f87c46ac0486a160e6b5242e26fe190c9d77053db849eb7cd1",
+    "meshes/ur10/visual/shoulder_visual.obj": "6c240e65b1e96bacd97163cdbdd4cb1670e2b0ae13a1cf94e75c481062a81996",
+    "meshes/ur10/visual/upperarm.dae": "6e51848bd816a9a4aee81f4a57ab7d3726b92fd4f6da4583847ff8796bedb49e",
+    "meshes/ur10/visual/upperarm_visual.obj": "b917e1abe5cb974594ab27e125ef709df52076df9ad636a235e1043f359b2215",
+    "meshes/ur10/visual/wrist1.dae": "914cdc4f977318675a33e43b9f13c45fa552928cdfd35639878aaa8230b41ff8",
+    "meshes/ur10/visual/wrist1_visual.obj": "d76c000252711be61d3489df8c6ff98b4bf06273b4b45e060c49d5034a67f413",
+    "meshes/ur10/visual/wrist2.dae": "af67a4472984a93dd3bb2335881e769de9bffa59b92ef7b38944485c59cbfb70",
+    "meshes/ur10/visual/wrist2_visual.obj": "eb36f81f3e469ea50930d5fb2d682b07b01cb2f94f1db92fa7e72862a729b7d5",
+    "meshes/ur10/visual/wrist3.dae": "10f6cd72534efa2f6f6ef1e2caf2d361c6fab6bf312cbf8ab80056aea2559a28",
+    "meshes/ur10/visual/wrist3_visual.obj": "5699a2c6ce06d3c79f84109ea4632c47b37d0d6dbfcf9859acfe57d7e93b5a42"
+  },
+  "joints": [
+    {
+      "name": "shoulder_pan_joint",
+      "lower": -6.283185307179586,
+      "upper": 6.283185307179586,
+      "effort": 330.0
+    },
+    {
+      "name": "shoulder_lift_joint",
+      "lower": -6.283185307179586,
+      "upper": 6.283185307179586,
+      "effort": 330.0
+    },
+    {
+      "name": "elbow_joint",
+      "lower": -3.141592653589793,
+      "upper": 3.141592653589793,
+      "effort": 150.0
+    },
+    {
+      "name": "wrist_1_joint",
+      "lower": -6.283185307179586,
+      "upper": 6.283185307179586,
+      "effort": 56.0
+    },
+    {
+      "name": "wrist_2_joint",
+      "lower": -6.283185307179586,
+      "upper": 6.283185307179586,
+      "effort": 56.0
+    },
+    {
+      "name": "wrist_3_joint",
+      "lower": -6.283185307179586,
+      "upper": 6.283185307179586,
+      "effort": 56.0
+    }
+  ],
+  "modifications": [
+    "Expanded the upstream xacro to a standalone URDF",
+    "Rewrote package:// mesh URLs to paths relative to the asset directory",
+    "Exported each Collada visual mesh to OBJ (Blender, Z-up preserved) because MuJoCo cannot read DAE",
+    "Compiled the URDF with MuJoCo and added position servos, a tool_tip site and a home keyframe",
+    "Re-homed the compiled root link into a named base_link body and excluded the base/shoulder collision pair, whose upstream meshes overlap by 0.3 mm",
+    "Authored a display-only USD for UE"
+  ],
+  "not_claimed": [
+    "hardware calibration",
+    "trained control",
+    "UE-side physics simulation"
+  ]
+}

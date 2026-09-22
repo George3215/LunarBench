@@ -1,15 +1,12 @@
 # Tasks
 
-任务负责目标、成功/失败条件和评价；资产与引擎实现留在各自目录。
+任务负责观测、动作、奖励和成功/失败条件；资产和引擎实现留在对应目录。
 
-| 任务 | 说明 | 入口 |
+| 任务 | 当前内容 | 入口 |
 | --- | --- | --- |
-| （无） | 已有 Go2 月面移动 demo，本身不是任务 | `../tools/run_demo.py` |
-| [task1_collect](task1_collect/) | 石头样本收集：20×20 m 场地 + 红边界 + 白色实体围栏收集区，石头进收集区加分，参数由 YAML 控制 | `task1_collect/run.py` |
+| [TASK1](task1_collect/README.md) | Go2-Piper 月面石头收集，UE/MuJoCo 与 bridge 传感器/动作边界 | `task1_collect/run.py` |
+| [TASK2](task2_stack/README.md) | 固定十石 4+3+2+1；Qwen 直接控制、DrQ-v2 图像训练与 SAC 状态对照 | `task2_stack/run.py` |
 
-已有 demo 仍是独立的可运行 demo，不是任务，也不受 TASK1 影响：TASK1 的场景写在
-`task1_collect/generated/`，与 demo 的 `mujoco/generated/` 分开。
+TASK2 已接入多进程 CPU MuJoCo 采样和共享 CUDA DrQ-v2 策略，配置、20 万步命令及 W&B 见 [RL 文档](task2_stack/docs/RL.md)。尚未接入 MJX，也没有已验证的完整十石堆叠策略。
 
-任务按需逐个实现，不提前建设通用的 Task 基类、任务注册表或奖励框架。目前只有
-TASK1 一个任务，因此它的结构就是当前任务的实际写法：一个目录、一个 YAML、
-一个 `run.py`，需要复用的部分直接从 demo 和 `tools/` 取。
+Go2 demo 仍通过 `tools/run_demo.py` 独立运行。旧 TASK2 空白机械臂环境不再是活动入口，历史脚本与设计记录见 TASK2 的 `docs/`。

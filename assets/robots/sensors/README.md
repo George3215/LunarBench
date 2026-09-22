@@ -1,5 +1,12 @@
 # TASK1 官方实体传感器
 
+> 这份资产现在有第二个使用方：TASK2 空白环境 `tasks/task2_arm/` 把同一份 `d435.obj`
+> 装在 **UR12e 的 2F-85 夹爪**上（同样跟着机械臂动）。几何、网格偏移、光学外参与 4 个
+> 光学 site 的姿态与下面 TASK1 的口径逐字相同，只有安装位姿不同（TASK1 在 Piper 腕部，
+> TASK2 在夹爪 `base` body 上）；TASK2 那边另外定义了两台 MuJoCo 固定相机
+> `d435_color` / `d435_depth`，这里只有 site。详见 `tasks/task2_arm/README.md`。
+> 下面这一节讲的是 TASK1 的安装，TASK2 的安装不在这一节的范围里。
+
 用户确认布局：**RealSense D435 固定在 PiPER 腕部；Livox Mid-360 固定在 Go2 机身**。照片用于安装布局参考，不能反推出精确安装标定。
 
 机器人固定安装、惯量、碰撞与光学坐标定义在 `../go2_piper/go2_piper.xml`。UE 显示的传感器实体与 MuJoCo 是同一套几何/安装链。RGB-D 严格绑定 `d435_color_optical`；激光射线绑定 `mid360_scan`。拖动观察窗口不会移动它们。

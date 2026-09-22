@@ -1,0 +1,12 @@
+# 两次调用的控制链路检查；测试指令明确区别于堆叠任务。
+robot:
+  arm: ur5e
+  stones: 1
+  stone_pool: 1
+  courses: [1]
+  rock_style: box
+instruction: "Controller smoke test, not stacking: call move_tcp once with position = current TCP + [0,0,0.01], unchanged quaternion, and grip_width_m EXACTLY 0.04 (absolute width, not an increment). Then inspect the actual measurements and call finish describing the measured errors honestly."
+policy:
+  name: qwen-direct
+  direct:
+    max_steps: 2

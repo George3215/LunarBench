@@ -1,0 +1,22 @@
+# 固定十石 4+3+2+1；20 万环境动作步，回合上限仍为 1000。
+seed: 17
+instruction: "Use all ten stones to build a stable 4+3+2+1 dry-stone wall."
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses: [4, 3, 2, 1]
+  rock_style: paper
+  stone_seed: 17
+scene:
+  layout: upstream
+policy:
+  name: rl
+  rl:
+    algorithm: drqv2
+    observation: pixels
+    total_steps: 200000
+    episode_steps: 1000
+    wandb:
+      enabled: true
+      project: task2-stone-stack

@@ -1,0 +1,197 @@
+# TASK2 石块堆叠（MoonSim 接入版）
+#
+# 这份配置只写"这次跑什么"。结构说明见 tasks/task2_stack/README.md。
+# 命令行只保留 --config / --mode / --view。其余设置统一在 YAML 中修改。
+
+seed: 17
+
+# 交给策略/模型的任务指令。VLM 高层 prompt 的 "TASK INSTRUCTION" 就是它；
+# 留空会让模型看到 "(none given)" 而不知道要做什么，容易直接返回 choice:-1 停机。
+instruction: "Build a 4-3-2-1 dry-stone wall: pick up the loose stones and stack them into the four courses of the wall."
+
+robot:
+  # ur5e（robosuite UR5e + Robotiq 2F-140，原基线）| panda（Menagerie 7 轴）| piper（6 轴）
+  arm: ur5e
+  stone_scale: null      # null 使用机械臂默认比例；上游场景固定使用 1.0
+  # 要放到墙上的块数（应与 courses 的总和一致）
+  stones: 10
+  # 候选石块数量：0 = 自动（比 stones 多 60%），策略从池子里挑夹得住的
+  stone_pool: 0
+  courses: [4, 3, 2, 1]
+  # 程序生成风格：box / paper / rough / natural；仓库导入在 stones.source 中选择
+  rock_style: box
+  stone_seed: 17
+  rock_irregularity: 1.0
+  rock_subdivisions: 5
+  wall_distance_scale: 1.0
+
+# 石头准备工具配置（stone_stack/tools/stones.py），与机械臂运行入口分开。
+stones:
+  source: procedural    # procedural 程序生成 | moonsim 月岩 USDZ 库 | mesh 通用网格
+  directory: null       # 导入目录，建议绝对路径；moonsim 留空使用内置资产目录
+  pattern: "*.obj"      # mesh 目录中的文件匹配；按文件名排序
+  paths: []             # 或直接按顺序列出网格绝对路径（directory 为空时使用）
+  unit_scale: 1.0        # mesh 源坐标换算为米，例如毫米填 0.001
+  density: 2200.0       # mesh 密度 kg/m³，用于按凸包体积计算质量
+
+scene:
+  layout: moonsim        # upstream 复用原始 UR5e 场景；moonsim 为原有多机械臂工作区
+  upstream_report: null # 可选：上游生成的完整 4+3+2+1 报告（恢复其选石和初始 yaw）
+  supply_layout: reachable # reachable 为可达料区；upstream 仅用于原始位置对照
+  # 固定十个料位：墙区左侧两块、后侧两排。可直接改坐标；这些料位已验证，启动时直接使用。
+  supply_positions_xy: [[-0.70, -0.10], [-0.70, 0.07], [-0.74, 0.24], [-0.52, 0.24], [-0.30, 0.24], [-0.08, 0.24], [0.14, 0.24], [-0.52, 0.41], [-0.30, 0.41], [-0.08, 0.41]]
+  camera_width: 640
+  camera_height: 480
+  top_camera_height_m: 1.15
+  front_camera_offset: [0.0, -1.35, 0.35] # 上游 front 位于 -Y 侧，水平正视 XZ 墙面
+  overview_offset: [0.55, -1.02, 0.62]
+  stone_visual_style: paper
+  stone_visual_roughness: 0.0025
+  stone_visual_subdivisions: 2
+  robot_visual: clean
+  # 实测有效摩擦随步长改善（0.0015 -> mu 0.082；0.0005 -> >0.10），夹持很边际
+  timestep: 0.0005
+
+policy:
+  # qwen-direct（直接 TCP 工具控制）| scripted | vlm | vlm-high（只换高层）| vlm-low（只换低层）| qwen-agent（Codex+QwenVL 高层）
+  name: scripted
+  # 第二条主线；固定任务见 configs/rl_stack10_drqv2.yaml。
+  rl:
+    algorithm: drqv2       # drqv2 图像策略；sac 为特权状态对照
+    observation: pixels   # pixels | state
+    cameras: [eye_in_hand, top, front]
+    frame_stack: 1        # 每帧三视角共 9 通道；像素分辨率固定 84x84
+    device: cpu           # 有空闲 GPU 后改 cuda；不占用现有 Qwen 显存
+    cpu_threads: 4
+    num_envs: 1            # DrQ 共享策略的采样进程数；总步数按所有环境合计
+    checkpoint: null      # train: 恢复权重/优化器；eval: 必填模型路径
+    total_steps: 500000
+    episode_steps: 1000
+    control_seconds: 0.12
+    max_delta_m: 0.05
+    max_rotation_rad: 0.35
+    success_hold_seconds: 1.2
+    slot_spacing_m: 0.17
+    goal_tolerance_m: 0.04
+    gamma: 0.99
+    learning_rate: 0.0001
+    learning_starts: 2000
+    batch_size: 64
+    replay_capacity: 10000
+    nstep: 3
+    update_every: 2
+    feature_dim: 50
+    hidden_dim: 256
+    stddev_schedule: "linear(1.0,0.1,100000)"
+    log_every: 100
+    save_every: 5000
+    eval_episodes: 3
+    wandb:
+      enabled: false
+      project: task2-stone-stack
+    reward:
+      reach: 0.5
+      grasp: 1.0
+      lift: 2.0
+      transport: 3.0
+      place: 10.0
+      step_cost: 0.01
+      action_cost: 0.001
+      success_bonus: 100.0
+      fall_penalty: 10.0
+  # 直接控制主线：模型决定所有移动与开合；没有候选表、脚本回退或自动重试。
+  direct:
+    # json_schema 可直接用当前 vLLM；tool_calls 需要服务启动时启用 --tool-call-parser hermes。
+    transport: json_schema
+    base_url: http://127.0.0.1:3001/v1
+    model: Qwen3-VL-8B
+    api_key: EMPTY
+    timeout_s: 60.0
+    max_tokens: 512
+    cameras: [wrist, top, front]
+    image_max_side: 512
+    history_images: 1      # 最近几轮保留图像，每轮 3 张
+    history_turns: 2       # 最近几轮文字/动作；完整轨迹另存 JSONL
+    trials: 1             # 同一初始状态上的尝试次数；trial 之间由 Qwen 复盘
+    initial_settle_s: 0.65
+    review_max_tokens: 1800
+    prompt_file: prompts/direct_stack.md
+    max_steps: 60          # 模型调用预算；耗尽只记 step_limit
+    max_delta_m: 0.05      # 每次相对实测 TCP 最远 5 cm
+    max_rotation_rad: 0.35 # 每次相对实测姿态最大旋转
+    servo_seconds: 0.30   # move_tcp.steps 每单位的仿真秒数，steps 为 1–5
+  vlm:
+    # 本机 vLLM 服务（见 assets/model/qwen3VL.sh）
+    base_url: http://127.0.0.1:3001/v1
+    model: Qwen3-VL-8B
+    api_key: EMPTY
+    timeout_s: 60.0
+    max_tokens: 256
+    temperature: 0.0
+    cameras: [wrist, top, front]
+    # false = 策略只看图像 + 候选文字，不看石块真值位姿
+    use_privileged_state: false
+    image_max_side: 768
+    jpeg_quality: 88
+    max_delta_m: 0.05
+    max_yaw_deg: 20.0
+    # 低层 VLM 只在这些 Goal 上插手，其余交给脚本兜底
+    vlm_goals: [place]
+    strict: false
+  # Codex agent + QwenVL 高层（--policy qwen-agent）。
+  # 注意：每步会起一个 codex 子进程，务必把 execution.policy_timeout_s 调大（如 300）。
+  agent:
+    codex_bin: codex
+    model: Qwen3-VL-8B
+    provider: vllm
+    base_url: http://127.0.0.1:3001/v1
+    api_key: EMPTY
+    # codex-cli >=0.135 只支持 Responses API；vLLM 0.29 自带 /v1/responses
+    wire_api: responses
+    timeout_s: 180.0
+    retries: 1
+    strict: false
+    use_privileged_state: false
+    cameras: [wrist, top, front]
+    max_images: 3
+    image_max_side: 768
+    jpeg_quality: 88
+    sandbox: read-only
+    keep_workdir: false
+
+execution:
+  # 0 = 放满所有槽位
+  max_placements: 0
+  servo_seconds: 0.30
+  policy_timeout_s: 25.0
+  settle_seconds: 0.70
+  reset_seconds: 0.25
+  grasp_retries: 1
+  # 抓取接近方式：vertical = 夹爪竖直向下（笔直下爪）| side = 侧向水平抓取。
+  # vertical 时夹爪的接近轴对世界 -Z；UR5e 的 approach_tilt_deg=0°，即完全竖直。
+  grasp_approach: vertical
+  # 合拢量 = 截面带宽 × 该比例：0.0=收到最紧；0.45 约 100 N（execution.py 注释实测）
+  grasp_close_fraction: 0.0
+  # 侧向抓取时的侧向站位退让距离（米），grasp_approach=side 才用
+  side_standoff_m: 0.12
+  # 抓取前把石头对齐到抓取轴（把料区当定位窝），避免合拢时推走石头
+  nest_align: true
+  contact_aware_place: true
+  capture_cameras: true
+  lift_threshold_m: 0.045
+  place_tolerance_xy_m: 0.13
+  place_tolerance_z_m: 0.10
+  stacked_height_m: 0.075
+
+scripted:
+  approach_height_m: 0.16
+  travel_height_m: 0.30
+  place_clearance_m: 0.012
+  retreat_height_m: 0.16
+  close_fraction: 0.85
+
+output:
+  report: null
+  save_xml: null
+  save_frames: null
+  log: null

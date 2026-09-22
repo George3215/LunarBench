@@ -1,4 +1,19 @@
-# MoonSim
+# LunarBench / MoonSim
+
+月面机器人仿真与任务研发。GitHub 仓库名为 **LunarBench**，当前代码目录与实现名为 **MoonSim**。
+
+![系统架构](docs/images/architecture.png)
+
+架构图展示整体设计方向；当前实现状态以各任务文档为准。图中的 RL/VLA/WAM 等模块不代表所有方法都已接入，MJX GPU 物理尚未实现。
+
+## 获取代码
+
+```bash
+git clone --recurse-submodules https://github.com/George3215/LunarBench.git
+cd LunarBench
+```
+
+已有 checkout 执行 `git submodule update --init --recursive`。DrQ-v2 和 GPT-as-Policy 以固定提交的 submodule 引用。地形、机器人网格、模型权重和运行产物不随源码上传，准备方式见 [资源说明](assets/README.md) 和 [源码与依赖范围](docs/REPOSITORY.md)。文档中的 `/home/lry/...` 是本机路径；新机器优先使用下面的仓库相对路径命令。
 
 月面机器人仿真仓库。当前只保留五个核心目录，按实际需要逐步扩展。
 
@@ -7,7 +22,7 @@ MoonSim/
 ├── assets/       # 统一资源：机器人、地形、物体、障碍物
 ├── ue/           # UE 场景导入、渲染和已有 demo 的显示逻辑
 ├── mujoco/       # 机器人动力学、碰撞和控制
-├── tasks/        # 任务定义；当前有 TASK1 石头样本收集（task1_collect/）
+├── tasks/        # TASK1 石头收集；TASK2 Qwen 直接控制与强化学习堆叠
 ├── tools/        # 离线资源转换、启动、部署和验证脚本
 └── README.md
 ```
@@ -35,15 +50,45 @@ MoonSim/
 
 TASK1 使用 `bridge/` 统一传感器与动作边界，独立 baseline 不读取引擎对象。既有 UE 场景显示 UDP 仍保留在引擎内部。
 
-TASK1 的 UE RGB-D 与 MuJoCo LiDAR 已接入 bridge，默认运行 Z-Mobile-manip 传感器与接近基线。`tasks/` 里目前只有 TASK1（见下节），不提前创建导航、建造等空任务系统。
+TASK1 的 UE RGB-D 与 MuJoCo LiDAR 已接入 bridge，默认运行 Z-Mobile-manip 传感器与接近基线。`tasks/` 里目前有 TASK1 与 TASK2（见下两节），不提前创建导航、建造等空任务系统。TASK2 使用独立的 MuJoCo 环境与策略接口，不共用 TASK1 的 bridge。
 
 ## TASK1 石头收集
+
+![TASK1 石头收集示意](docs/images/task1.png)
+
+此图用于任务展示，不是自主收集成功的实验记录。
 
 已实现独立的 [TASK1](tasks/task1_collect/README.md)：20×20 m、1 cm 原始地形采样、150 块封闭三维实体石头（最长边 3.9–5.4 cm，逐块在基准体积的 1.5–2 倍之间随机，Piper 夹爪抓得住）、0.3 m 白色实体立方体收集框、默认 Go2-Piper 四足带臂机器人，以及任务内部的 observation/action/state/reward 接口。当前默认关闭得分、持续运行；RGB-D/LiDAR 与独立策略说明见 [baseline 文档](baselines/z_mobile_manip/README.md)。TASK1 使用原始 27.94 m 地形尺度；下文的旧 demo 保留原有场景尺度。两个入口的产物和物理进程分别管理，不同时启动。
 
 ```bash
 bash /home/lry/MoonUnrealEnv/task1.sh
 ```
+
+## TASK2 十块石头堆叠
+
+固定 UR5e + Robotiq 2F-140、十块 paper 石头与可达料区，目标为 **4+3+2+1**。
+当前两条主线共用场景与接触支撑成功判据：
+
+| 策略 | 观测 | 控制 |
+| --- | --- | --- |
+| Qwen 直接控制 | `eye_in_hand` / `top` / `front` RGB 与本体状态 | 模型选择 TCP 与夹爪目标，Python 校验和执行 |
+| 强化学习 | DrQ-v2 三视角 RGB；SAC 特权状态对照 | 7 维末端增量与夹爪动作，5 cm / 0.35 rad 门限 |
+
+在已有依赖和资产的机器上，从仓库根目录运行：
+
+```bash
+# Qwen：需要可用的 VLM 服务，地址配置在 YAML 中
+python tasks/task2_stack/run.py --config tasks/task2_stack/configs/upstream_qwen_trials.yaml --view
+
+# RL：8 个 CPU MuJoCo 环境，共享一个 CUDA DrQ-v2 learner，总计 20 万步
+WANDB_MODE=online bash tasks/task2_stack/rl.sh --config tasks/task2_stack/configs/rl_stack10_drqv2_200k_parallel.yaml --mode train
+```
+
+首次安装与 W&B 登录见 [RL 文档](tasks/task2_stack/docs/RL.md)。每回合上限 1000 步；所有环境合计 200000 个 transition。CPU 物理多进程采样已经接入，**不是 MJX GPU 物理**。训练输出、checkpoint、W&B 本地文件均留在本机。
+
+已完成短训练、网络参数更新、保存/加载与并行运行验证；**尚无十块石头完整堆叠成功的已验证策略**。历史脚本保留作对照，不作为 Qwen 或 RL 的在线抓取兜底。
+
+详细说明：[TASK2](tasks/task2_stack/README.md) · [RL 训练](tasks/task2_stack/docs/RL.md) · [Qwen 提示词与控制](tasks/task2_stack/docs/UPSTREAM_DIRECT.md)。
 
 ## 启动已有 demo
 
@@ -139,6 +184,10 @@ LUNARBENCH_UE_MAP=/Game/MoonMacro/Maps/MoonTerrain_Macro01_FullRender \
 ## 资源工具与检查
 
 `tools/prepare_unreal_landscape.py`、`prepare_scene_v2.py` 是原有 USD 离线处理工具；`prepare.py`、`export_patch.py`、`export_visual.py` 准备 demo 的物理/显示产物。转换工具按需运行，不在每次启动时重新生成地形。USD 工具额外需要 OpenUSD（`usd-core`）；策略导出工具额外需要 PyTorch，普通 demo 不需要这两项。
+
+`assets/robots/` 下另有五个自包含机械臂目录（`ur10`、`ur10e`、`ur12e`、`so101`、`piper`），每个含 MuJoCo 模型 `arm.xml`、给 UE 的 `.usdz`、上游来源与逐文件校验记录。`tools/prepare_arms.py` 从上游 xacro/URDF/MJCF 生成，`tools/validate_arms.py` 验收 MuJoCo 载入与步进、home 位姿自接触与重力下垂、末端随动，以及 `.usdz` 的连杆坐标系与网格摆位是否逐一对上 MuJoCo 自身运动学。这几套臂目前只是可加载可仿真的资产，没有注册进 TASK1 的机器人 profile，也没有 UE 侧物理或地图改动。
+
+`assets/robots/franka/` 与 `assets/robots/robotiq_2f85/` 不是生成的，是从 MuJoCo Menagerie 原样搬运的 Menagerie 模型（`panda.xml` 与 `2f85.xml`），只有 MuJoCo、没有 `.usdz`。`franka`（Panda）已经作为 TASK2 的可切换机械臂之一接入（见 [TASK2 文档](tasks/task2_stack/README.md)）；`robotiq_2f85` 目前只在 `.local/backups/task2_arm-20260921-183512/` 那一版空白环境里用过。
 
 无界面物理与碰撞检查：
 

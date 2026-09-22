@@ -1,0 +1,27 @@
+# 固定任务 01：原有十块 paper 石头，料位/形状固定，自下而上 4+3+2+1。
+seed: 17
+instruction: "Use all ten stones to build a stable 4+3+2+1 dry-stone wall."
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses: [4, 3, 2, 1]
+  rock_style: paper
+  stone_seed: 17
+scene:
+  layout: upstream
+policy:
+  name: rl
+  rl:
+    algorithm: sac
+    observation: state
+    total_steps: 64
+    episode_steps: 16
+    learning_starts: 16
+    batch_size: 8
+    replay_capacity: 256
+    hidden_dim: 64
+    feature_dim: 32
+    log_every: 16
+    save_every: 80
+    eval_episodes: 1

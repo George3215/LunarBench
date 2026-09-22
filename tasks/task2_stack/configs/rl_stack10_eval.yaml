@@ -1,0 +1,32 @@
+# 已完成短训练的本机 DrQ-v2 模型，仅用于加载/评估验证，不代表已学会堆叠。
+seed: 17
+instruction: Use all ten stones to build a stable 4+3+2+1 dry-stone wall.
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses:
+  - 4
+  - 3
+  - 2
+  - 1
+  rock_style: paper
+  stone_seed: 17
+scene:
+  layout: upstream
+policy:
+  name: rl
+  rl:
+    algorithm: drqv2
+    observation: pixels
+    total_steps: 160
+    episode_steps: 40
+    learning_starts: 24
+    batch_size: 8
+    replay_capacity: 256
+    hidden_dim: 64
+    feature_dim: 32
+    log_every: 20
+    save_every: 80
+    eval_episodes: 1
+    checkpoint: outputs/rl_drqv2_20260922_200141_181147/checkpoint.pt

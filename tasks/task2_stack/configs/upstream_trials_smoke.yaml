@@ -1,0 +1,17 @@
+# 与正式上游任务相同场景，缩短预算以检查 trial/复盘/下一次提示词链路。
+instruction: "Use ALL TEN stones to build a stable dry-stone wall with courses 4+3+2+1. Choose and record grasp and placement EE poses, then control every movement yourself. Record failures and use previous trial lessons. This run has a short test budget; report unfinished work honestly."
+robot:
+  arm: ur5e
+  stones: 10
+  stone_pool: 10
+  courses: [4, 3, 2, 1]
+  rock_style: paper
+scene:
+  layout: upstream
+policy:
+  name: qwen-direct
+  direct:
+    cameras: [eye_in_hand, top, front]
+    trials: 2
+    max_steps: 4
+    max_tokens: 900
