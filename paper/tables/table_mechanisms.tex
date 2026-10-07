@@ -1,0 +1,14 @@
+\begin{tabular}{llp{3.0cm}p{3.4cm}}
+\toprule
+Mechanism & Axis & Real-world analogue & Visibility effect \\
+\midrule
+stairs\_up & elevation & staircases, industrial platforms, stepped terrain & visibility depends on the robot's height, not just its horizontal distance \\
+trench & elevation & drainage ditches, service trenches, ravines & the near lip occludes the target until the robot has descended and the far rim is cleared \\
+pit & spatial scale & potholes, craters, excavation pits & descending lowers the viewpoint and the far wall occludes the target \\
+barrier & occlusion direction & walls, boulders, shelving, parked machinery & the target is behind a finite-width obstacle, so the sight line can be restored sideways \\
+waves & visibility dynamics & dunes, wind ripples, rolling natural ground & visibility flips repeatedly along the path (1 -> 0 -> 1 -> 0 -> 1) \\
+basin & spatial scale & valleys, mining depressions, large settlement areas & visibility varies continuously with elevation across a wide region, not at a single lip \\
+perlin & terrain complexity & natural off-road ground, rock fields, unpaved roads & occlusion is distributed over the local terrain rather than localised at one obstacle \\
+perlin\_rough & terrain complexity & rubble, rock piles, debris fields, rough regolith & irregular occlusion with no consistent geometry \\
+\bottomrule
+\end{tabular}

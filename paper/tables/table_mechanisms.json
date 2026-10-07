@@ -1,0 +1,107 @@
+{
+  "axes": [
+    "occlusion direction",
+    "elevation",
+    "spatial scale",
+    "visibility dynamics",
+    "terrain complexity"
+  ],
+  "mechanisms": [
+    {
+      "mechanism": "stairs_up",
+      "label": "discrete height change",
+      "axis": "elevation",
+      "position": "discrete steps",
+      "real_world": "staircases, industrial platforms, stepped terrain",
+      "visibility_effect": "visibility depends on the robot's height, not just its horizontal distance",
+      "physical_effect": "climbing; horizontal progress alone is insufficient",
+      "typical_recovery": "ascend to a higher viewpoint",
+      "task": "building inspection",
+      "note": "tests action -> future elevation -> visibility"
+    },
+    {
+      "mechanism": "trench",
+      "label": "elongated negative elevation",
+      "axis": "elevation",
+      "position": "elongated depression",
+      "real_world": "drainage ditches, service trenches, ravines",
+      "visibility_effect": "the near lip occludes the target until the robot has descended and the far rim is cleared",
+      "physical_effect": "the robot's own height changes along the route",
+      "typical_recovery": "continue through the trench",
+      "task": "infrastructure inspection",
+      "note": "solved by forward, forward - a genuinely multi-step case"
+    },
+    {
+      "mechanism": "pit",
+      "label": "localised negative elevation",
+      "axis": "spatial scale",
+      "position": "local",
+      "real_world": "potholes, craters, excavation pits",
+      "visibility_effect": "descending lowers the viewpoint and the far wall occludes the target",
+      "physical_effect": "the viewpoint drops below the surrounding ground",
+      "typical_recovery": "back out of the depression",
+      "task": "disaster / planetary navigation",
+      "note": "solved by back, back - retreat is the correct action"
+    },
+    {
+      "mechanism": "barrier",
+      "label": "lateral occlusion",
+      "axis": "occlusion direction",
+      "position": "lateral",
+      "real_world": "walls, boulders, shelving, parked machinery",
+      "visibility_effect": "the target is behind a finite-width obstacle, so the sight line can be restored sideways",
+      "physical_effect": "lateral bypass; moving closer does not help",
+      "typical_recovery": "side-step around the obstacle's edge",
+      "task": "inspection / search",
+      "note": "the cleanest Closer is-not More-Observable case"
+    },
+    {
+      "mechanism": "waves",
+      "label": "periodic visibility transitions",
+      "axis": "visibility dynamics",
+      "position": "periodic",
+      "real_world": "dunes, wind ripples, rolling natural ground",
+      "visibility_effect": "visibility flips repeatedly along the path (1 -> 0 -> 1 -> 0 -> 1)",
+      "physical_effect": "repeated small pose changes",
+      "typical_recovery": "closed-loop re-observation; no permanently correct heading exists",
+      "task": "outdoor exploration",
+      "note": "the direct evidence that visibility is non-monotonic"
+    },
+    {
+      "mechanism": "basin",
+      "label": "broad concave elevation field",
+      "axis": "spatial scale",
+      "position": "global",
+      "real_world": "valleys, mining depressions, large settlement areas",
+      "visibility_effect": "visibility varies continuously with elevation across a wide region, not at a single lip",
+      "physical_effect": "the whole local viewpoint field shifts",
+      "typical_recovery": "climb out of the basin",
+      "task": "planetary exploration",
+      "note": "must not be conflated with pit: local versus broad scale"
+    },
+    {
+      "mechanism": "perlin",
+      "label": "spatially correlated natural relief",
+      "axis": "terrain complexity",
+      "position": "smooth",
+      "real_world": "natural off-road ground, rock fields, unpaved roads",
+      "visibility_effect": "occlusion is distributed over the local terrain rather than localised at one obstacle",
+      "physical_effect": "continuous pose change along the route",
+      "typical_recovery": "terrain-conditioned viewpoint prediction",
+      "task": "off-road navigation",
+      "note": "procedural relief, not a claim of realism: Perlin noise is a representation of spatially correlated natural elevation"
+    },
+    {
+      "mechanism": "perlin_rough",
+      "label": "high-frequency natural relief",
+      "axis": "terrain complexity",
+      "position": "rough",
+      "real_world": "rubble, rock piles, debris fields, rough regolith",
+      "visibility_effect": "irregular occlusion with no consistent geometry",
+      "physical_effect": "**locomotion uncertainty**: large pose prediction error",
+      "typical_recovery": "consequence prediction, not viewpoint geometry",
+      "task": "disaster / planetary exploration",
+      "note": "the bridge from terrain to future-pose uncertainty"
+    }
+  ]
+}

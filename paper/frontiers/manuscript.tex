@@ -1,0 +1,916 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frontiers in Mechanical Engineering — Original Research
+% Reference style: Harvard (Author-Date)  ->  FrontiersinHarvard + Frontiers-Harvard.bst
+%
+% Compile:  pdflatex manuscript ; bibtex manuscript ; pdflatex manuscript ; pdflatex manuscript
+% (A LaTeX toolchain is required; none was available in the environment where this
+%  file was authored, so the manuscript has NOT yet been compiled or proof-read by
+%  a typesetter. Treat the preamble as unverified until it builds cleanly.)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[utf8]{FrontiersinHarvard}
+\usepackage{url,hyperref,lineno,microtype,subcaption}
+\usepackage[onehalfspacing]{setspace}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+
+\linenumbers
+
+\def\keyFont{\fontsize{8}{11}\helveticabold }
+\def\firstAuthorLast{Author {et~al.}}
+\def\Authors{First Author\,$^{1,*}$}
+\def\Address{$^{1}$Laboratory, Department, Organization, City, Country}
+\def\corrAuthor{First Author}
+\def\corrEmail{email@example.edu}
+
+\begin{document}
+\onecolumn
+\firstpage{1}
+
+\title[Terrain-Induced Target Re-observability]{What Information Does a Robot Need to
+Re-observe a Target Lost to Terrain Occlusion?}
+
+\author[\firstAuthorLast]{\Authors}
+\address{}
+\correspondance{}
+\extraAuth{}
+
+\maketitle
+
+\begin{abstract}
+A robot that has already observed a target can lose sight of it because its own motion
+and the intervening terrain block the line of sight. Restoring visibility is not a
+search problem: the robot knows roughly where the target is, and that knowledge is
+still not enough. This paper asks what information and what action reasoning are
+actually required, and answers by elimination.
+
+We construct paired worlds that share terrain, pose, heading and --- verified by
+rendering the injected camera on the robot model --- a \emph{pixel-identical} current
+observation, yet require opposite re-observation actions; in eight of eight pairs the
+successful action sets are disjoint, so no memoryless rule can solve both. A second
+pair family additionally shares the reconstructed target memory and still requires
+different optimal actions, showing that a correct memory does not determine the action.
+A third experiment separates geometric from physical re-observability: over 240
+(state, action) pairs, 43.1\% of the actions a geometric visibility oracle endorses
+fail when executed --- yet the same oracle placed at the pose the robot
+\emph{actually reaches} agrees with the physical outcome 97.9\% of the time. The
+missing quantity is therefore not visibility but the physical consequence of an action.
+
+We then test that conclusion positively. On 2240 physically executed (state, action)
+pairs, adding the candidate action to observation-plus-memory raises re-observation
+AUC from 0.854 to 0.934, while adding the current observation \emph{to} the memory buys
+0.002. A planner built on the resulting action-conditioned consequence model raises
+$RSR@10$ from 0.250 to 0.792 and $RSR@1$ from 0.167 to 0.708 with no privileged
+information, and is the only method we evaluate that selects different actions in the
+two members of every paired world.
+
+Two negative results constrain how such a model may be used, and both concern the
+prediction-to-decision step rather than prediction quality. A learned safety
+consequence head is accurate (ROC-AUC 0.900) and badly calibrated exactly where a
+decision threshold acts (decision-band ECE 0.197 versus 0.042 overall); temperature
+scaling halves that error to 0.099 and produces \emph{zero} planning improvement,
+with no operating point at any coverage beating not using safety at all. A
+receding-horizon planner over the same learned model fares no better: lookahead of two,
+three and five steps is not significantly better than one step on any budget, costs
+1.8--2.1 times the motion, and while it rescues two terrains that genuinely need
+multiple steps it breaks eight that one step solves.
+
+All results are in simulation with a vendored third-party locomotion policy. We claim
+the formulation, the benchmark, the failure analysis and the identification of the
+missing quantity --- not a world model.
+\end{abstract}
+
+\tiny
+\keyFont{\section{Keywords:} target re-observability, terrain-induced occlusion, partial
+observability, action-conditioned consequence prediction, active perception, legged
+locomotion, benchmark, failure analysis}
+
+%==============================================================================
+\section{Introduction}
+%==============================================================================
+
+Robots that operate in natural terrain rarely enjoy a clear view of what they care
+about. A legged platform descending into a crater, a rover traversing a ridge line, or
+a manipulator reaching behind a boulder all face the same structural problem: the
+terrain itself determines what can be seen from where, and the robot's own motion is
+what changes it. Partial observability in these settings is not sensor noise. It is a
+deterministic consequence of geometry, and it is therefore predictable in principle ---
+but only if the robot reasons about how its next action will change what it can see.
+
+This paper studies a specific and, we argue, under-analysed instance of that problem.
+The robot has already observed a target. At some later time the target is no longer
+visible --- not because it moved or because the sensor failed, but because the robot's
+own position and the intervening terrain now block the line of sight. The robot must
+choose an action that makes the target visible again. We call this \emph{target
+re-observability}, and it differs from the classical search problem in one decisive
+way: \emph{the robot has information about where the target is, and that information is
+still not enough.}
+
+The natural intuition is that moving toward a target makes it more likely to be seen.
+Terrain breaks that intuition. Consider a robot walking a straight line toward a target
+placed beyond a ridge. Measured along the traverse, the visibility sequence is not a
+single step from visible to hidden; it alternates:
+
+\begin{verbatim}
+stairs_up     V X V X          waves        X V X V X
+trench        V X V X          perlin       X V X V X
+pit           V X V X          basin        X V X
+barrier       V X V X          perlin_rough X V X V X
+\end{verbatim}
+
+where \texttt{V} marks a position from which the target is visible and \texttt{X} one
+from which it is blocked. The number of transitions ranges from two to four on a single
+traverse. Two consequences follow. First, a policy that assumes monotonicity ---
+``get closer'' --- is not merely imprecise; it is aimed at the wrong objective. Second,
+the moment of loss is not the moment of failure: a robot may lose the target and then
+re-acquire it purely as a side effect of continuing forward.
+
+Existing lines of work each supply a necessary component but address a different
+question. \emph{Lost-target search} \citep{RadmardCroft2016,Radmard2018} maintains a
+belief over where the target went and selects search actions to reduce it; the
+mechanism is a belief and a search policy. \emph{Occlusion-aware active perception and
+next-best-view} \citep{OANBV,LEAPNBV} select viewpoints by predicting visibility or
+information gain from a candidate pose, typically using geometry rather than execution.
+\emph{Object permanence} filters \citep{Peng2024} maintain a belief through periods of
+non-observation and act on the filtered estimate. \emph{Embodied visual tracking and
+target-loss recovery} is an established research direction with its own benchmarks and
+systems \citep{TrackVLA,EVTBench}; work in this line already combines action-conditioned
+world models with model-predictive control for recovering a lost target
+\citep{CSTWM}, and recent work explicitly couples visibility with
+reachability/feasibility in perception-aware design \citep{VisibleReachable}.
+\emph{World-model planning} more broadly \citep{Yin2025,Wu2024,RoboticWorldModel}
+learns to predict the consequences of actions and plans with them.
+
+None of this is unstudied, and we do not claim otherwise. What the literature lacks is
+a \emph{unified analysis}: these lines are evaluated in their own settings, with their
+own observation and action interfaces and their own budgets, so the boundaries between
+them are never visible. In particular, no existing benchmark isolates the case in which
+the target is \emph{known} and the failure is purely a matter of which physical action
+makes it visible again under terrain-induced occlusion. We place the same set of
+decision rules on a single task --- terrain fixed, target static, action set identical,
+only the decision rule differing --- and ask where and why each one breaks.
+
+We do that here, and the answer is uncomfortable for all of them. We construct
+\emph{paired worlds}: two scenes that share terrain, robot pose, heading and --- we
+verify this by rendering the injected camera on the actual robot model --- a
+pixel-identical current observation, but in which the target was last seen from opposite
+sides. Across eight such pairs, the optimal re-observation action is opposite in the two
+worlds, and there is no action that succeeds in both. Since any function of the current
+observation is identical in the two worlds, no memoryless policy can solve both.
+
+Knowing where the target is, however, is also not sufficient. A second family of paired
+worlds shares the current observation \emph{and} the reconstructed target memory, and
+still requires different optimal actions. A rule that aims at the remembered target
+drives straight into the occluder; a heading-preservation rule holds a heading that was
+correct when the target was lost but is wrong after any lateral displacement. On 16
+paired worlds, every classical decision rule scores 0/16 under a multi-step budget with
+a shared observation and action interface, while a privileged counterfactual oracle
+scores 13/16.
+
+A third assumption also fails, and it is the one most likely to be silently wrong in
+practice. Next-best-view style methods predict the benefit of an action from a
+\emph{geometric} re-projection of the believed target into a hypothetical camera pose.
+We implement that baseline with the strongest reasonable map --- the exact height field
+--- and measure over 240 (state, action) pairs that 43.1\% of the actions geometry
+endorses fail physically. Crucially, the fault is not in the visibility model: placing
+the same oracle at the pose the robot actually reaches agrees with the physical outcome
+97.9\% of the time. What fails is the step before it --- predicting where an action
+takes the robot. Because the discrepancy is a property of the closed loop rather than of
+the sensor, better perception cannot remove it.
+
+Taken together, the three failures identify what a method for this problem must
+actually predict: the action-conditioned, physically-executed future observability
+$P(V_{t+H}=1 \mid O_t, M_t, a_{t:t+H})$, where $V$ is measured after the action has
+been carried out.
+
+We then test that conclusion positively rather than leaving it as a deduction. On 2240
+physically executed (state, action) pairs, adding the candidate action to
+observation-plus-memory raises the re-observation AUC from 0.854 to 0.934, while adding
+the current observation \emph{to} the memory buys 0.002. The information is in the
+action, not in seeing more. A planner built on the resulting consequence model ---
+prediction of the executed pose followed by the already-validated visibility oracle ---
+raises $RSR@10$ from 0.250 to 0.792 and $RSR@1$ from 0.167 to 0.708 with no privileged
+information, and is the only method we evaluate that chooses different actions in the
+two members of every paired world.
+
+We also report where it still fails, and two negative results that constrain how any
+such model may be used. Its remaining errors are no longer action-selection errors but
+\emph{physical-termination} errors (leaving the terrain, losing stability). And both an
+attempt to add safety to the decision rule and an attempt to plan over longer horizons
+fail in the same characteristic way: the prediction carries information, and the
+decision rule does not convert it.
+
+This paper contributes:
+
+\begin{enumerate}
+\item A \textbf{formulation} of terrain-induced target re-observability as an
+action-selection problem, with the non-monotonicity of $V$ along a traverse as its
+defining property, and an evaluation metric ($RSR@K$) whose implementation is audited
+against its own definition rather than assumed to match it (Section~\ref{sec:methods}).
+\item A \textbf{procedurally generated benchmark} of eight terrain-induced occlusion
+mechanisms, organised by physical mechanism and real-world analogue rather than as a
+difficulty ladder, built as exact box geometry so that the analytic visibility oracle
+and the MuJoCo collision surface are the same object; together with (i) paired worlds
+that differ in history and are provably identical in the current observation, (ii) a
+second set additionally identical in target memory, and (iii) a mechanism-support audit
+that proves which mechanisms can express such an ambiguity and which structurally
+cannot.
+\item A \textbf{frozen observation/action interface} under which every decision rule is
+evaluated on the same terrain, with the same budget, the same termination set and a
+policy-agnostic terrain contract, with all comparisons reported as paired bootstrap
+intervals rather than point estimates.
+\item A \textbf{failure analysis} that separates the three assumptions, quantifies each,
+shows they are separable rather than three names for one failure, and identifies a
+failure class that the first version of our own taxonomy got wrong.
+\item A \textbf{measured answer} to what the missing quantity is, and two negative
+results --- in safety integration and in lookahead depth --- showing that prediction
+quality is not the same thing as decision usefulness.
+\end{enumerate}
+
+We are explicit about scope. All results are in simulation with a vendored third-party
+locomotion policy, on one controller; the oracle is an upper bound and not a deployable
+method; the learned consequence model is evaluated with terrain held out, which is
+generalisation within a mechanism family and not across mechanisms; and our target
+memory is a structured location memory rather than an open-vocabulary semantic one.
+
+%==============================================================================
+\section{Materials and Methods}
+\label{sec:methods}
+%==============================================================================
+
+\subsection{Problem formulation}
+
+Let $O_t$ be the observation available at time $t$ (pose, proprioception, a short action
+history and, where available, the camera), $M_t$ the target memory --- where and when the
+target was last seen --- and $a_{t:t+H}$ a sequence of physical actions. Write
+$V_{t+h} \in \{0,1\}$ for target visibility after executing that sequence. The task is
+
+\begin{equation}
+a^{*}_{t:t+H} \;=\; \arg\max_{a_{t:t+H}} \; P\!\left(V_{t+H}=1 \mid O_t, M_t, a_{t:t+H}\right).
+\label{eq:objective}
+\end{equation}
+
+The target is \emph{lost} when $V_t=0$ after having been observed, and
+\emph{re-observed} when $\exists\, h \le H : V_{t+h}=1$. Safety is deliberately
+\emph{not} part of this definition: the experiments below show that physical safety is
+a dimension of the consequence model rather than part of the task statement, and mixing
+it into Eq.~\ref{eq:objective} would confound the two.
+
+\subsection{The evaluation metric}
+
+The benchmark reports a difficulty curve rather than a single success flag, because the
+quantity of interest is how many physical actions are needed to regain sight of the
+target. For episode $i$ and budget $K$,
+
+\begin{equation}
+r_i(K) = \mathbf{1}\!\left[\exists\, h \le K : V_{i,t+h} = 1\right],
+\qquad
+RSR@K = \frac{1}{N}\sum_{i=1}^{N} r_i(K).
+\label{eq:rsr}
+\end{equation}
+
+Four policies may all eventually succeed while facing very different problems: one
+action, or three, or more than the budget allows. Note what the definition deliberately
+does not require: visibility to be \emph{held}. Visibility under these mechanisms is
+non-monotonic, and the task is to regain sight within a budget, not to keep it.
+
+The implementation is audited against this definition rather than assumed to match it.
+\texttt{rsr\_at} evaluates Eq.~\ref{eq:rsr} directly on the recorded per-step visibility
+trace, while an episode also terminates at its first re-observation, so
+\texttt{success and steps\_used <= K} gives a second reading. A contract test asserts
+the two agree for three terrains at every $K = 1\ldots 6$; if the termination semantics
+ever change, the test fails instead of silently redefining the headline number.
+
+Two companion metrics are reported alongside, and no single scalar combines them. The
+re-observation time $T_{\mathrm{reobs}}$ is the elapsed time from loss to the
+\emph{first} re-observation, which separates ``wandered and then found'' from ``found
+immediately''. The action cost $C_{\mathrm{action}}$ is cumulative base-path length; it
+is averaged over \emph{every} episode rather than only the successful ones, so that
+exhausting the budget does not look cheap, with the success-only figure reported
+alongside.
+
+\subsection{Benchmark: eight terrain-induced occlusion mechanisms}
+
+The suite is not ``eight kinds of terrain'' and it is not a set of obstacles built to
+break a baseline. Each entry is a terrain-induced target occlusion scenario: a situation
+in which a robot that has already seen a target loses sight of it and must regain sight
+by moving. Table~\ref{tab:mechanisms} lists them, organised by physical mechanism
+rather than by surface name.
+
+\begin{table}[h]
+\caption{Terrain-induced occlusion mechanisms. A mechanism is a point on an axis, not a
+member of a category: \texttt{pit} and \texttt{basin} are both spatial scale, at
+opposite ends of it.}
+\label{tab:mechanisms}
+\begin{tabular}{llll}
+\toprule
+Mechanism & Axis & Real-world analogue & Visibility effect \\
+\midrule
+\texttt{barrier} & occlusion direction & walls, boulders, shelving & lateral occlusion \\
+\texttt{trench} & elevation & ditches, trenches, ravines & edge occlusion \\
+\texttt{stairs\_up} & elevation & staircases, platforms & height-dependent \\
+\texttt{pit} & spatial scale & potholes, craters & local depression \\
+\texttt{basin} & spatial scale & valleys, broad depressions & large-scale occlusion \\
+\texttt{waves} & visibility dynamics & dunes, rolling ground & repeated flips \\
+\texttt{perlin} & terrain complexity & natural off-road ground & distributed occlusion \\
+\texttt{perlin\_rough} & terrain complexity & rubble, rock fields & irregular occlusion \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The mechanisms span five roughly orthogonal axes: occlusion direction, elevation
+dependence, spatial scale, visibility transition frequency, and terrain spatial
+complexity. Two points of framing are enforced mechanically rather than left to
+intent. First, the taxonomy is checked for the wording ``challenging / hard / difficult
+/ adversarial terrain'' and refuses to render if it appears, because the difficulty is
+in the target's visibility, not in the driving. Second, \texttt{perlin} and
+\texttt{perlin\_rough} are \emph{not} claimed to be real surfaces: Perlin/fBm noise is
+used as a procedural representation of spatially correlated natural elevation variation,
+and the table gives the situation it stands in for.
+
+All terrain is built as explicit box slabs rather than as a height field, so that the
+analytic visibility oracle and the MuJoCo collision surface are the same object. This
+matters: a height-field collider measurably stalls the locomotion policy, which would
+make the oracle and the physics disagree for reasons unrelated to the question.
+
+\subsection{Mechanism support validation}
+
+Observation-equivalent pairs with opposite optimal actions require the mechanism to be
+able to produce a \emph{one-sided} winning set --- every action that reveals the target
+moves the robot the same way laterally. We therefore test, per mechanism, the property
+that the construction requires, and report which mechanisms structurally cannot carry
+it. Table~\ref{tab:audit} gives the result; a high one-sided rate is necessary but not
+sufficient, and only \texttt{window\_wall} has been searched end to end.
+
+\begin{table}[h]
+\caption{Mechanism support. A $y$-symmetric height field cannot express a directional
+aperture, so no amount of pair search will find a one-sided world in it.}
+\label{tab:audit}
+\begin{tabular}{lccc}
+\toprule
+Mechanism & $\max|h(x,y)-h(x,-y)|$ & One-sided rate & Can carry the pair \\
+\midrule
+\texttt{stairs\_up} & 0.0000 m & 0.00 & no (structurally) \\
+\texttt{trench} & 0.0000 m & 0.00 & no (structurally) \\
+\texttt{pit} & 0.0000 m & 0.00 & no (structurally) \\
+\texttt{waves} & 0.0000 m & 0.00 & no (structurally) \\
+\texttt{basin} & 0.0000 m & 0.00 & no (structurally) \\
+\texttt{barrier} & 0.0000 m & 0.095 & \textbf{yes} \\
+\texttt{perlin} & 0.2000 m & 0.00 & asymmetric, insufficient \\
+\texttt{perlin\_rough} & 0.3000 m & 0.00 & asymmetric, insufficient \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Frozen interface and baselines}
+
+Comparing decision rules across published work is normally confounded by each being
+evaluated with its own observation, its own action set and its own budget. We remove
+that confound by fixing one interface and expressing every baseline through it:
+\texttt{Environment} (owns physics and camera, policy-agnostic) $\rightarrow$
+\texttt{Observation} $\rightarrow$ \texttt{ReObservationPolicy.act(observation)}
+$\rightarrow$ \texttt{Environment.rollout(action)} for privileged scoring only.
+
+Three properties make the comparison meaningful. No privileged information appears in
+\texttt{Observation}: ground-truth visibility and the target's world position live in a
+separate \texttt{PrivilegedState} that only the evaluator and the oracle may read, and a
+contract test asserts this rather than trusting convention. The terrain is
+policy-agnostic: terrain modules must not import the API or any policy, enforced both by
+an AST scan of the terrain modules' imports and by a subprocess that imports each
+terrain module alone and fails if the policy stack comes with it. And counterfactuals do
+not perturb the episode: \texttt{rollout} saves and restores the integration state and
+resets the controller; without this the oracle's own probing would move the robot it is
+deciding for, a defect the contract test caught in the first implementation.
+
+Every baseline implements the \emph{core decision mechanism} of a line of work, not a
+full reproduction. \texttt{Reactive} always drives forward. \texttt{HeadingLock} holds
+the heading recorded at the loss moment from IMU only. \texttt{HistoryOnly} aims the
+heading at the remembered target and drives. \texttt{LostTargetSearch} faces the belief
+and then closes on it. \texttt{ObjectPermanence} runs a constant-velocity belief filter
+and acts on the filtered estimate --- kept as a filter rather than defined as equivalent
+to \texttt{HistoryOnly}, because on a static target the extrapolation term vanishes and
+the collapse is then a measured result rather than a stipulated one. \texttt{NBV}
+re-projects the believed target from a kinematic hypothetical pose and is deliberately
+given the exact height field, since an active-perception method is allowed a map and a
+failure should not be attributable to a weak one. \texttt{Oracle} physically rolls out
+every candidate and takes the fastest success; it is a privileged upper bound, never
+presented as a deployable method.
+
+\textbf{Fairness invariants}, asserted by contract tests: every primitive costs the same
+simulated time, so one step is one unit of budget; the budget is actually granted,
+verified by forcing the visibility read to report ``hidden'' and checking that a failing
+episode consumes all $N$ steps; one $N$, one termination set and one observation stream
+length for every policy; an action identifier outside the frozen set is an error and
+never a silent fallback; and $RSR@N$ is monotone in $N$.
+
+\textbf{Statistics.} Every proportion carries a Wilson score interval, not a normal
+approximation, because several results sit at or near $0\,\%$ or $100\,\%$ where the
+normal interval produces out-of-range bounds. Every comparison is paired: all policies
+run on the same terrains, so a difference in $RSR$ is tested by resampling
+\emph{terrains} with replacement and examining the distribution of the paired
+difference. Two degenerate cases are labelled rather than dressed up as statistics.
+Where two policies make outcome-identical choices on every terrain there is no variance
+to bootstrap and no $p$-value is reported, because reporting $p=1$ would present
+``identical'' as ``not significant''. Where a difference distribution contains no
+non-positive resamples the $p$-value is bounded as $<5\times10^{-5}$ rather than printed
+as an exact zero.
+
+\subsection{Action-conditioned consequence model}
+
+The failures above identify the quantity to predict as Eq.~\ref{eq:objective}. Rather
+than learning visibility end to end, we exploit the third result: since the visibility
+oracle is accurate at whatever pose the robot reaches, the model predicts the
+\emph{executed body-frame pose delta} and the already-validated oracle is applied to the
+predicted pose. This keeps the validated part validated and localises the remaining
+error.
+
+Training data is 24 terrains $\times$ 10 states $\times$ 10 actions $= 2240$ physically
+executed (state, action) pairs, positive rate 0.143. Features are the pose, the
+projected gravity vector, a short pose history, the target memory in body coordinates
+with an explicit presence flag, and the action. The memory block is body-relative and
+its age is carried, both of which must be maintained during any chained rollout. The
+targets are the executed pose delta and whether the target was re-observed. Splits are
+by \emph{terrain} and never random, so a terrain family cannot appear on both sides.
+
+The planner scores every candidate action with the model, takes the argmax, and
+replans after each executed step.
+
+%==============================================================================
+\section{Results}
+%==============================================================================
+
+\subsection{H1: the current observation does not determine the action}
+
+We construct paired worlds that share terrain, robot pose, heading and a
+pixel-identical current observation, but in which the target was last seen from opposite
+sides. Across eight pairs: the rendered camera images are identical (mean and maximum
+absolute pixel difference both zero), the optimal re-observation action is opposite in
+the two worlds in 8/8, and the successful action sets are \textbf{disjoint} in 8/8.
+Because any function of the current observation takes the same value in both worlds, no
+memoryless policy can solve both. On 16 paired-history worlds the five classical rules
+score 0/16 within a ten-step budget.
+
+This is not a statement that a particular baseline is weak. It is a statement that the
+task is structurally partially observable.
+
+\subsection{H2: a correct target memory is also not sufficient}
+
+A natural reply to H1 is to remember where the target is. We therefore construct a
+second family of pairs sharing the current observation \emph{and} the reconstructed
+target memory, differing only in terrain hidden inside the shadow of a visible occluder
+--- terrain that is invisible from the decision point and was never traversed.
+
+Over six such pairs, the rendered observations are pixel-identical in 6/6, the target
+memory is identical in 6/6, and the optimal action differs in 4/6. Two properties must
+be reported precisely, because they bound the claim. First, the successful action sets
+\emph{overlap} (0/6 disjoint), so H2 does \emph{not} show that no fixed rule can
+succeed: what it shows is that a correct memory does not determine the optimal action.
+Second, on these pairs all six classical policies choose the same action (\texttt{toward})
+and fail in both worlds, so H2 separates the baselines not at all --- it is an
+information-level result, and presenting it as ``existing methods fail here'' would be
+wrong.
+
+Transferring the failure to the main suite is nevertheless unambiguous: on the 16
+paired-history worlds, every classical rule scores 0/16, and a heading-preservation rule
+that holds the correct inertial heading fares exactly as well as a purely reactive one
+--- paired difference 0.000 with interval $[0,0]$, i.e.\ outcome-identical on every
+terrain.
+
+\subsection{H3: geometric visibility is not physical re-observability}
+
+For every candidate action at every decision state we compute two quantities. $G(s,a)$
+asks whether the target would be visible if the robot reached the ideal pose the action
+nominally produces, using a kinematic displacement and the line-of-sight oracle ---
+what an active-perception method assumes it can evaluate. $P(s,a)$ asks whether the
+target is actually re-observed when the primitive is executed.
+
+Over 24 terrains $\times$ 10 actions $= 240$ pairs, the confusion matrix is
+$\{G{=}0,P{=}0\}=171$, $\{G{=}0,P{=}1\}=11$, $\{G{=}1,P{=}0\}=25$,
+$\{G{=}1,P{=}1\}=33$. \textbf{43.1\% of the actions geometry endorses fail
+physically.} The disagreement is not one-sided --- geometry also under-predicts in 4.6\%
+of cases.
+
+The mechanism is identified by the same experiment. Placing the \emph{same} oracle at
+the pose the robot actually reaches makes it agree with the physical outcome in
+\textbf{97.9\%} of pairs. The pose prediction error is larger on the failing cell than
+on the agreeing cells by a paired bootstrap difference of $+0.28$ m with 95\% interval
+$[+0.11, +0.45]$ and $p = 0.0005$; decomposed, the error is 0.52 m forward, 0.34 m
+lateral, 0.40 m in height and 5.5 degrees of yaw.
+
+The comparison of the point estimate is large, but the practical reading is what
+matters: no active-perception method is mis-implemented here. Candidate viewpoints scored
+by kinematic re-projection are simply a different quantity from where the robot ends up.
+
+\subsection{E4-1: the action carries the information that the observation does not}
+
+We ablate the input to the re-observation predictor with terrain held out
+(Table~\ref{tab:ablation}).
+
+\begin{table}[h]
+\caption{Information ablation, leave-one-terrain-out, 2240 samples. The informative
+comparison is $O{+}M$ against $O{+}M{+}a$.}
+\label{tab:ablation}
+\begin{tabular}{lccccc}
+\toprule
+Inputs & ROC-AUC & PR-AUC & Brier & ECE & Pose MAE \\
+\midrule
+$O$ & 0.759 & 0.360 & 0.117 & 0.076 & 0.436 \\
+$M$ & 0.852 & 0.639 & 0.077 & 0.039 & 0.461 \\
+$O{+}M$ & 0.854 & 0.600 & 0.084 & 0.056 & 0.425 \\
+$O{+}M{+}a$ & \textbf{0.934} & \textbf{0.748} & \textbf{0.062} & \textbf{0.022} & \textbf{0.148} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Adding the candidate action raises AUC by \textbf{+0.080}. Adding the current
+observation \emph{to} the memory raises it by 0.002. The information is in the action,
+not in seeing more.
+
+On the 16 paired-world decision states the $O{+}M{+}a$ model reaches 0.8125 accuracy and
+\textbf{switches its chosen action in 8 of 8 pairs} --- the thing a memoryless rule
+provably cannot do.
+
+\subsection{E4-2: a learned consequence model beats the analytic one, but not everywhere}
+
+\begin{table}[h]
+\caption{Pose-consequence error. The learned model wins on the components that decide
+success and loses on height, where the analytic model predicts no change and changes are
+small.}
+\label{tab:pose}
+\begin{tabular}{lccc}
+\toprule
+Component & Analytic (nominal) & Learned & Ratio \\
+\midrule
+forward & 0.829 & \textbf{0.152} & 5.5$\times$ \\
+lateral & 0.418 & \textbf{0.145} & 2.9$\times$ \\
+height & \textbf{0.090} & 0.149 & analytic wins \\
+yaw & 0.538 & \textbf{0.147} & 3.7$\times$ \\
+mean & 0.469 & \textbf{0.148} & 3.2$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The correct statement is that the learned model wins on the components that decide
+success, not that learning is better in all dimensions.
+
+\subsection{E4-3: consequence prediction converts into task performance}
+
+\begin{table}[h]
+\caption{Multi-step episode protocol, 24 terrains, identical budget and termination set
+for every method.}
+\label{tab:main}
+\begin{tabular}{lcccc}
+\toprule
+Method & RSR@1 & RSR@3 & RSR@5 & RSR@10 \\
+\midrule
+six classical baselines & 0.167 & 0.250 & 0.250 & 0.250 \\
+\textbf{LearnedConsequence} & \textbf{0.708} & \textbf{0.708} & \textbf{0.792} & \textbf{0.792} \\
+\texttt{Oracle} (privileged) & 0.833 & 0.875 & 0.875 & 0.875 \\
+\texttt{OracleSearch} (privileged) & 0.750 & 1.000 & 1.000 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+$RSR@10$ rises from 0.250 to 0.792 and $RSR@1$ from 0.167 to 0.708, with no privileged
+information. The paired comparison against \texttt{HistoryOnly} is $+0.708$ with a 95\%
+interval of $[+0.542, +0.875]$.
+
+By contrast, no classical baseline significantly outperforms any other. Relative to
+\texttt{HistoryOnly}, \texttt{Reactive}, \texttt{HeadingLock}, \texttt{LostTargetSearch}
+and \texttt{ObjectPermanence} each differ by $0.000$ with interval $[0,0]$ --- they
+succeed and fail on exactly the same terrain set. \texttt{NBV} differs by $+0.042$ with
+interval $[0.00, 0.125]$ and $p=0.356$, so it cannot be claimed to be better. Only the
+privileged references separate.
+
+\subsection{E4-4: short history helps motion, not visibility}
+
+\begin{table}[h]
+\caption{History ablation. Visibility prediction is flat, pose prediction improves and
+saturates.}
+\label{tab:history}
+\begin{tabular}{lccc}
+\toprule
+$H$ & AUC & Brier & Pose MAE \\
+\midrule
+H0 & 0.930 & 0.063 & 0.177 \\
+H1 & 0.929 & 0.061 & 0.165 \\
+H2 & 0.926 & 0.063 & 0.157 \\
+H4 & 0.934 & 0.063 & \textbf{0.147} \\
+H8 & 0.934 & 0.062 & 0.148 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Visibility AUC is flat across every horizon, while pose error improves from 0.177 to
+0.147 and saturates at four recent observations. History helps predict where the robot
+will end up, not whether the target will be visible --- which is consistent with the
+localisation of the missing quantity in H3.
+
+\subsection{E4-5 and E4c: the safety paradox}
+
+Adding safety as a consequence head raises Oracle-S to 0.4107 against Oracle-V at
+0.3884, so the safety term is worth having. The learned head is accurate, with ROC-AUC
+0.900 and PR-AUC 0.606 on a positive rate of 0.083. Yet the planner gets worse at every
+penalty weight: 0.3661 without safety, 0.3125 with a hard veto, and 0.3438--0.3571
+across soft penalties.
+
+E4c separates the prediction from the rule. The head's overall calibration is healthy
+(ECE 0.042) while its calibration in the band $|p-0.5| \le 0.15$ --- the only region
+where a threshold changes anything --- is 0.197, a factor of 4.7. Temperature scaling
+halves the decision-band ECE to 0.099. \textbf{The planning improvement is zero.} Across
+raw, temperature-scaled and isotonic variants, no operating point at any threshold or
+coverage beats not using safety at all, and every variant's optimum falls at coverage
+$\approx 0$.
+
+This is the more informative branch of the diagnostic: it rules out ``calibrate it
+better'' as the next step and locates the limit in the joint visibility--safety decision
+boundary rather than in the accuracy of the probability.
+
+\subsection{E4d: the horizon paradox}
+
+\begin{table}[h]
+\caption{Action-horizon ablation. Intermediate states come from the learned model, never
+from ground-truth stepping; only the first action of each plan is executed.}
+\label{tab:horizon}
+\begin{tabular}{lccccc}
+\toprule
+$H$ & RSR@1 & RSR@3 & RSR@5 & RSR@10 & Cost (m) \\
+\midrule
+\textbf{1} & \textbf{0.708} & \textbf{0.708} & \textbf{0.833} & \textbf{0.833} & \textbf{2.56} \\
+2 & 0.292 & 0.542 & 0.625 & 0.625 & 5.35 \\
+3 & 0.542 & 0.667 & 0.708 & 0.833 & 4.56 \\
+5 & 0.500 & 0.667 & 0.667 & 0.708 & 4.79 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Against $H=1$, the paired success differences are $-0.208$ with interval
+$[-0.458, +0.042]$, $0.000$ with $[-0.208, +0.208]$, and $-0.125$ with
+$[-0.333, +0.083]$. No horizon is significantly better on any budget, and every
+horizon costs 1.78--2.09 times the motion.
+
+The per-terrain breakdown is what makes this informative rather than merely negative.
+The privileged reference genuinely requires multiple steps on six terrains. Lookahead
+does rescue two of them reliably --- \texttt{stairs\_up} and \texttt{pit}, solved by
+$H \ge 2$ and not by $H=1$ --- which confirms that re-observation is intrinsically
+sequential. But it \emph{breaks eight terrains} that one step solves.
+
+Model-error accumulation is not the explanation. The measured one-step pose error is
+lowest at $H=2$ (0.301 m) and yet $H=2$ performs worst. The mechanism is instead that
+the chained score $\max_k \hat p_k$ is monotonically optimistic in $H$: a longer horizon
+offers more opportunities to find a sequence that the model \emph{confidently} believes
+will glimpse the target, and those are exactly the confidently wrong predictions. The
+one-step pose error (0.30--0.76 m) is of the same order as an action's displacement
+(0.5--1.8 m), so by the second or third chained step the predicted state is nearly
+uninformative.
+
+\subsection{E4e: a joint decision over one event does not rescue it either}
+
+
+E4c and E4d failed in the same shape, which suggests the fault is not in either head
+but in how they are combined. Both were \emph{serial compositions} of quantities
+predicted independently: a visibility ranking with a safety term that vetoes it, and a
+per-step visibility score with a maximum taken over chained steps. A veto is the wrong
+shape --- the planner does not want to know whether an action is unsafe, it wants to
+know whether the action achieves the goal, where the goal is \emph{re-observed and
+still on its feet}. That is a single event.
+
+We therefore predict that single event directly. A joint head is trained on
+$P(V \wedge \text{safe} \mid O,M,a)$ --- the conjunction, not a product of two
+marginals, since multiplying marginals would reintroduce the independence assumption
+under test. Alongside it we test a conformal filter whose threshold is the out-of-fold
+quantile of the \emph{safe} class's unsafe-score, which by construction bounds how often
+a genuinely safe action is discarded; this is the targeted fix for the measured failure
+that a fixed threshold on the safety score removes good and bad actions at similar
+rates.
+
+Neither works. Against a baseline of 0.3661 one-step success, the joint head reaches
+0.3527 (a gain of $-0.013$, intervening at 18.3\% of states), and the best conformal
+filter reaches 0.3616 ($-0.005$). Combining them is worse still (0.3348--0.3571). The
+positive rates are 0.143 for visibility, 0.119 for visibility-and-safe and 0.083 for
+unsafe, so the conjunction is rarer than either component --- and the privileged
+Oracle-S, which has ground truth, still improves on Oracle-V (0.4107 against 0.3884).
+
+Three successive principled fixes --- hard and soft penalties, temperature and isotonic
+calibration, a joint head, and a conformal filter with a distributional guarantee ---
+all fail to convert the safety information into planning improvement, while the same
+information with ground-truth labels improves it. We report this as the paper's open
+problem rather than as a solution: the gap is not in the accuracy of the predicted
+quantities, and it is not closed by predicting the right quantity instead.
+
+\subsection{E-Odom: the task is not localisation recovery}
+
+The most damaging reading of this benchmark is that it reduces to state recovery: save
+the pose at which the target was last seen and use odometry to return to it. We
+implement three such baselines --- steering back to the last-visible pose, dead-reckoned
+backtracking along the recorded walk-in, and returning to that pose before advancing
+again along the original sight ray --- and evaluate them under three odometry
+conditions: perfect, moderate drift (2\% range, $1^\circ$ per step heading) and
+realistic drift (5\% range, $3^\circ$ per step).
+
+\begin{table}[h]
+\caption{Anchor-recovery baselines. Perfect localisation does not solve the task, and
+drift barely changes the outcome; the failures are physical, not positional. $F$ denotes
+physical termination (fallen or out of bounds).}
+\label{tab:odom}
+\begin{tabular}{llcccc}
+\toprule
+Drift & Mode & RSR@1 & RSR@3 & RSR@10 & Failures \\
+\midrule
+perfect & last-visible pose & 0.125 & 0.125 & 0.167 & $B$ 14, \textbf{$F$ 6} \\
+perfect & backtrack & 0.167 & 0.250 & 0.250 & $B$ 18 \\
+perfect & original ray & 0.125 & 0.125 & 0.167 & $B$ 14, \textbf{$F$ 6} \\
+moderate & last-visible pose & 0.125 & 0.125 & 0.167 & $B$ 14, \textbf{$F$ 6} \\
+moderate & backtrack & 0.167 & 0.250 & 0.250 & $B$ 18 \\
+realistic & last-visible pose & 0.125 & 0.125 & 0.167 & $B$ 13, \textbf{$F$ 7} \\
+realistic & backtrack & 0.167 & 0.250 & 0.250 & $B$ 18 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two results settle the objection. First, \textbf{perfect odometry does not solve the
+task}: the best anchor-recovery baseline reaches $RSR@10 = 0.250$, the same as the
+classical rules and far below the consequence planner's 0.792. Second, and more
+pointedly, \textbf{six of its 24 failures under perfect localisation are physical
+terminations} --- the robot falls or leaves the terrain while returning to a pose it
+knows exactly. A perfect localization memory cannot guarantee physical re-observability.
+
+The drift conditions then make the point sharper rather than weaker. Perfect and
+moderate drift produce \emph{identical} results, and realistic drift changes $RSR@10$ by
+0.000, raising cost by 0.13 m and moving one failure from $B$ to $F$. The failure is
+therefore not an odometry-accuracy problem: it is the physical-consequence gap of H3,
+reached from a completely independent direction.
+
+\subsection{Failure taxonomy}
+
+\begin{table}[h]
+\caption{Failure classification under protocol B, 24 terrains. $B$: a belief was present
+and a good action existed but was not chosen. $F$: the action was selected for a
+defensible reason and the physical outcome was not anticipated.}
+\label{tab:taxonomy}
+\begin{tabular}{lccc}
+\toprule
+Planner & $B$ action & $F$ physical termination & other \\
+\midrule
+\texttt{HeadingLock}/\texttt{HistoryOnly}/\texttt{LostTargetSearch}/\texttt{ObjectPermanence} & 18 & 0 & --- \\
+\texttt{Reactive} & 17 & 1 & --- \\
+\texttt{NBV} & 16 & 1 & $C$ 1, $D$ 1 \\
+\textbf{LearnedConsequence} & \textbf{1} & \textbf{4} & --- \\
+\texttt{Oracle} & 3 & 0 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Classical policies predominantly fail because they select ineffective actions, whereas
+the learned consequence planner substantially reduces action-selection failures and
+instead exposes physical-termination failures. The failure type changes with the
+capability of the planner, which is itself evidence that the modelled quantity is the
+right one and that the remaining gap is coverage of the consequence model rather than
+candidate diversity.
+
+Two limitations of the taxonomy are stated rather than smoothed over. The classes $C$
+and $D$ have one example each, which is enough to establish that the class occurs and
+not enough to report a rate. And the classification of $F$ was a correction: our first
+version recorded falls and boundary exits as action-selection failures, which is an
+attribution error, since the action was chosen on a defensible prediction and the
+prediction of \emph{stability} was what failed.
+
+%==============================================================================
+\section{Discussion}
+%==============================================================================
+
+\subsection{Why the classical baselines are indistinguishable}
+
+Not because they are poor algorithms. On 24 terrains, five of the six produce
+outcome-identical success patterns, differing by $0.000$ with interval $[0,0]$. They are
+not merely similar; they make the same decision.
+
+The reason is structural. All five mechanisms operate on the same quantity ---
+``which way should I face or move'' --- that is, $O_t, M_t \rightarrow$ a heading or a
+direction. None of them explicitly models the map
+$O_t, M_t, a \rightarrow S_{\text{future}}$. Since what is missing is the same thing in
+all of them, no amount of care in writing the heading rule changes the decision. This
+also explains why \texttt{NBV} is the only baseline that differs at all on the main
+suite: it is the only one that happens to use an action-consequence proxy, and as H3
+shows, that proxy is not good enough.
+
+\subsection{Why next-best-view does not significantly beat history-only}
+
+Because geometric visibility and physical consequence differ systematically, and NBV
+only has access to the former. 43.1\% of the actions geometry endorses fail physically.
+The paired difference against \texttt{HistoryOnly} is $+0.042$ with an interval of
+$[0.00, 0.125]$ and $p = 0.356$ --- not significant. On the paired-history worlds NBV
+scores 0/16, exactly like the other classical rules.
+
+This is not an implementation issue. Placing the oracle at the executed pose recovers
+97.9\% agreement with physics. What fails is the prediction of where the action takes
+the robot.
+
+\subsection{The safety and horizon paradoxes are the same paradox}
+
+Both negative results have the same shape. A prediction carries real information ---
+Oracle-S beats Oracle-V, and the horizon ablation shows that some terrains genuinely
+require multiple steps --- and the decision rule fails to convert it. In the safety case
+this survives a targeted fix: halving the decision-band calibration error changes
+planning performance by exactly nothing. In the horizon case it survives increasing the
+depth: the chained score is optimistic in $H$, so more lookahead offers more ways to be
+wrong.
+
+The common lesson is that prediction quality and decision usefulness are different
+properties. A head can rank well and still be unusable as a decision term; a model can
+be accurate one step ahead and still be unusable for multi-step ranking. Neither is
+fixed by more data, better calibration, or a longer horizon; both point at how
+consequences are \emph{combined} into a decision.
+
+\subsection{Limitations}
+
+All results are from simulation, with a vendored third-party locomotion policy, on a
+single controller; no sim-to-real claim is made and the pose-consequence numbers should
+not be transferred across controllers. The oracle is a privileged upper bound and the
+search reference is incomplete: an earlier version of this work judged four terrains
+unsolvable, and beam search subsequently solved all four with two- to three-step
+sequences. That error --- mistaking a planner's defect for a property of the benchmark
+--- nearly put a spurious ceiling into the results, and the corrected solvability is
+24/24 with an upper bound of 1.00 rather than 0.88.
+
+The learned consequence model is evaluated with terrain held out, which is
+generalisation within a mechanism family; cross-mechanism generalisation is not
+established here and an earlier single-step predictor scored below a naive baseline out
+of distribution. The target memory is a structured location representation reconstructed
+without noise, so belief-estimation failure is excluded by construction and claims about
+memory hold only for this representation. The action set is ten fixed primitives, and
+whether discretisation affects the H1 and H2 conclusions has not been tested. A binary
+fall label proved unusable --- zero falls in 720 single-action rollouts --- so safety is
+represented by boundary exit and a continuous stability margin instead, which means the
+learned safety head does not cover the event it is named after. Finally, the paired-world
+construction is available only in mechanisms that can express a directional aperture;
+Table~\ref{tab:audit} shows five mechanisms where this is structurally impossible, and
+the correct statement is that the construction is evaluated on the mechanisms that can
+carry it.
+
+%==============================================================================
+\section{Conclusion}
+%==============================================================================
+
+We asked what information and what action reasoning a robot needs in order to regain
+sight of a target that terrain has occluded. The answer arrived by elimination.
+
+The current observation is not sufficient: there exist worlds with pixel-identical
+observations whose optimal re-observation actions are opposite, and whose successful
+action sets are disjoint. A correct target memory is not sufficient either: there exist
+worlds identical in observation \emph{and} in memory that still require different
+actions. Geometric visibility is not sufficient: 43.1\% of the actions it endorses fail
+physically, while the same oracle at the executed pose agrees with physics 97.9\% of the
+time.
+
+What is missing is the action-conditioned physical consequence. Adding the candidate
+action to observation-plus-memory raises predictive AUC by 0.080, while adding the
+observation to the memory raises it by 0.002; a planner built on the resulting model
+raises $RSR@10$ from 0.250 to 0.792 with no privileged information.
+
+Two negative results bound how such a model may be used, and both are about the
+prediction-to-decision step rather than about prediction quality. A safety head that is
+accurate (AUC 0.900) and whose decision-band calibration can be halved by temperature
+scaling produces exactly zero planning gain, with no operating point beating simply not
+using it. A receding-horizon planner over the same model finds that deeper lookahead is
+not significantly better on any budget, costs nearly twice the motion, rescues two
+genuinely sequential terrains and breaks eight that one step solves.
+
+The compact statement of the paper is therefore
+$O_t + M_t \not\Rightarrow a^{*}$, and the reason is the step in between:
+$a \rightarrow S_{\text{future}} \rightarrow V_{\text{future}}$ must be modelled
+explicitly, must be action-conditioned, and must then be turned into a decision rather
+than a threshold.
+
+%==============================================================================
+\section*{Author Contributions}
+%==============================================================================
+
+% TO BE COMPLETED BY THE AUTHORS.
+
+%==============================================================================
+\section*{Funding}
+%==============================================================================
+
+% TO BE COMPLETED BY THE AUTHORS.
+
+%==============================================================================
+\section*{Data Availability Statement}
+%==============================================================================
+
+The benchmark, baselines, consequence dataset and all result artefacts are generated by
+the code in the accompanying repository. Every figure and table in this manuscript is
+produced by a script from recorded JSON artefacts, so the numbers cannot drift from the
+figures.
+
+%==============================================================================
+\section*{Conflict of Interest}
+%==============================================================================
+
+The authors declare that the research was conducted in the absence of any commercial or
+financial relationships that could be construed as a potential conflict of interest.
+
+%==============================================================================
+\bibliographystyle{Frontiers-Harvard}
+\bibliography{references}
+
+\end{document}

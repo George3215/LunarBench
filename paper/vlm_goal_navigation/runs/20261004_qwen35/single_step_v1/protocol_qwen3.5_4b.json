@@ -1,0 +1,53 @@
+{
+  "model": "qwen3.5:4b",
+  "modes": [
+    "current_direct",
+    "current_reasoned",
+    "actions_reasoned",
+    "images_reasoned",
+    "images_actions_reasoned"
+  ],
+  "scenes": [
+    "stairs_up",
+    "trench",
+    "pit",
+    "barrier",
+    "waves",
+    "basin",
+    "perlin",
+    "perlin_rough",
+    "hist001_left",
+    "hist001_right",
+    "hist013_left",
+    "hist013_right",
+    "hist017_left",
+    "hist017_right",
+    "hist025_left",
+    "hist025_right",
+    "hist026_left",
+    "hist026_right",
+    "hist036_left",
+    "hist036_right",
+    "hist040_left",
+    "hist040_right",
+    "hist048_left",
+    "hist048_right"
+  ],
+  "steps": 1,
+  "duration_s": 3,
+  "tokens": 512,
+  "context": 8192,
+  "history_images": 3,
+  "temperature": 0,
+  "seed": 7,
+  "task": "recover red sphere then approach and stop; reacquisition is primary unchanged-benchmark metric",
+  "controller": "cold start at loss; continuous history thereafter",
+  "red_min": 50,
+  "reacquisition": "3 consecutive samples with >=3 matching pixels at 10Hz before failure",
+  "policy_inputs": "RGB images and explicitly enabled command history only; no evaluator state, depth detector output, scene name or coordinates",
+  "source_sha256": {
+    "vlm_benchmark.py": "ffe0aec527a5f5ed3a8d248657911a1f0467b38270b7da4c229332bb448b4671",
+    "local_vlm.py": "5d296fd8345dcf9ca53f7f16fd14a5219f674278f7b49cf18ceb1ed79fdb7032",
+    "controllers.py": "d72f49809aef3f855be8643c357ff4fe8afc0fe52059676855a794a7ee583c48"
+  }
+}

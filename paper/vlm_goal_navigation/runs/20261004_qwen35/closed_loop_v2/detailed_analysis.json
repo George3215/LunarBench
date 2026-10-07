@@ -1,0 +1,1095 @@
+{
+  "summary": {
+    "qwen3.5:4b/actions_reasoned": {
+      "n": 4,
+      "reacquired": 2,
+      "within_1m_exploratory": 2,
+      "stop_near": 0,
+      "model_service_mean_s": 9.408460290909092,
+      "first_step_false_visible_claims": 0,
+      "terminations": {
+        "premature_stop": 2,
+        "out_of_bounds": 2
+      }
+    },
+    "qwen3.5:4b/current_direct": {
+      "n": 4,
+      "reacquired": 3,
+      "within_1m_exploratory": 1,
+      "stop_near": 0,
+      "model_service_mean_s": 1.8594137199999998,
+      "first_step_false_visible_claims": 0,
+      "terminations": {
+        "budget": 1,
+        "premature_stop": 1,
+        "out_of_bounds": 2
+      }
+    },
+    "qwen3.5:4b/current_reasoned": {
+      "n": 4,
+      "reacquired": 4,
+      "within_1m_exploratory": 1,
+      "stop_near": 0,
+      "model_service_mean_s": 10.866618928571429,
+      "first_step_false_visible_claims": 0,
+      "terminations": {
+        "budget": 2,
+        "out_of_bounds": 2
+      }
+    },
+    "qwen3.5:4b/images_actions_reasoned": {
+      "n": 4,
+      "reacquired": 1,
+      "within_1m_exploratory": 0,
+      "stop_near": 0,
+      "model_service_mean_s": 11.855674391666668,
+      "first_step_false_visible_claims": 0,
+      "terminations": {
+        "premature_stop": 4
+      }
+    },
+    "qwen3.5:4b/images_reasoned": {
+      "n": 4,
+      "reacquired": 2,
+      "within_1m_exploratory": 0,
+      "stop_near": 0,
+      "model_service_mean_s": 11.9124788,
+      "first_step_false_visible_claims": 0,
+      "terminations": {
+        "out_of_bounds": 2,
+        "premature_stop": 2
+      }
+    }
+  },
+  "episodes": [
+    {
+      "scene": "hist001_left",
+      "mode": "actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": null,
+      "path_m": 0.0,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.8081783,
+          "eval_tokens": 559,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "pit",
+      "mode": "actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": null,
+      "path_m": 0.0,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.7612831,
+          "eval_tokens": 553,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "stairs_up",
+      "mode": "actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": true,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 0.5910495587550134,
+      "path_m": 8.433584612527673,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.7077396,
+          "eval_tokens": 555,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 14.1132637,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.587711,
+          "eval_tokens": 547,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 8.1442869,
+          "eval_tokens": 549,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 7.1906594,
+          "eval_tokens": 556,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "trench",
+      "mode": "actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": true,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 0.32353497291100153,
+      "path_m": 8.19525474950497,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.1533045,
+          "eval_tokens": 567,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.6682473,
+          "eval_tokens": 549,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.7702798,
+          "eval_tokens": 557,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 7.5881096,
+          "eval_tokens": 544,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "hist001_left",
+      "mode": "current_direct",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "budget",
+      "min_range_xy_m": 5.281920495617198,
+      "path_m": 3.851553204724744,
+      "rsr_by_step": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 1.4147193,
+          "eval_tokens": 39,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 5.7435997,
+          "eval_tokens": 40,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 1.1612003,
+          "eval_tokens": 46,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.6638037,
+          "eval_tokens": 40,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.7888642,
+          "eval_tokens": 50,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.6736744,
+          "eval_tokens": 40,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.7747317,
+          "eval_tokens": 47,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.6420678,
+          "eval_tokens": 38,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.6475554,
+          "eval_tokens": 38,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.6556423,
+          "eval_tokens": 37,
+          "claims_target_visible": false,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "pit",
+      "mode": "current_direct",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": 3.625354869974422,
+      "path_m": 2.6258000090706806,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 1.2090296,
+          "eval_tokens": 37,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 5.9273348,
+          "eval_tokens": 39,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "stairs_up",
+      "mode": "current_direct",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 1.2089259561874521,
+      "path_m": 7.925859436940349,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.8604884,
+          "eval_tokens": 36,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 5.4714139,
+          "eval_tokens": 38,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.9388695,
+          "eval_tokens": 43,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 5.6133963,
+          "eval_tokens": 39,
+          "claims_target_visible": false,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "trench",
+      "mode": "current_direct",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": true,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 0.32353497291100153,
+      "path_m": 8.19525474950497,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 1.1554016,
+          "eval_tokens": 36,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.7750282,
+          "eval_tokens": 38,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 0.8466318,
+          "eval_tokens": 43,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 1.2248215,
+          "eval_tokens": 43,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "hist001_left",
+      "mode": "current_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "budget",
+      "min_range_xy_m": 5.25372047884221,
+      "path_m": 6.2840904270834175,
+      "rsr_by_step": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.6220001,
+          "eval_tokens": 559,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.0796828,
+          "eval_tokens": 557,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.3870304,
+          "eval_tokens": 566,
+          "claims_target_visible": true,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.0321849,
+          "eval_tokens": 554,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.9722253,
+          "eval_tokens": 553,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.1182069,
+          "eval_tokens": 563,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.1858025,
+          "eval_tokens": 553,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.2422041,
+          "eval_tokens": 565,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 7.1999807,
+          "eval_tokens": 562,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.8361513,
+          "eval_tokens": 563,
+          "claims_target_visible": false,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "pit",
+      "mode": "current_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "budget",
+      "min_range_xy_m": 3.137772226729184,
+      "path_m": 3.2337572918494693,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.9733539,
+          "eval_tokens": 560,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 8.5728499,
+          "eval_tokens": 553,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.752538,
+          "eval_tokens": 563,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.6826721,
+          "eval_tokens": 556,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.4453991,
+          "eval_tokens": 556,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.7272141,
+          "eval_tokens": 558,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.7769002,
+          "eval_tokens": 557,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 14.4588783,
+          "eval_tokens": 561,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 7.0051061,
+          "eval_tokens": 561,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.7195414,
+          "eval_tokens": 560,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "stairs_up",
+      "mode": "current_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 1.2089259561874521,
+      "path_m": 7.925859436940349,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 7.265127,
+          "eval_tokens": 554,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.7697684,
+          "eval_tokens": 565,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 6.6160224,
+          "eval_tokens": 550,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.6999733,
+          "eval_tokens": 553,
+          "claims_target_visible": false,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "trench",
+      "mode": "current_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": true,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 0.32353497291100153,
+      "path_m": 8.19525474950497,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 8.1924304,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 14.2031562,
+          "eval_tokens": 563,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 13.8749458,
+          "eval_tokens": 558,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 1,
+          "service_s": 12.8539844,
+          "eval_tokens": 556,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "hist001_left",
+      "mode": "images_actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": 4.134569471844357,
+      "path_m": 5.625160472981556,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.5832318,
+          "eval_tokens": 568,
+          "claims_target_visible": false,
+          "action": "turn_left"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.3443879,
+          "eval_tokens": 560,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 6.8715324,
+          "eval_tokens": 563,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 6.8661673,
+          "eval_tokens": 560,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 8.0144107,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "turn_left"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.0624475,
+          "eval_tokens": 566,
+          "claims_target_visible": false,
+          "action": "turn_left"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.060564,
+          "eval_tokens": 563,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 12.9427366,
+          "eval_tokens": 561,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "pit",
+      "mode": "images_actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": 3.625354869974422,
+      "path_m": 2.6258000090706806,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.9293076,
+          "eval_tokens": 560,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.3976028,
+          "eval_tokens": 559,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "stairs_up",
+      "mode": "images_actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": null,
+      "path_m": 0.0,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.3969906,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "trench",
+      "mode": "images_actions_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": null,
+      "path_m": 0.0,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.7987135,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "hist001_left",
+      "mode": "images_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 8.283492358737574,
+      "path_m": 2.2344503789919314,
+      "rsr_by_step": {
+        "1": true,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 8.1085107,
+          "eval_tokens": 570,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 12.9330554,
+          "eval_tokens": 563,
+          "claims_target_visible": false,
+          "action": "turn_right"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.0222398,
+          "eval_tokens": 567,
+          "claims_target_visible": false,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "pit",
+      "mode": "images_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": null,
+      "path_m": 0.0,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.6832621,
+          "eval_tokens": 564,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    },
+    {
+      "scene": "stairs_up",
+      "mode": "images_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": true,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "out_of_bounds",
+      "min_range_xy_m": 1.2089259561874521,
+      "path_m": 7.925859436940349,
+      "rsr_by_step": {
+        "1": false,
+        "3": true,
+        "5": true,
+        "10": true
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 6.5588343,
+          "eval_tokens": 558,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 12.4349278,
+          "eval_tokens": 564,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 12.6114999,
+          "eval_tokens": 561,
+          "claims_target_visible": true,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.0347216,
+          "eval_tokens": 570,
+          "claims_target_visible": true,
+          "action": "forward"
+        }
+      ]
+    },
+    {
+      "scene": "trench",
+      "mode": "images_reasoned",
+      "model": "qwen3.5:4b",
+      "reacquired": false,
+      "within_1m_ever_exploratory": false,
+      "stop_near": false,
+      "termination": "premature_stop",
+      "min_range_xy_m": 4.451921497731145,
+      "path_m": 2.6100434070951466,
+      "rsr_by_step": {
+        "1": false,
+        "3": false,
+        "5": false,
+        "10": false
+      },
+      "decisions": [
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.5910087,
+          "eval_tokens": 557,
+          "claims_target_visible": false,
+          "action": "forward"
+        },
+        {
+          "image_count": 1,
+          "source_frames": 4,
+          "service_s": 13.1467277,
+          "eval_tokens": 561,
+          "claims_target_visible": false,
+          "action": "stop"
+        }
+      ]
+    }
+  ],
+  "limits": "Proximity <=1m is exploratory planar-distance evidence, not a validated same-surface/obstacle-free arrival criterion. Source frame count and composed image count differ in labeled-sheet conditions."
+}

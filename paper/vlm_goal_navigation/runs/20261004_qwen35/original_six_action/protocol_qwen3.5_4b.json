@@ -1,0 +1,27 @@
+{
+  "model": "qwen3.5:4b",
+  "task": "original strict-camera single 3-second action; six original actions; no STOP",
+  "evaluation": "VLM selects action; score from pinned physically executed branch table. This is offline one-step selection, not online search. Separate closed_loop_v2 records real online multi-step execution.",
+  "source_branch_table": "D:\\LunarBench\\paper\\audit_20261004\\strict_camera\\camera_rollouts.json",
+  "branch_table_sha256": "5389c366ad7e73c585142d4c04e6c198824db95a9e150797fb6847e8830d33e2",
+  "candidate_worlds": 24,
+  "eligible_worlds": 23,
+  "modes": [
+    "current_direct",
+    "current_reasoned",
+    "actions_reasoned",
+    "images_reasoned",
+    "images_actions_reasoned"
+  ],
+  "history": "up to 3 uniform chronological prefix frames + current frame, explicitly labeled contact sheet",
+  "thinking_budget": 512,
+  "finalization_budget": 180,
+  "temperature": 0,
+  "seed": 7,
+  "new_training": false,
+  "privileged_inputs": false,
+  "source_sha256": {
+    "vlm_one_step.py": "6b90ad2cb5c54b0ca2503aa12cb2bf17725664e849649d6c515fc70fbbb9d928",
+    "local_vlm.py": "adeaa4cff20d6a388006fcfcffc2a79e7440751397e7052a8980323c3cf6da99"
+  }
+}

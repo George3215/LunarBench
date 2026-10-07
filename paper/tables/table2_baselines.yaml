@@ -1,0 +1,127 @@
+# table2 — Unified baselines: mechanisms and multi-step results
+
+# 协议：protocol B（闭环），预算 10 步 x 3.0 s，24 个地形（8 多地形场景 + 16 成对历史世界）
+# 来源：generated/benchmark_multistep_B.json（以及 protocol A 的 _A.json）
+# 公平性由 test_api.py 断言：等时长原语、预算真的给满、统一终止条件、RSR@N 单调。
+
+protocol: B
+budget_steps: 10
+step_duration_s: 3.0
+terrains: 24
+
+summary:
+  - method: Reactive
+    mechanism: always drive forward
+    uses_history: false
+    uses_map: false
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.25
+    mean_steps_when_solved: 1.33
+    mean_t_reobs_s: 4.0
+    mean_motion_cost_m: 2.29
+    failure_taxonomy: {B_action_wrong: 18}
+  - method: HeadingLock
+    mechanism: hold the heading recorded at the loss moment (IMU only)
+    uses_history: false
+    uses_map: false
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.25
+    mean_steps_when_solved: 1.33
+    mean_t_reobs_s: 4.0
+    mean_motion_cost_m: 2.59
+    failure_taxonomy: {B_action_wrong: 18}
+  - method: HistoryOnly
+    mechanism: aim the heading at the remembered target and drive
+    uses_history: true
+    uses_map: false
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.25
+    mean_steps_when_solved: 1.33
+    mean_t_reobs_s: 4.0
+    mean_motion_cost_m: 2.60
+    failure_taxonomy: {B_action_wrong: 18}
+  - method: LostTargetSearch
+    mechanism: face the belief, then close on it
+    uses_history: true
+    uses_map: false
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.25
+    mean_steps_when_solved: 1.33
+    mean_t_reobs_s: 4.0
+    mean_motion_cost_m: 2.63
+    failure_taxonomy: {B_action_wrong: 18}
+  - method: ObjectPermanence
+    mechanism: constant-velocity belief filter; collapses onto LostTargetSearch for a static target
+    uses_history: true
+    uses_map: false
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.25
+    mean_steps_when_solved: 1.33
+    mean_t_reobs_s: 4.0
+    mean_motion_cost_m: 2.58
+    failure_taxonomy: {B_action_wrong: 18}
+  - method: NBV
+    mechanism: re-project the believed target from a kinematic hypothetical pose (exact height field given)
+    uses_history: true
+    uses_map: true
+    runs_physics: false
+    rsr_at_1: 0.17
+    rsr_at_3: 0.25
+    rsr_at_5: 0.25
+    rsr_at_10: 0.29
+    mean_steps_when_solved: 2.29
+    mean_t_reobs_s: 6.857
+    mean_motion_cost_m: 3.33
+    failure_taxonomy: {B_action_wrong: 17, D_inefficient: 2}
+  - method: Oracle
+    mechanism: physically roll out every candidate, take the fastest success
+    uses_history: null
+    uses_map: null
+    runs_physics: true
+    privileged: true
+    rsr_at_1: 0.83
+    rsr_at_3: 0.88
+    rsr_at_5: 0.88
+    rsr_at_10: 0.88
+    mean_steps_when_solved: 1.05
+    mean_t_reobs_s: 3.143
+    mean_motion_cost_m: 1.94
+    failure_taxonomy: {B_action_wrong: 3}
+
+by_terrain_group:
+  six_classic_baselines: {multi_terrain: "6/8", paired_history: "0/16"}
+  NBV:                   {multi_terrain: "5/8", paired_history: "0/16"}
+  Oracle:                {multi_terrain: "8/8", paired_history: "13/16"}
+
+protocol_A_vs_B:
+  Reactive:         {A_rsr_at_10: 0.25, B_rsr_at_10: 0.25}
+  HeadingLock:      {A_rsr_at_10: 0.25, B_rsr_at_10: 0.25}
+  HistoryOnly:      {A_rsr_at_10: 0.25, B_rsr_at_10: 0.25}
+  LostTargetSearch: {A_rsr_at_10: 0.25, B_rsr_at_10: 0.25}
+  ObjectPermanence: {A_rsr_at_10: 0.25, B_rsr_at_10: 0.25}
+  NBV:              {A_rsr_at_10: 0.25, B_rsr_at_10: 0.29}
+  Oracle:           {A_rsr_at_10: 0.88, B_rsr_at_10: 0.88}
+
+notes:
+  - "Oracle is a privileged upper bound and a teacher, not a deployable method."
+  - "Closed loop buys almost nothing: every baseline except NBV behaves identically
+     whether it re-observes each step or commits once."
+  - "No A-type (belief absent) failures at all: the approach replay gives every policy a
+     target belief. Every classic failure is B (belief correct, action wrong)."
+  - "Four terrains are not solvable within the budget even by the greedy oracle
+     (trench, hist026_left, hist026_right, hist040_left). RSR on solvable is still to be added."

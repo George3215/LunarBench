@@ -1,0 +1,124 @@
+# table1 — Benchmark: terrain mechanisms and visibility profiles
+
+# 数字来自 `python tasks/task3_reobservability/benchmark.py --mode profile`
+# 与 `terrain_viewer.py --check --terrain all`，在写论文前用当前代码重新量过。
+# 注意：`perlin` 早期记录为 6 次翻转，那是在 _walkable 的 numpy 别名 bug 修好之前；
+# 限幅修好后起伏变化，翻转数变为 4。引用时以本表为准。
+
+column_headers:
+  - mechanism
+  - terrain
+  - how_the_target_is_hidden
+  - V_x
+  - N_flip
+  - surface_error_m
+  - walk_forward_m
+  - check_verdict
+
+rows:
+  - mechanism: rising crest
+    terrain: stairs_up
+    how_the_target_is_hidden: the crest rises between eye and target as the robot climbs
+    V_x: VXVX
+    N_flip: 3
+    surface_error_m: 0.0
+    walk_forward_m: 4.23
+    check_verdict: PASS
+  - mechanism: descending steps
+    terrain: stairs_down
+    how_the_target_is_hidden: the eye drops away from the occluder while descending
+    V_x: "V X"
+    N_flip: 1
+    surface_error_m: 0.0
+    walk_forward_m: 4.19
+    check_verdict: PASS
+  - mechanism: depression + far rim
+    terrain: trench
+    how_the_target_is_hidden: a raised far rim enters the sight line
+    V_x: VXVX
+    N_flip: 3
+    surface_error_m: 0.0
+    walk_forward_m: 4.21
+    check_verdict: PASS
+  - mechanism: depression + wall
+    terrain: pit
+    how_the_target_is_hidden: the near floor is crossed, then an unclimbable far wall
+    V_x: VXVX
+    N_flip: 3
+    surface_error_m: 0.0
+    walk_forward_m: 4.26
+    check_verdict: PASS
+  - mechanism: finite wall
+    terrain: barrier
+    how_the_target_is_hidden: the wall ends in y, so the sight line can go around it
+    V_x: VXVX
+    N_flip: 3
+    surface_error_m: 0.0
+    walk_forward_m: 4.23
+    check_verdict: PASS
+  - mechanism: pinhole aperture
+    terrain: window_wall
+    how_the_target_is_hidden: a wall pierced by a raised window; the reveal side flips with the target
+    V_x: "n/a (2-D pair family)"
+    N_flip: null
+    surface_error_m: 0.0
+    walk_forward_m: 3.66
+    check_verdict: PASS
+  - mechanism: target inside a basin
+    terrain: basin
+    how_the_target_is_hidden: the target stands on the depression floor; the near rim occludes at a grazing angle
+    V_x: XVX
+    N_flip: 2
+    surface_error_m: 0.0
+    walk_forward_m: 4.15
+    check_verdict: PASS
+  - mechanism: quantised sine undulation
+    terrain: waves
+    how_the_target_is_hidden: repeated gentle undulation
+    V_x: XVXVX
+    N_flip: 4
+    surface_error_m: 0.0
+    walk_forward_m: 4.08
+    check_verdict: PASS
+  - mechanism: Perlin / fBm relief
+    terrain: perlin
+    how_the_target_is_hidden: many small treads produce repeated loss and re-acquisition
+    V_x: XVXVX
+    N_flip: 4
+    surface_error_m: 0.0
+    walk_forward_m: 4.04
+    check_verdict: PASS
+  - mechanism: rougher Perlin / fBm relief
+    terrain: perlin_rough
+    how_the_target_is_hidden: tighter features and a larger amplitude
+    V_x: XVXVX
+    N_flip: 4
+    surface_error_m: 0.0
+    walk_forward_m: 3.15
+    check_verdict: PASS
+  - mechanism: legacy sampled height field
+    terrain: staircase10
+    how_the_target_is_hidden: rising crest (box ground)
+    V_x: VXVX
+    N_flip: 3
+    surface_error_m: 0.0
+    walk_forward_m: 4.23
+    check_verdict: PASS
+  - mechanism: legacy sampled height field
+    terrain: flat
+    how_the_target_is_hidden: none (control)
+    V_x: V
+    N_flip: 0
+    surface_error_m: 0.0
+    walk_forward_m: 4.23
+    check_verdict: PASS
+
+notes:
+  - "All slab/box terrains agree with the analytic oracle to 0.0 m by ray casting."
+  - "Terrain is exact box geometry because MuJoCo's hfield collider stalls both vendored
+     policies: 0.076 m of travel on a height field versus 0.377 m on box ground."
+  - "The only failing terrain is a legacy sampled height field with a 6.9 cm surface
+     mismatch, reported rather than dropped."
+  - "stairs_down is listed with 1 flip along its own centreline; it is the mechanism that
+     shows descending terrain alone cannot occlude a target beyond it, which is why the
+     depression mechanisms are needed."

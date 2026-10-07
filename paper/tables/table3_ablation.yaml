@@ -1,0 +1,82 @@
+# table3 — Ablations
+
+# 三组消融：(a) 历史必然性的成对世界，(b) 学习式预测器的特征块，(c) 历史 horizon
+# 来源：generated/history_necessity.json, visibility_model.json, history_horizon.json
+
+# ---------------------------------------------------------------------------
+# (a) History necessity — the paired worlds (Experiment 1, single-step by construction)
+# ---------------------------------------------------------------------------
+history_necessity:
+  n_pairs: 8
+  n_worlds: 16
+  search: {attempts: 49, accepted: 8}
+  seeds: {11: {attempts: 49, accepted: 8}, 23: {attempts: 35, accepted: 8}, 37: {attempts: 43, accepted: 8}}
+  observation_equality:
+    max_mean_abs_pixel_diff: 0.0
+    max_abs_pixel_diff: 0
+    min_pixels_identical_fraction: 1.0
+    target_pixels_world_A: 0
+    target_pixels_world_B: 0
+  verdicts:
+    pairs_with_equivalent_observations: 8
+    pairs_with_opposite_optimal_actions: 8
+    pairs_with_no_history_independent_action: 8
+    H2_hold_rate: 1.0
+  baseline_rsr_over_16_worlds:
+    A_reactive_forward: 0.0
+    B_history_only_toward: 0.0
+    D_initial_heading_lock: 0.0
+    C_oracle_counterfactual: 1.0
+  optimal_action_counts: {right_hold: 7, left: 5, left_hold: 3, right: 1}
+
+# ---------------------------------------------------------------------------
+# (b) Learned predictor — feature block ablation (Experiment 3)
+# ---------------------------------------------------------------------------
+visibility_model:
+  samples: 2876
+  groups: 16
+  positive_rate: 0.265
+  evaluation: leave-one-group-out; predictions argmaxed into an action, scored by measured outcome
+  feature_sets:
+    obs_only:                    {dim: 19, oof_auc: 0.794, history_rsr: 0.50,   unseen_terrain_rsr: 0.375}
+    obs_memory_shuffled_control: {dim: 25, oof_auc: 0.791, history_rsr: 0.4375, unseen_terrain_rsr: 0.375}
+    obs_memory:                  {dim: 25, oof_auc: 0.898, history_rsr: 1.00,   unseen_terrain_rsr: 0.50}
+  baselines_on_the_16_paired_worlds:
+    A_reactive_forward: 0.00
+    B_history_only_toward: 0.00
+    D_initial_heading_lock: 0.00
+    C_oracle_counterfactual: 1.00
+  note: >-
+    With target memory the learned predictor matches the oracle on the paired worlds and
+    shuffling the memory features collapses it, so the gain is the memory. On terrain
+    families never seen in training it scores 0.50 against the 0.75 of the trivial
+    baselines, so cross-terrain generalisation is NOT established.
+
+# ---------------------------------------------------------------------------
+# (c) History horizon (Experiment 4) — SINGLE-STEP protocol, see the caveat
+# ---------------------------------------------------------------------------
+history_horizon:
+  protocol_caveat: >-
+    Measured under the single-step protocol, so it answers "can history determine the
+    FIRST action", not "how does history support the whole re-observation process".
+    A multi-step version is required.
+  definition: "H_k = {o_{t-k+1} .. o_t}, observations recorded at 10 Hz"
+  fair_comparison: "feature dimension is constant (36) across every horizon"
+  leakage_control: "only samples where the target is not currently visible are kept"
+  samples: 2481
+  groups: 16
+  decision_states: 24
+  sighting_gap_steps: {min: 8, median: 48, max: 84, never_seen: 1}
+  ceiling_oracle_target_rsr: 0.833
+  rsr_all: {H0: 0.500, H1: 0.500, H2: 0.458, H4: 0.833, H8: 0.792, H16: 0.833, H32: 0.750, H64: 0.792, Hfull: 0.792}
+  auc_all: {H0: 0.816, H1: 0.816, H2: 0.832, H4: 0.835, H8: 0.847, H16: 0.846, H32: 0.896, H64: 0.925, Hfull: 0.927}
+  blocks: [all, memory, motion, oracle_target]
+  findings:
+    - decision RSR reaches the ceiling at H4 (0.4 s) and never improves after
+    - predictor AUC saturates at H64 (6.4 s); the full trajectory adds 0.002
+    - the required horizon is set by how long ago the target was last seen
+    - target memory alone needs H64, but the recent-motion summary already reaches
+      0.79-0.83 at H4, so the disambiguating signal is the direction the robot came from
+  limitation: >-
+    The decision metric is measured on 24 worlds, so its resolution is 1/24 and the
+    ordering of H4..Hfull is inside the noise.

@@ -1,0 +1,29 @@
+{
+  "model": "qwen3.5:9b",
+  "modes": [
+    "current_direct",
+    "images_actions_reasoned"
+  ],
+  "scenes": [
+    "stairs_up",
+    "hist001_left"
+  ],
+  "steps": 10,
+  "duration_s": 3,
+  "tokens": 512,
+  "context": 8192,
+  "history_images": 3,
+  "history_layout": "sheet",
+  "temperature": 0,
+  "seed": 7,
+  "task": "recover red sphere then approach and stop; reacquisition is primary unchanged-benchmark metric",
+  "controller": "cold start at loss; continuous history thereafter",
+  "red_min": 50,
+  "reacquisition": "3 consecutive samples with >=3 matching pixels at 10Hz before failure",
+  "policy_inputs": "RGB images and explicitly enabled command history only; no evaluator state, depth detector output, scene name or coordinates",
+  "source_sha256": {
+    "vlm_benchmark.py": "77786011629343d0f312805acef20316047e510b0e66cce915c4e687fa3c4b34",
+    "local_vlm.py": "adeaa4cff20d6a388006fcfcffc2a79e7440751397e7052a8980323c3cf6da99",
+    "controllers.py": "d72f49809aef3f855be8643c357ff4fe8afc0fe52059676855a794a7ee583c48"
+  }
+}
