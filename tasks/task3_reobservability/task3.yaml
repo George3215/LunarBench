@@ -1,0 +1,369 @@
+# TASK3 baseline configuration.  Descriptive only: benchmark.py, experiment.py
+# and locomotion.py are the runnable entry points and none of them authorises
+# real robot motion.
+task: terrain_induced_target_reobservability
+hypotheses:
+  H1_non_monotonicity: >-
+    Terrain occlusion can make target observability a non-monotonic function of
+    robot motion.
+  H2_history: >-
+    Once the target is invisible, historical observations carry decision-relevant
+    information that the current observation cannot recover.
+  H3_counterfactual: >-
+    Predicting the future observability of several physically feasible actions
+    improves re-observation action selection.
+status:
+  H1: supported      # 5 scenes, 3-4 visibility transitions each
+  H2: supported      # 8/8 pairs: pixel-identical observation, opposite optimal action
+  H3: supported_with_oracle_upper_bound
+
+experiment1_history_necessity:   # history_pairs.py + history.py
+  pair_family: window_wall
+  n_pairs: 8
+  n_worlds: 16
+  search:
+    attempts: 49
+    accepted: 8
+    acceptance_criteria:
+      - lost state hides both targets by terrain occlusion inside the FOV
+      - the whole target marker is hidden, not just its centre point
+      - each world has a history vantage on its own side
+      - the lateral reveal sets are disjoint and on opposite sides of the lost state
+      - each reveal set is inside the reach of the corresponding strafe primitive
+      - each reveal set is at least 0.6 m wide so a 10 Hz sampler cannot step over it
+      - walking straight forward or back never reveals either target
+  measured:
+    pairs_with_equivalent_observations: 8
+    max_mean_abs_pixel_diff: 0.0
+    min_pixels_identical_fraction: 1.0
+    pairs_with_opposite_optimal_actions: 8
+    pairs_with_no_history_independent_action: 8
+    H2_hold_rate: 1.0
+    baseline_rsr_over_16_worlds:
+      A_reactive_forward: 0.0
+      B_history_only_toward: 0.0
+      D_initial_heading_lock: 0.0625
+      C_oracle_counterfactual: 1.0
+    optimal_action_counts: {right_hold: 5, left: 5, right: 3, left_hold: 3}
+  note: >-
+    heading preservation is not target-relative spatial preservation.  The
+    vendored policy also turns while it strafes (up to 0.27 rad in 6 s), which is
+    why heading-holding sidesteps were added; without them half the worlds fail
+    for a reason that has nothing to do with history.
+
+experiment3_visibility_model:     # visibility_model.py
+  data: [history_necessity.json, benchmark.json]
+  subsample_s: 0.5
+  samples: 2876
+  groups: 16
+  positive_rate: 0.265
+  evaluation: leave-one-group-out; predictions argmaxed into an action, scored by measured outcome
+  feature_sets:
+    obs_only: {dim: 19, oof_auc: 0.794, history_rsr: 0.50, unseen_terrain_rsr: 0.375}
+    obs_memory: {dim: 25, oof_auc: 0.898, history_rsr: 1.00, unseen_terrain_rsr: 0.50}
+    obs_memory_shuffled_control: {dim: 25, oof_auc: 0.791, history_rsr: 0.4375, unseen_terrain_rsr: 0.375}
+  baselines_on_the_16_paired_worlds:
+    A_reactive_forward: 0.00
+    B_history_only_toward: 0.00
+    D_initial_heading_lock: 0.00
+    C_oracle_counterfactual: 1.00
+  note: >-
+    With target memory the learned predictor matches the oracle on the paired
+    worlds, and shuffling the memory features collapses it, so the gain is the
+    memory.  On terrain families never seen in training it scores 0.50 against
+    the 0.75 of the trivial baselines, so cross-terrain generalisation is NOT
+    established.
+
+experiment4_history_horizon:       # history_horizon.py
+  definition: "H_k = {o_{t-k+1} .. o_t}, observations recorded at 10 Hz"
+  observation: "(pose, target_seen, range, bearing, elevation); the target's world position is only recoverable from an observation inside the window"
+  fair_comparison: "feature dimension is constant (36) across every horizon; only how far back the window reaches changes"
+  leakage_control: "only samples where the target is not currently visible are kept, so 'visible now => success' cannot be learned"
+  blocks: [all, memory, motion, oracle_target]
+  samples: 2481
+  groups: 16
+  decision_states: 24
+  sighting_gap_steps: {min: 8, median: 48, max: 84, never_seen: 1}
+  ceiling_oracle_target_rsr: 0.833
+  rsr_all: {H0: 0.500, H1: 0.500, H2: 0.458, H4: 0.833, H8: 0.792, H16: 0.833, H32: 0.750, H64: 0.792, Hfull: 0.792}
+  auc_all: {H0: 0.816, H1: 0.816, H2: 0.832, H4: 0.835, H8: 0.847, H16: 0.846, H32: 0.896, H64: 0.925, Hfull: 0.927}
+  findings:
+    - decision RSR jumps from chance at H0-H2 to the ceiling at H4 (0.4 s) and never improves after
+    - predictor AUC rises monotonically to 0.925 at H64 and 0.927 for the full trajectory, so 6.4 s holds essentially all of it
+    - the required horizon is set by how long ago the target was last seen, not by an arbitrary number
+    - target memory alone needs H64, but the recent-motion summary already reaches 0.79-0.83 at H4, so the disambiguating signal is the direction the robot came from rather than an explicit target position
+  limitation: >-
+    The decision metric is measured on 24 worlds, so its resolution is 1/24 and the
+    ordering of H4..Hfull is inside the noise.  Only the H0->H4 jump and the AUC
+    saturation point are reportable.  Expanding to ~100 decision worlds is the next
+    step for this experiment.
+
+frozen_api:                        # api.py + policies.py + test_api.py
+  version: task3-reobservability/1
+  flow: Environment -> Observation -> ReObservationPolicy.act -> action_id -> Environment.rollout
+  observation_fields: [t_s, pose, proprioception, action_history, target_memory,
+                       current_rgb, current_depth]
+  privileged_fields_live_in: PrivilegedState
+  contract:
+    - Observation carries no ground-truth visibility or target world position
+    - Environment.rollout saves and restores the simulation state, so scoring an
+      action never advances the episode, and resets the controller for the same reason
+    - policies declare the observation fields they need via `requires`
+    - an action_id outside the frozen set is rejected, not coerced
+    - terrain modules must not import api or any policy; test_api.py asserts this with
+      an AST scan and a subprocess import check
+  policies:
+    Reactive: "always forward"
+    HeadingLock: "hold the loss heading, IMU only"
+    HistoryOnly: "aim at the remembered target, drive"
+    LostTargetSearch: "face the belief, then close on it"
+    ObjectPermanence: "constant-velocity belief filter; collapses onto HistoryOnly for a static target"
+    NBV: "kinematic re-projection of the belief, terrain geometry but no physics"
+    Learned: "trained action-conditioned re-observability scorer, injected"
+    Oracle: "physically roll out every candidate; privileged upper bound"
+  catalogue: "8 multi-terrain scenes + 16 paired-history worlds = 24 terrains"
+  note: >-
+    The multi-terrain scenes alone do not separate the policies: on six of the eight
+    every baseline succeeds, so the first version of the matrix was a flat 0.75 for six
+    policies.  The paired-history worlds are the discriminating half.
+  test: "python tasks/task3_reobservability/test_api.py"
+  runner: "python tasks/task3_reobservability/benchmark_api.py"
+  result_24_terrains:
+    multi_terrain_scenes_8:
+      Reactive: 0.75
+      HeadingLock: 0.75
+      HistoryOnly: 0.75
+      LostTargetSearch: 0.75
+      ObjectPermanence: 0.75
+      NBV: 0.75
+      Oracle: 1.00
+    paired_history_worlds_16:
+      Reactive: 0.00
+      HeadingLock: 0.00
+      HistoryOnly: 0.00
+      LostTargetSearch: 0.00
+      ObjectPermanence: 0.00
+      NBV: 0.00
+      Oracle: 1.00
+    wall_time_s: 705
+  finding: >-
+    On the discriminating half of the benchmark every classic baseline scores zero and
+    only the oracle succeeds.  The correct action there is a lateral move away from the
+    side the target was seen from, which none of the rules produce: HistoryOnly aims at
+    the belief, LostTargetSearch turns in place, ObjectPermanence collapses onto it for a
+    static target, and NBV trusts a geometric re-projection that physics rejects.
+  fairness_caveat: >-
+    The protocol is a single decision from a fixed state.  LostTargetSearch and
+    ObjectPermanence are multi-step algorithms and only their first step is scored here,
+    so their zero is an upper bound on their failure rate, not a fair reproduction.
+    Extending the episode to multiple steps is the first fix required.
+
+multistep_protocol:                # episode.py
+  motivation: >-
+    A single decision from a fixed state is not a fair test of a search algorithm.
+    LostTargetSearch is defined as "turn to face the belief, then close on it";
+    scoring only its first step reports a property of the protocol, not of the
+    algorithm.
+  step_duration_s: 3.0
+  step_duration_rationale: >-
+    Measured, not chosen.  At 1.5 s four of seven sampled scenes had ZERO actions
+    that could re-observe within one step, so the task degenerated into "chain four
+    moves" and the greedy oracle reached only 2/7 within five steps, which leaves
+    the benchmark with no headroom.  At 3.0 s all seven scenes have at least one
+    working action and the oracle reaches 6/7.  4.5 s and 6.0 s behave like 3.0 s
+    for reachability but coarsen the search.
+  default_max_steps: 10
+  protocols:
+    A_open_loop: "ask the policy once, repeat the action for the whole budget, no re-observation"
+    B_closed_loop: "re-ask after every step on the new observation; pi(a_t | H_t); the reported protocol"
+  fairness_rules_enforced_by_tests:
+    - every primitive costs the same simulated time, so one step is one unit of budget
+    - the budget is actually granted, not merely capped (verified by forcing the visibility read to always say hidden)
+    - one max_steps, one termination set, one observation stream length for every policy
+    - RSR@N is monotone, so one run at the largest budget yields the whole curve
+  terminations: [success, budget_exhausted, fallen, out_of_bounds]
+  metrics: [RSR@1, RSR@3, RSR@5, RSR@10, T_reobs, action_cost_m, yaw_rad, steps_used, termination]
+  combined_score: >-
+    J = 1_reobs - lambda*C is deliberately NOT reported; the weights would be a
+    choice made before the data exists.
+  phases: >-
+    action_history entries tagged with the reserved id "approach" are the walk-in,
+    not decisions.  phase_boundary records approach_entries, reobservation_steps,
+    loss_t_s and decision_t_s, so H_k in History Horizon unambiguously means "the
+    last k observations before the decision".
+  failure_taxonomy:
+    A_belief_absent: "no target belief at the decision"
+    A_belief_wrong: "belief present but wrong (not producible here: the reconstruction is exact)"
+    B_action_wrong: "belief present, geometry not the explanation, still failed"
+    C_local_viewpoint: "the first action is one the geometric prediction endorses and physics rejects"
+    D_inefficient: "succeeded but took more than twice the oracle reference time"
+    E_ood: "requires a train/test split; produced by the cross-mechanism experiment, not here"
+
+  result_multistep_protocol_B:
+    budget: "10 steps x 3.0 s"
+    terrains: 24
+    summary:
+      Reactive:         {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.25, taxonomy: {B: 18}}
+      HeadingLock:      {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.25, taxonomy: {B: 18}}
+      HistoryOnly:      {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.25, taxonomy: {B: 18}}
+      LostTargetSearch: {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.25, taxonomy: {B: 18}}
+      ObjectPermanence: {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.25, taxonomy: {B: 18}}
+      NBV:              {rsr@1: 0.17, rsr@3: 0.25, rsr@10: 0.29, taxonomy: {B: 17, D: 2}}
+      Oracle:           {rsr@1: 0.83, rsr@3: 0.88, rsr@10: 0.88, taxonomy: {B: 3}}
+    by_terrain_group:
+      six_classic_baselines: {multi_terrain: "6/8", paired_history: "0/16"}
+      NBV:                   {multi_terrain: "5/8", paired_history: "0/16"}
+      Oracle:                {multi_terrain: "8/8", paired_history: "13/16"}
+    finding: >-
+      Both effects are real.  Multi-step does help: RSR@1 0.17 rises to RSR@3 0.25,
+      so part of the single-step zero was protocol truncation.  But the bottleneck is
+      not the protocol: on the discriminating half of the benchmark the classics stay
+      at 0/16 even with a ten-step budget.  NBV is the only baseline that keeps
+      improving (0.29) and it does so at 2.2x the oracle's steps, 2.2x its time and
+      1.7x its path cost, which the taxonomy records as two D (inefficient) failures.
+    taxonomy_note: >-
+      No A (belief absent) failures at all: the approach replay gives every policy a
+      target belief.  Every classic failure is B (belief correct, action wrong), which
+      is "knowing where the target is is not knowing how to re-observe it" reproduced
+      on the unified benchmark.
+    protocol_A_vs_B:
+      Reactive:         {A_rsr10: 0.25, B_rsr10: 0.25}
+      HeadingLock:      {A_rsr10: 0.25, B_rsr10: 0.25}
+      HistoryOnly:      {A_rsr10: 0.25, B_rsr10: 0.25}
+      LostTargetSearch: {A_rsr10: 0.25, B_rsr10: 0.25}
+      ObjectPermanence: {A_rsr10: 0.25, B_rsr10: 0.25}
+      NBV:              {A_rsr10: 0.25, B_rsr10: 0.29}
+      Oracle:           {A_rsr10: 0.88, B_rsr10: 0.88}
+      finding: >-
+        Closed loop buys almost nothing: every baseline except NBV behaves
+        identically whether it re-observes at every step or commits once.  They are
+        effectively open-loop rules - more observations do not help because they do
+        not use them.
+    bug_found: >-
+      First multi-step run had LostTargetSearch oscillating turn_left, turn_left,
+      turn_right, turn_left, ...  because one step turned 137 degrees, far larger than
+      any servo deadband.  The turn rate is now rescaled so one step is 45 degrees and
+      the deadband is at least that wide; a deadband narrower than one step's rotation
+      provably cannot converge.
+
+solvability_audit:                 # solvability.py  (P0)
+  question: >-
+    Before correcting any denominator with "RSR on solvable", establish what
+    solvable means - and in particular whether a terrain the greedy reference
+    failed on is genuinely unsolvable or the reference is simply too weak.
+  notions:
+    geometric: "quantised-pose BFS under the kinematic primitive model; exhaustive up to discretisation"
+    greedy: "the existing reference: full physical rollout of every candidate at every step"
+    search: "beam search over action sequences, physically executed, heuristic deliberately blind to visibility geometry"
+  beam_heuristic_note: >-
+    Coverage novelty with distance as a tie-break.  A geometric-visibility heuristic
+    would inherit exactly the geometric/physical gap this paper studies (H3), so it
+    would make a bad reference.
+  result:
+    solvable_greedy: 20
+    solvable_by_search: 4
+    unsolvable_within_budget: 0
+    solvable_by_search_terrains: [trench, pit, hist026_left, hist026_right]
+    solutions: {trench: [forward, forward], pit: [back, back],
+                hist026_left: [right, right], hist026_right: [toward, left_hold, back]}
+  consequences:
+    - "RSR on solvable is identical to RSR: no unsolvable subset exists, so no denominator correction is needed"
+    - "the earlier reading that 4 of 24 were unsolvable was a defect of our reference planner, not a property of the terrain"
+    - "the correct upper bound is 1.00, not the 0.88 the greedy oracle reported"
+    - "OracleSearch scores lower at RSR@1 (0.75) than greedy (0.83): greedy takes the fastest step-1 success, the beam only guarantees solvability, not step-optimality - neither is a tight step bound"
+  oracle_search_row:
+    rsr_at_1: 0.75
+    rsr_at_3: 1.00
+    rsr_at_5: 1.00
+    rsr_at_10: 1.00
+  command: "python tasks/task3_reobservability/solvability.py --max-steps 10 --beam-width 6"
+
+benchmark:                     # Experiment 2, tasks/task3_reobservability/benchmark.py
+  scenes: [stairs_up, trench, pit, barrier, waves, basin, perlin, perlin_rough]
+  ground: slabs                # exact box terrain; hfield stalls the policies
+  visibility_sample_hz: 10
+  action_time_budget_s: 6.0    # every translation action gets the same budget
+  actions: [forward, back, left, right, left_hold, right_hold, turn_left, turn_right,
+            toward, heading_lock]
+  baselines:
+    A_reactive: always forward
+    B_history_only: aim at the remembered target bearing, no lookahead
+    D_initial_heading_lock: hold the loss heading via closed-loop yaw, no target memory
+    C_oracle_counterfactual: rollout every candidate in MuJoCo, take the best
+  note: >-
+    C is an upper bound / teacher, not a deployable policy; it costs one physical
+    rollout per candidate per decision.  On these five scenes A, B and D all fail
+    wherever C succeeds, but A and D have the same success pattern, so these
+    scenes cannot separate an IMU from blind forward - Experiment 1 does that.
+
+scenes:                        # mechanism -> expected best action
+  stairs_up: {mechanism: rising crest, expected_best: forward}
+  trench: {mechanism: depression with a raised far rim, expected_best: forward}
+  pit: {mechanism: depression with an unclimbable far wall, expected_best: back}
+  barrier: {mechanism: finite-length side wall, expected_best: left}
+  waves: {mechanism: repeated undulation, expected_best: depends_on_trough}
+  window_wall: {mechanism: wall with a pinhole window, used by Experiment 1}
+
+legacy:                        # Experiment 0 scene, kept for the camera study
+  scene: staircase10
+  scene_actions: [turn_left, turn_right, forward, climb, climb_toward, back]
+  # look_up exists only for --robot-backend proxy: Go2+Piper has no pan/tilt.
+
+sensor:
+  model: Intel RealSense D435
+  resolution: [640, 480]
+  fps: 30
+  default_mode: blackout
+  mount_xyz_in_base_link: [0.31, 0.0, 0.16]
+
+privileged_state:
+  enabled_for_evaluation: true
+  target_visibility_oracle: true
+  note: >-
+    The oracle labels rollouts; it is not the physics ground truth. A purely
+    geometric counterfactual was measured to mispredict a physical climb.
+
+locomotion:
+  default_controller: go2rl
+  loss_commit_m: 0.75
+  loss_settle_s: 1.2
+  measured_terrain_capability: "<= 0.15 m risers, <= ~30 deg slopes"
+  controllers:
+    go2rl:
+      source: wty-yy/go2_rl_gym MoE-CTS (MIT), vendored byte-for-byte
+      asset: assets/robots/go2_rl_gym/policy/go2_moe_cts_high_slope_thre_164k_0.6715.pt
+      sha256: 9d9ad783a1017b6eced5984eb95279cc5b36db8cc84d21e646f46ba2a8023d9d
+      actions: 12 legs (arm held by PD)
+      physics_dt_s: 0.002
+      control_hz: 50
+      climbs_staircase10: true
+      measured_flat_speed_m_s: 0.88
+    leggedmanip:
+      source: third_party/LeggedManip_Lab TorchScript, vendored
+      asset: third_party/LeggedManip_Lab/mujoco/deploy/policy/go2_piper/policy.pt
+      actions: 18 (12 legs + 6 arm)
+      physics_dt_s: 0.005
+      control_hz: 50
+      climbs_staircase10: false
+      measured_max_full_step_rise_m: 0.02
+
+terrain_check:                 # terrain_viewer.py --check
+  terrains: 15
+  passed: 14
+  geometry_consistent: 14
+  locomotion_tested: 12
+  criteria:
+    - MuJoCo contact surface equals the analytic oracle by ray casting
+    - robot holds station for 2 s with upright_min > 0.9
+    - robot walks forward more than 1 m in 5 s without falling
+  informational:
+    - backward motion, which fails on stairs_down because retreat means climbing
+      steps backwards and the vendored policy cannot do that
+  known:
+    - legacy hfield profiles are not locomotion-validated (the collider stalls
+      both policies); undulating additionally has a 6.9 cm surface mismatch
+    - all 12 slab/box terrains match the oracle to 0.0 m
+
+real_robot:
+  enabled: false
+  requires_explicit_user_confirmation: true

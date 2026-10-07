@@ -100,6 +100,25 @@ core.*
 assets/model/Qwen3-VL-8B-Instruct/
 assets/environments/lunar/LunarRock3D/
 
-# 首页展示图是文档的一部分，显式允许两张图片。
+# 首页展示图是文档的一部分，显式允许这些图片。
 !docs/images/architecture.png
 !docs/images/task1.png
+!docs/images/task3_reobservation.png
+!docs/images/task3_physical_actions.png
+!docs/images/task3_benchmark.png
+!docs/images/task3_history_necessity.png
+!docs/images/task3_visibility_model.png
+!docs/images/task3_terrains.png
+!docs/images/task3_scenes.png
+!docs/images/task3_history_horizon.png
+
+# --- task3 packaging: excluded from the public task release ---
+# Third-party robot assets are large and licensed separately (480 MB of USD meshes);
+# they are fetched by the consumer, not vendored into this repository.
+third_party/LeggedManip_Lab/
+# Experiment outputs and caches are regenerable and account for 65 MB.
+tasks/task3_reobservability/generated/
+tasks/task3_reobservability/__pycache__/
+paper/
+# Local navigation-run evidence produced by the benchmark harness.
+paper/navigation_runs/

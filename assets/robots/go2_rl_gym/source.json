@@ -1,0 +1,47 @@
+{
+  "source": "https://github.com/wty-yy/go2_rl_gym",
+  "source_commit": "30e74dc507bec7a642a8c98be26081f2c6f0822d",
+  "upstream_path": "deploy/pre_train/go2/go2_moe_cts_high_slope_thre_164k_0.6715.pt",
+  "local_path": "assets/robots/go2_rl_gym/policy/go2_moe_cts_high_slope_thre_164k_0.6715.pt",
+  "sha256": "9d9ad783a1017b6eced5984eb95279cc5b36db8cc84d21e646f46ba2a8023d9d",
+  "license": "MIT (upstream new contributions); see policy/LICENSE",
+  "training_project": {
+    "name": "go2_rl_gym",
+    "task": "go2_moe_cts_high_slope_thre",
+    "iteration": 164000,
+    "reported_robogauge_score": 0.6715,
+    "base_framework": "unitree_rl_gym / legged_gym / rsl_rl",
+    "validated_in": "MuJoCo sim2sim by the upstream project on randomized terrain (difficulty 7-9)"
+  },
+  "deploy_contract": {
+    "observations": 45,
+    "layout": [
+      "base_ang_vel * 0.25 (3)",
+      "projected_gravity (3)",
+      "velocity_command * [2.0, 2.0, 0.25] (3)",
+      "(leg_joint_pos - default) * 1.0 (12)",
+      "leg_joint_vel * 0.05 (12)",
+      "last_action (12)"
+    ],
+    "joint_order": "FL_hip, FL_thigh, FL_calf, FR_*, RL_*, RR_* (same as this repo's MuJoCo XML order)",
+    "physics_timestep_s": 0.002,
+    "control_decimation": 10,
+    "control_hz": 50,
+    "kps": 20.0,
+    "kds": 0.5,
+    "default_angles": [0.1, 0.8, -1.5, -0.1, 0.8, -1.5, 0.1, 1.0, -1.5, -0.1, 1.0, -1.5],
+    "action_scale": 0.25,
+    "blind": true
+  },
+  "modifications": [
+    "Policy file copied byte-for-byte from the upstream checkout and re-hashed here",
+    "No retraining, fine-tuning, distillation or quantization",
+    "TASK3 supplies the terrain, the velocity command and the six hold-only Piper arm joints"
+  ],
+  "not_claimed": [
+    "real-robot Go2+Piper validation",
+    "authority to redistribute upstream checkpoints beyond the upstream MIT license",
+    "lunar or low-gravity gait",
+    "arm manipulation while walking"
+  ]
+}
