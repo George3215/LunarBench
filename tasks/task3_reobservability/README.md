@@ -1,5 +1,20 @@
 # TASK3：地形导致的目标重新可观测性（Terrain-Induced Target Re-observability）
 
+> **关于本文档的范围。** 这份文档记录 TASK3 的**全部**工作，包括论文实验。
+> 但随任务接口发布的只有：`api.py`、`scenes.py`、`slabs.py`、`terrain.py`、
+> `benchmark.py`、`benchmark_api.py`、`episode.py`、`controllers.py`、
+> `locomotion.py`、`go2_piper_camera.py`、`realsense.py`、`terrain_viewer.py`、
+> `mechanism_table.py`、`test_api.py`、`task3.yaml`。
+>
+> **下文命令区里出现的 `figure_*.py`、`history*.py`、`experiment.py`、
+> `visibility_model.py`、`consequence_*.py`、`solvability.py` 等实验脚本不随任务发布**，
+> 直接运行会 `FileNotFoundError`。想跑通它们需要论文仓库中的对应脚本。
+>
+> 另外，第 5–8 节的实验结论**已经过审计修正**：主实验的成功判定未以相机检测为准、
+> 目标记忆中含真值目标坐标、且 Random 与 Learned 的场景分母不一致，因此旧结果
+> 不再支持"非特权视觉闭环优于随机策略"。仍然成立的是 H1/H2/H3 三组对照实验与
+> 地形/接口本身。
+
 TASK3 研究一个很窄的问题：
 
 > **机器人曾经观察到目标，但因为它自己的运动、地形几何或遮挡，目标暂时不可见；机器人如何利用目标历史信息，对候选动作产生反事实未来，并选择能让目标重新进入可观测状态的动作？**

@@ -191,6 +191,13 @@ python tasks/task3_reobservability/test_api.py
 python tasks/task3_reobservability/terrain_viewer.py --list
 python tasks/task3_reobservability/terrain_viewer.py --check --terrain all
 python tasks/task3_reobservability/terrain_viewer.py --terrain perlin --speed 0.6
+
+# ---------------------------------------------------------------------------
+# 以下命令属于论文实验，脚本不随本任务接口发布。
+# 本任务发布的是地形与任务定义（api.py / scenes.py / slabs.py / terrain.py /
+# benchmark.py / episode.py），以及 terrain_viewer.py 和 test_api.py。
+# 想复现下面这些实验，需要论文仓库中的实验脚本，直接运行会 FileNotFoundError。
+# ---------------------------------------------------------------------------
 python tasks/task3_reobservability/figure_terrains.py
 python tasks/task3_reobservability/figure_scenes.py
 
@@ -214,7 +221,12 @@ python tasks/task3_reobservability/figure_horizon.py
 
 # Experiment 0：几何 oracle + 机载相机证据
 python tasks/task3_reobservability/experiment.py --terrain staircase10 --vision-mode full --save-terrain --save-camera
-python tasks/task3_reobservability/realsense.py   # 独立真实 RealSense 探针，不动机器人
+
+# ---------------------------------------------------------------------------
+# 上面这段"不随本任务发布"的范围到此结束。
+# realsense.py 随任务发布（独立真实 RealSense 探针，不动机器人）。
+# ---------------------------------------------------------------------------
+python tasks/task3_reobservability/realsense.py
 ```
 
 **统一的 Benchmark API（接口冻结）**：从这一轮开始所有实验共用同一套接口，不再各自定义 action interface，地形与策略彻底解耦。
