@@ -9,14 +9,21 @@ GitHub：<https://github.com/George3215/LunarBench>。本机 checkout 位于
 - `ue/`、`mujoco/`、`bridge/`：显示、物理与跨进程传感器/动作接口。
 - `tasks/task1_collect/`：月面石头收集。
 - `tasks/task2_stack/`：固定十石堆叠，Qwen 直接控制和强化学习。
-- `baselines/`、`third_party/`：已有独立策略接入及其上游许可。
+- `baselines/`、`third_party/`：已有独立策略接入及其上游许可，完整清单见
+  [第三方组件与上游来源](THIRD_PARTY.md)。
 - `tools/`：资源准备与离线验证，不在每次任务启动时自动运行。
-- `docs/images/`：首页架构图与 TASK1 展示图，原文件仍保留在外层工作区。
+- `docs/images/`：首页架构图、TASK1 展示图与 TASK3 总览图，原文件仍保留在外层工作区。
+- `paper/vlm_goal_navigation/`：Task3/VLM 目标导航的实验协议、脚本与结果目录，入口见
+  [实验安排](../paper/vlm_goal_navigation/EXPERIMENT_PLAN.md)。
 
 不上传 `.local/`、虚拟环境、模型权重、训练输出、W&B 本地记录、外部月岩数据集、
 UE 生成资产或论文 PDF。已有训练进程和输出目录不会因整理仓库而移动或删除。
 
 ## 上游代码
+
+第三方 submodule、vendored 代码、工作区级参考克隆（外层 `third_party/` 的 8 个仓库）与
+资产来源，连同各自固定的提交和许可，统一记录在
+[第三方组件与上游来源](THIRD_PARTY.md)。下表只列 TASK2 直接依赖的部分：
 
 | 用途 | 来源 | 固定版本或记录 |
 | --- | --- | --- |

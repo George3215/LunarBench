@@ -1,0 +1,17 @@
+# 三路相机 + 本体信息的视觉 Actor；Critic 使用完整训练状态。
+observation: visual
+num_envs: 128
+cameras: true
+camera_width: 128
+camera_height: 96
+stage: grasp
+physics_dt: 0.0015
+control_steps: 160
+episode_steps: 1000
+rollout_steps: 24
+# 每轮样本分成几个小批次；增大可降低 CNN 反向传播的峰值显存。
+num_mini_batches: 4
+iterations: 2000
+steps: 1000
+checkpoint: null
+logger: wandb

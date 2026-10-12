@@ -17,7 +17,8 @@ from scipy.spatial.transform import Rotation
 from ..upstream_scene import build_upstream
 from ..execution import Executor
 from ..evaluation import evaluate_wall
-from .reward import wall_targets, dense_terms, potential
+from .reward import wall_targets, stone_signals, CurriculumReward, potential
+from .control import servo_local
 
 
 class StoneStackEnv(gym.Env):
@@ -105,8 +106,11 @@ class StoneStackEnv(gym.Env):
         mujoco.mj_forward(self.model, self.data)
         self.step_id, self.stable_seconds = 0, 0.0
         self.finished = False
+        self.curriculum = CurriculumReward(self.cfg['curriculum'], len(self.names))
         evaluation = evaluate_wall(self.e)
-        terms = dense_terms(self.e, self.targets, self.initial_z, evaluation, self.cfg['goal_tolerance_m'])
+        signals = stone_signals(self.e, self.targets, self.initial_z, evaluation,
+                                self.cfg['goal_tolerance_m'], self.cfg['curriculum']['contact_force_n'])
+        terms, _, _, _ = self.curriculum.update(signals, 0.)
         self.previous_potential = potential(terms, self.cfg['reward'])
         self.e._sync_viewer(force=True)
         return self._observation(reset=True), {'is_success': False, 'reward_terms': terms}
@@ -121,22 +125,37 @@ class StoneStackEnv(gym.Env):
         dp = action[:3].astype(float) / max(1., float(np.linalg.norm(action[:3].astype(float)))) * self.cfg['max_delta_m']
         dr = action[3:6].astype(float) / max(1., float(np.linalg.norm(action[3:6].astype(float)))) * self.cfg['max_rotation_rad']
         pos, rot = self.e.controller.tcp_pose()
+        q_before = self.e.controller.arm_qpos().copy()
         opening = float((action[6] + 1) / 2 * self.profile.gripper.max_opening_m)
         before_time = float(self.data.time)
-        servo = self.e.controller.servo_to(
-            pos + dp, Rotation.from_rotvec(dr).as_matrix() @ rot,
-            seconds=self.cfg['control_seconds'], grip_ctrl=self.e._ctrl_for_width(opening),
-            preserve_hold_ctrl=True, tolerance_pos=.002, tolerance_rot=.02,
-            hold_chunks=int(np.ceil(self.cfg["control_seconds"] / self.model.opt.timestep)) + 1, on_step=lambda _: self.e._sync_viewer())
+        target_rot = Rotation.from_rotvec(dr).as_matrix() @ rot
+        if self.cfg['controller'] == 'local_dls':
+            servo = servo_local(self.e.controller, pos + dp, target_rot,
+                                self.cfg['control_seconds'], self.e._ctrl_for_width(opening),
+                                on_step=lambda _: self.e._sync_viewer())
+        elif self.cfg['controller'] == 'legacy':
+            servo = self.e.controller.servo_to(
+                pos + dp, target_rot, seconds=self.cfg['control_seconds'],
+                grip_ctrl=self.e._ctrl_for_width(opening), preserve_hold_ctrl=True,
+                tolerance_pos=.002, tolerance_rot=.02,
+                hold_chunks=int(np.ceil(self.cfg['control_seconds'] / self.model.opt.timestep)) + 1,
+                on_step=lambda _: self.e._sync_viewer())
+        else:
+            raise ValueError('controller must be local_dls or legacy')
         self.step_id += 1
         evaluation = evaluate_wall(self.e)
         self.stable_seconds = self.stable_seconds + float(self.data.time) - before_time if evaluation['success'] else 0.
         success = evaluation['success'] and self.stable_seconds >= self.cfg['success_hold_seconds']
+        signals = stone_signals(self.e, self.targets, self.initial_z, evaluation,
+                                self.cfg['goal_tolerance_m'], self.cfg['curriculum']['contact_force_n'])
+        terms, event_bonus, stage_success, events = self.curriculum.update(signals, float(self.data.time) - before_time)
+        if self.curriculum.stage == 'stack10':
+            stage_success = bool(success)
         centers = np.array([self.e.stone_center(n) for n in self.names])
         fallen = bool(np.any(centers[:, 2] < -.10))
-        terminated = bool(success or fallen)
+        stage_success = stage_success and not fallen
+        terminated = bool(success or stage_success or fallen)
         truncated = bool(self.step_id >= self.cfg['episode_steps'] and not terminated)
-        terms = dense_terms(self.e, self.targets, self.initial_z, evaluation, self.cfg['goal_tolerance_m'])
         phi = potential(terms, self.cfg['reward'])
         # 真终止时吸收状态势能为 0；time limit 则保留 bootstrap 的下一观测。
         next_phi = 0. if terminated else phi
@@ -145,10 +164,20 @@ class StoneStackEnv(gym.Env):
         weights = self.cfg['reward']
         reward = shaping - weights['step_cost'] - weights['action_cost'] * float(np.mean(action ** 2))
         reward += weights['success_bonus'] * success - weights['fall_penalty'] * fallen
+        reward += event_bonus + self.cfg['curriculum']['stage_bonus'] * (stage_success and not success)
         self.finished = terminated or truncated
-        info = dict(is_success=bool(success), termination_reason='success' if success else
+        after_pos, _ = self.e.controller.tcp_pose()
+        info = dict(is_success=bool(success), stage_success=bool(stage_success), stage=self.curriculum.stage,
+                    termination_reason='success' if success else 'stage_success' if stage_success else
                     'fallen' if fallen else 'time_limit' if truncated else None,
                     reward_terms=terms, potential=phi, shaping=shaping, evaluation=evaluation,
+                    event_bonus=event_bonus, events={key: [self.names[i] for i in indices] for key, indices in events.items()},
+                    grasped_stones=[self.names[i] for i in np.flatnonzero(signals['grasped'])],
+                    stone_heights_m=signals['height'].tolist(), contact_forces_n=signals['forces'].tolist(),
+                    grasp_hold_seconds=self.curriculum.grasp_time.tolist(),
+                    tcp_before_m=pos.tolist(), tcp_after_m=after_pos.tolist(), tcp_target_m=(pos + dp).tolist(),
+                    tcp_motion_m=float(np.linalg.norm(after_pos - pos)),
+                    joint_motion_rad=float(np.max(np.abs(self.e.controller.arm_qpos() - q_before))),
                     step_id=self.step_id, stable_seconds=self.stable_seconds,
                     target_translation_m=float(np.linalg.norm(dp)), target_rotation_rad=float(np.linalg.norm(dr)),
                     tcp_error_m=float(servo.final_pos_error_m))

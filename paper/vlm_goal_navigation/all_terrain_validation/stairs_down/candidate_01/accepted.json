@@ -1,0 +1,219 @@
+{
+  "scene_name": "stairs_down",
+  "source_scene": {
+    "name": "stairs_down",
+    "terrain_profile": "stairs_down",
+    "target_xy": [
+      4.0,
+      0.0
+    ],
+    "target_height_m": 0.5,
+    "approach_xy": [
+      -4.5,
+      0.0
+    ],
+    "lost_xy": [
+      -0.5,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": null,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "descending staircase; walking down lowers the eye away from the occluder",
+    "notes": "used to show that descending terrain alone never occludes a target beyond it - see the TASK3 README"
+  },
+  "adjusted_scene": {
+    "name": "stairs_down",
+    "terrain_profile": "stairs_down",
+    "target_xy": [
+      2.0,
+      0.0
+    ],
+    "target_height_m": 0.6,
+    "approach_xy": [
+      -3.0,
+      -1.8
+    ],
+    "lost_xy": [
+      -3.0,
+      -1.8
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 0.6,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "descending staircase; walking down lowers the eye away from the occluder",
+    "notes": [
+      "used to show that descending terrain alone never occludes a target beyond it - see the TASK3 README",
+      "Navigation anchors adjusted; original terrain geometry retained."
+    ]
+  },
+  "original_terrain_geometry_unchanged": true,
+  "added_occluder": {
+    "x": -0.5,
+    "width": 0.16,
+    "half_y": 0.4,
+    "top_z": 1.1500000000000001,
+    "bottom_z": -0.5
+  },
+  "terrain_spec": {
+    "profile": "stairs_down",
+    "step_count": 10,
+    "step_rise_m": 0.15,
+    "step_tread_m": 0.3,
+    "crest_x_m": -3.0,
+    "landing_height_m": 1.5,
+    "size_m": [
+      12.0,
+      6.0
+    ],
+    "resolution_m": 0.05,
+    "navigation_extra_geom_xml": "    <geom name=\"navigation_added_occluder\" type=\"box\" size=\"0.080000 0.400000 0.825000\" pos=\"-0.420000 0.000000 0.325000\" euler=\"0 0.000000000 0\" friction=\"1.0 0.005 0.0001\" rgba=\"0.45 0.45 0.50 1\" />\n",
+    "navigation_added_occluder": {
+      "x": -0.5,
+      "width": 0.16,
+      "half_y": 0.4,
+      "top_z": 1.1500000000000001,
+      "bottom_z": -0.5
+    }
+  },
+  "initial": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 205,
+    "target_visible_rgb_pixels": 191,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.3457460732984293,
+      0.487347294938918
+    ],
+    "median_target_axial_depth_m": 4.700933933258057,
+    "median_target_surface_range_m": 5.047078066568322,
+    "camera_to_target_centre_m": 5.156793926015902,
+    "base_xy_target_distance_m_diagnostic": 5.2981865832607795,
+    "camera_xyz_evaluator": [
+      -2.6422372674778263,
+      -1.7983429263290733,
+      1.7946633285535392
+    ],
+    "target_centre_xyz_evaluator": [
+      2.0,
+      0.0,
+      0.45
+    ],
+    "upright": 0.9517900888192521,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "initial_depth": {
+    "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+    "red_pixel_count": 191,
+    "valid_red_depth_count": 191,
+    "red_region_median_axial_depth_m": 4.700933933258057,
+    "red_region_median_surface_range_m": 5.047078066568322,
+    "centroid_uv": [
+      0.3457460732984293,
+      0.487347294938918
+    ],
+    "image_width": 640,
+    "image_height": 480,
+    "vertical_fov_deg": 87.0,
+    "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+    "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+  },
+  "approach_action": "STRAFE_LEFT",
+  "approach_actions": 6,
+  "approach_end_sim_time_s": 7.799999999999363,
+  "loss": {
+    "step": 6,
+    "measurement": {
+      "sim_time_s": 7.799999999999363,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 4.263846663392818,
+      "base_xy_target_distance_m_diagnostic": 4.438115843382932,
+      "camera_xyz_evaluator": [
+        -2.1269613643787935,
+        0.02247148060051593,
+        1.5214818236491072
+      ],
+      "target_centre_xyz_evaluator": [
+        2.0,
+        0.0,
+        0.45
+      ],
+      "upright": 0.9330784405599258,
+      "in_bounds": true,
+      "near_and_visible": false,
+      "step": 6,
+      "action": "STRAFE_LEFT",
+      "success_streak": 0
+    },
+    "kind": "terrain_occlusion",
+    "blocking_geom": "navigation_added_occluder",
+    "displacement_m": 2.0488700445223795
+  },
+  "loss_qpos": [
+    -2.4343795661996714,
+    0.18207169510223872,
+    1.480365266577685,
+    0.9522770020553226,
+    0.0012173635305103754,
+    0.18251655220207944,
+    -0.2446522788670233,
+    -0.19041654019618906,
+    0.4767155680085735,
+    -1.356995695054281,
+    -0.006283355704331071,
+    1.0802728265582198,
+    -2.053645444585838,
+    0.23702195336591608,
+    0.6568575426762394,
+    -1.2653814463407538,
+    -0.08076121321004401,
+    1.2040495731764018,
+    -1.9738769433767465,
+    -0.00458790552063278,
+    -0.0010317084655314163,
+    0.0010749876737287415,
+    0.0006821142998014793,
+    0.06087779931003978,
+    -7.734174736684622e-06
+  ],
+  "reference_termination": "success_visible_near",
+  "reference_actions": [
+    "TURN_LEFT",
+    "STRAFE_LEFT",
+    "STRAFE_LEFT",
+    "STRAFE_LEFT",
+    "FORWARD",
+    "STRAFE_LEFT",
+    "TURN_LEFT",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "STRAFE_LEFT",
+    "STRAFE_RIGHT",
+    "FORWARD",
+    "STRAFE_RIGHT",
+    "FORWARD"
+  ],
+  "reference_privileged": true,
+  "accepted_candidate": 1,
+  "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/all_terrain_validation/stairs_down/candidate_01"
+}

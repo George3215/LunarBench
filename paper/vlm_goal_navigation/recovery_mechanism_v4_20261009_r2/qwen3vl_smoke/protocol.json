@@ -1,0 +1,41 @@
+{
+  "version": "terrain_design_v4-qwen3vl-context-depth/1",
+  "terrain_design_module": "terrain_design_v4",
+  "admission_source": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/recovery_mechanism_v4_20261009_r2",
+  "scene_count": 1,
+  "scenes": [
+    "terrain_design_v4/window_a0"
+  ],
+  "trial_count": 2,
+  "sensor_conditions": [
+    "rgb"
+  ],
+  "context_conditions": [
+    "current",
+    "first_current"
+  ],
+  "max_steps": 5,
+  "system_prompt": "Control the quadruped to find the red sphere, approach it, and finish with the sphere clearly visible and within 1 metre of the camera. Use only the observations supplied in this request. No hidden earlier frames, target coordinates, scene name, or previous assistant messages are available.\nActions last 1 second: FORWARD vx=0.6m/s, BACKWARD vx=-0.5m/s, STRAFE_LEFT vy=0.5m/s, STRAFE_RIGHT vy=-0.5m/s, TURN_LEFT wz=0.6rad/s, TURN_RIGHT wz=-0.6rad/s. STOP ends the trial after a short stand. Actual motion can differ on terrain or against obstacles. Look for a traversable route, avoid repeated collisions, recover sight when the target is occluded, and avoid overshooting. STOP only when the current target is visible and reliably within 1 metre.\nEach supplied RGB image is tagged with an observation frame ID. In RGB-D requests it is followed by aligned ideal camera depth: fixed grayscale white=0m axial depth, black=10m or farther/invalid. A numeric red-region range is calculated from RGB red pixels and depth back-projection, without ground-truth object identity; null means no reliable red-region depth, not arrival. Historical depth belongs to its historical frame and is not the current range.\nFor each action, give a brief public explanation of the strategy and cite the supplied frame IDs and evidence channels that support it. Explain whether you use current observations or remembered supplied images/depth. Do not provide a long internal chain of thought. If there is no earlier frame in the request, do not claim to have observed one.\nReturn one JSON object, no markdown:\n{\"target_visible\":true or false,\"target_location\":\"left|centre|right|absent|uncertain\",\"proximity\":\"near|far|uncertain\",\"confidence\":number from 0 to 1,\"visual_assessment\":\"brief visible evidence\",\"decision_rationale\":\"brief strategy and reason for this action\",\"evidence_frames\":[integer frame IDs],\"evidence_sources\":[\"current_rgb|past_rgb|current_depth|past_depth\"],\"action\":\"FORWARD|BACKWARD|STRAFE_LEFT|STRAFE_RIGHT|TURN_LEFT|TURN_RIGHT|STOP\"}",
+  "model": "/home/lry/MoonUnrealEnv/MoonSim/assets/model/Qwen3-VL-8B-Instruct",
+  "model_max_context_tokens": 262144,
+  "runtime_input_token_limit": 16384,
+  "max_new_tokens": 224,
+  "frame_preprocessing_area": 65536,
+  "raw_camera_resolution": [
+    640,
+    480
+  ],
+  "no_truncation_or_sampling": true,
+  "history_definition": "all action-boundary camera observations from settled initial frame through current, including common approach; not 10Hz evaluator samples",
+  "current": "current frame only, no previous outputs/actions/depth/images",
+  "first_current": "first frame always retained + current frame, no previous outputs/actions",
+  "all_history": "every recorded camera observation, no summaries/frame dropping or prior assistant outputs",
+  "depth": "aligned ideal rendered image and RGB-derived red-region metric range for selected frames only; no GT",
+  "terrain_content_disclosed_to_model": false,
+  "prompt_discloses_terrain": false,
+  "success": "visible target >=20 pixels and median 3D surface range <1m for 3 consecutive 10Hz samples; upright/in bounds",
+  "resource_limits_are_not_navigation_failure_evidence": true,
+  "real_hardware": false,
+  "seed": 7,
+  "decoding": "greedy"
+}

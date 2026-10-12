@@ -1,0 +1,33 @@
+{
+  "phase": "waiting_for_sol61_recovery",
+  "prerequisite": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/runs/20261009_v4_sol61_six_condition_r2/RUN_STATUS.json",
+  "pid": 2538923,
+  "models": {
+    "navila-llama3-8b-8f": {
+      "state": "queued",
+      "reason": "6.1 Sol 完成后运行；RGBD 为适配输入，动作映射为共同 1 秒原语"
+    },
+    "tagavlm-qwen2-0.5b-camera-adapted": {
+      "state": "queued",
+      "reason": "相机骨干适配；禁用仿真拓扑/graph_sprels，不能代表完整原生 Taga 方法"
+    },
+    "tagavlm-qwen2-7b-camera-adapted": {
+      "state": "queued",
+      "reason": "相机骨干适配；禁用仿真拓扑/graph_sprels，不能代表完整原生 Taga 方法"
+    },
+    "abot-n0": {
+      "state": "unavailable",
+      "reason": "官方 ABot-N0 分支当前只有论文说明/媒体，没有推理代码、公开模型权重或 release assets；原生测评暂不可运行"
+    },
+    "qwen-vla": {
+      "state": "unavailable",
+      "reason": "论文 2605.30280 官方仓库当前只有说明/媒体，没有推理代码、权重链接或 release assets"
+    },
+    "qwen-robotnav-4b": {
+      "state": "unavailable",
+      "reason": "论文 2606.18112 官方 README 明确声明目前没有发布权重计划；没有可下载的官方 4B 权重"
+    }
+  },
+  "sol61_completed": 12,
+  "sol61_expected": 132
+}

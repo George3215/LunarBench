@@ -1,0 +1,39 @@
+# 课程阶段；先评估再晋级，initialize_from 填上一阶段 checkpoint。
+instruction: Use all ten stones to build a stable 4+3+2+1 dry-stone wall.
+policy:
+  name: rl
+  rl:
+    algorithm: drqv2
+    device: cuda
+    episode_steps: 1000
+    num_envs: 16
+    observation: pixels
+    total_steps: 200000
+    wandb:
+      enabled: true
+      project: task2-stone-stack
+    checkpoint: null
+    initialize_from: null
+    learning_starts: 8000
+    replay_capacity: 50000
+    stddev_schedule: linear(1.0,0.1,200000)
+    curriculum:
+      stage: stack4
+    max_delta_m: 0.02
+    max_rotation_rad: 0.1
+    control_seconds: 0.24
+    controller: local_dls
+robot:
+  arm: ur5e
+  courses:
+  - 4
+  - 3
+  - 2
+  - 1
+  rock_style: paper
+  stone_pool: 10
+  stone_seed: 17
+  stones: 10
+scene:
+  layout: upstream
+seed: 17

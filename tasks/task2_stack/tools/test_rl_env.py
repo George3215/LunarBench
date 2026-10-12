@@ -5,6 +5,7 @@ from pathlib import Path
 import sys
 import unittest
 import copy
+from unittest.mock import patch
 
 import numpy as np
 from gymnasium.utils.env_checker import check_env
@@ -67,6 +68,39 @@ class EnvironmentTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             e.step(np.full(7, 2, np.float32))
         self.assertEqual(e.data.time, before)
+
+    def test_ik_does_not_write_physics_state(self):
+        e = self.env
+        e.reset()
+        c = e.e.controller
+        self.assertIsNot(c.ik_data, e.data)
+        before = e.data.qpos.copy()
+        time = e.data.time
+        pos, rot = c.tcp_pose()
+        c.solve_ik(pos + np.array([.01, 0., 0.]), rot, iterations=10)
+        np.testing.assert_array_equal(e.data.qpos, before)
+        self.assertEqual(e.data.time, time)
+
+    def test_local_zero_action_keeps_gravity_support(self):
+        e = self.env
+        e.reset()
+        pos = e.e.controller.tcp_pose()[0].copy()
+        for _ in range(5):
+            e.step(np.array([0, 0, 0, 0, 0, 0, 1], np.float32))
+        self.assertLess(np.linalg.norm(e.e.controller.tcp_pose()[0] - pos), .001)
+
+    def test_curriculum_success_is_not_full_wall_success(self):
+        e = self.env
+        _, initial = e.reset()
+        e.curriculum.stage = 'grasp'
+        result = (initial['reward_terms'], 10., True, {'grasp': [0], 'lift': [], 'place': []})
+        with patch.object(e.curriculum, 'update', return_value=result):
+            _, _, terminated, truncated, info = e.step(np.array([0, 0, 0, 0, 0, 0, 1], np.float32))
+        self.assertTrue(terminated)
+        self.assertFalse(truncated)
+        self.assertTrue(info['stage_success'])
+        self.assertFalse(info['is_success'])
+        self.assertEqual(info['termination_reason'], 'stage_success')
 
     def test_state_baseline(self):
         config = copy.deepcopy(self.config)

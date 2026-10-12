@@ -1,0 +1,1039 @@
+{
+  "scope": "complete-suite descriptive evidence, no hidden reasoning or causal claim",
+  "observations": [
+    "存在未达到可见且1m内条件的模型STOP；评估器全部记为提前停止。",
+    "存在FORWARD执行后每步净位移小于5cm的重复动作，结合接触记录可定位无进展情况。",
+    "存在模型声称当前看见目标但对应相机分割像素为0的决策。",
+    "5个场景首帧目标小于200个原始相机像素；统一图像缩放可能影响目标识别，但本轮没有做分辨率因果消融。"
+  ],
+  "testable_improvements": [
+    {
+      "hypothesis": "终止策略未可靠遵守成功条件",
+      "test": "后续另做允许继续探索的终止策略消融；保持原始直接VLM结果，不能追溯改成功判定。",
+      "evidence_type": "动作与当前物理评估一致性，不能推断隐藏思维"
+    },
+    {
+      "hypothesis": "模型未可靠识别或纠正运动无进展",
+      "test": "后续比较显式动作/位移/碰撞历史与纯图像历史；本轮没有向模型输入这些状态，不能提前宣称已验证效果。",
+      "evidence_type": "真实位移、接触与策略输出"
+    },
+    {
+      "hypothesis": "当前观测与历史目标信息混淆，或视觉识别失误",
+      "test": "逐例核对实际输入帧、公开引用依据与RGB图像；不能仅凭模型文字归因。",
+      "evidence_type": "对应输入和实际目标像素"
+    },
+    {
+      "hypothesis": "小目标可能受图像预处理影响",
+      "test": "另做固定场景、固定上下文、不同图像预处理面积的配对消融；不能把更高分辨率效果算作地形降低难度的效果。",
+      "evidence_type": "首帧像素计数与已记录图像grid/预处理hash"
+    }
+  ],
+  "representative_examples": [
+    {
+      "type": "repeated_forward_stall",
+      "trial": "rgbd/first_current/basin",
+      "summary": {
+        "scene": "basin",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "budget_exhausted",
+        "resource_limit": false,
+        "actions": 3000,
+        "autonomous_actions": 2996,
+        "initial_depth_camera_range_m": 5.019255416386514,
+        "first_recovered_action": 6,
+        "max_context_tokens": 969,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 2990,
+        "state_samples": 30010,
+        "sampled_actuator_force_peak": 24.262789174884027,
+        "sampled_base_speed_peak_m_s": 0.6884176816791494,
+        "min_upright": 0.9290128602340731,
+        "wall_contact_samples": 29891,
+        "path_m": 4.960074120694719,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 2999,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in centre of frame at frame 2998, with depth indicating it is approximately 2.45m away.",
+            "decision_rationale": "The red sphere is visible and located centrally in frame 2998, but is currently far away. To reach it within 1 metre, the quadruped must move forward.",
+            "evidence_frames": [
+              0,
+              2998
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 1.4125733920740117e-05,
+          "current_target_pixels": 701,
+          "current_visible_range_m": 2.4556445671929836,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              2998
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 2999,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 2997.099999942909,
+            "input_tokens": 969,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/basin/steps/2999/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/basin/steps/2999/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 3000,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in centre of frame at frame 2999, with depth indicating it is approximately 2.45m away.",
+            "decision_rationale": "The red sphere is visible and located centrally in the latest frame. Since it is currently far away, moving forward will reduce distance.",
+            "evidence_frames": [
+              2999
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 1.4061425992780039e-05,
+          "current_target_pixels": 701,
+          "current_visible_range_m": 2.4555859952627106,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              2999
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 3000,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 2998.0999999428855,
+            "input_tokens": 969,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/basin/steps/3000/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/basin/steps/3000/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "repeated_forward_stall",
+      "trial": "rgbd/first_current/perlin_rough",
+      "summary": {
+        "scene": "perlin_rough",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "budget_exhausted",
+        "resource_limit": false,
+        "actions": 3000,
+        "autonomous_actions": 2996,
+        "initial_depth_camera_range_m": 4.919436864428577,
+        "first_recovered_action": 7,
+        "max_context_tokens": 969,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 2988,
+        "state_samples": 30014,
+        "sampled_actuator_force_peak": 25.437632106227877,
+        "sampled_base_speed_peak_m_s": 0.7095411144252914,
+        "min_upright": 0.960030050016541,
+        "wall_contact_samples": 29879,
+        "path_m": 4.122911351800832,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 2999,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.95,
+            "visual_assessment": "Red sphere visible in centre of frame, clearly identifiable in RGB image.",
+            "decision_rationale": "The red sphere is visible and located centrally in the current frame. To approach it, forward motion is required. The depth measurement indicates it is currently far away, so moving forward is the appropriate strategy.",
+            "evidence_frames": [
+              0,
+              2998
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "past_rgb",
+              "current_depth",
+              "past_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 5.500821025177374e-05,
+          "current_target_pixels": 757,
+          "current_visible_range_m": 2.4438165428317733,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              2998
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 2999,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 2997.4999999428996,
+            "input_tokens": 969,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/perlin_rough/steps/2999/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/perlin_rough/steps/2999/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 3000,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.95,
+            "visual_assessment": "Red sphere visible in centre of frame, clearly identifiable in RGB image.",
+            "decision_rationale": "The red sphere is visible and located centrally in the current frame. To approach it, forward motion is required. The depth measurement indicates it is currently far away, so moving forward is the appropriate strategy.",
+            "evidence_frames": [
+              0,
+              2999
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "past_rgb",
+              "current_depth",
+              "past_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 5.514913669448746e-05,
+          "current_target_pixels": 756,
+          "current_visible_range_m": 2.443850682895318,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              2999
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 3000,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 2998.499999942876,
+            "input_tokens": 968,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/perlin_rough/steps/3000/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/perlin_rough/steps/3000/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "premature_stop",
+      "trial": "rgbd/first_current/flat",
+      "summary": {
+        "scene": "flat",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "premature_stop",
+        "resource_limit": false,
+        "actions": 1011,
+        "autonomous_actions": 1007,
+        "initial_depth_camera_range_m": 4.923915470646483,
+        "first_recovered_action": 6,
+        "max_context_tokens": 970,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 994,
+        "state_samples": 10113,
+        "sampled_actuator_force_peak": 21.613446515263654,
+        "sampled_base_speed_peak_m_s": 0.6274577643792538,
+        "min_upright": 0.9573834197071798,
+        "wall_contact_samples": 9939,
+        "path_m": 5.540220060683529,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 1010,
+          "decision": {
+            "target_visible": true,
+            "target_location": "right",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in frame 1009, centered in view.",
+            "decision_rationale": "The red sphere is visible and closer in frame 1009, so move forward to approach it.",
+            "evidence_frames": [
+              1009
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.4940234797757518,
+          "current_target_pixels": 2136,
+          "current_visible_range_m": 1.8478620969945463,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              1009
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 1010,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 1008.0999999899428,
+            "input_tokens": 970,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/flat/steps/1010/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/flat/steps/1010/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 1011,
+          "decision": {
+            "target_visible": true,
+            "target_location": "right",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in frame 1010, close to camera, with depth indicating proximity.",
+            "decision_rationale": "The red sphere is visible and within 1 metre in frame 1010, so no further movement is needed.",
+            "evidence_frames": [
+              1010
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "STOP"
+          },
+          "actual_displacement_xy_m": 0.02565609299067277,
+          "current_target_pixels": 5548,
+          "current_visible_range_m": 1.4849612521728468,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              1010
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 1011,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 1009.0999999899192,
+            "input_tokens": 970,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/flat/steps/1011/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/flat/steps/1011/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "premature_stop",
+      "trial": "rgbd/first_current/pit",
+      "summary": {
+        "scene": "pit",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "premature_stop",
+        "resource_limit": false,
+        "actions": 954,
+        "autonomous_actions": 950,
+        "initial_depth_camera_range_m": 3.171535658817909,
+        "first_recovered_action": 3,
+        "max_context_tokens": 966,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 3,
+        "stalled_forward_actions": 944,
+        "state_samples": 9543,
+        "sampled_actuator_force_peak": 27.80920663837605,
+        "sampled_base_speed_peak_m_s": 0.6254162955710506,
+        "min_upright": 0.9219394750478719,
+        "wall_contact_samples": 9436,
+        "path_m": 3.409697473111544,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 953,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in centre of frame at frame 952, with depth indicating it is closer than at frame 0.",
+            "decision_rationale": "The red sphere is visible and closer at frame 952, so move forward to approach it.",
+            "evidence_frames": [
+              0,
+              952
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "past_rgb",
+              "current_depth",
+              "past_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.3406163436902377,
+          "current_target_pixels": 2686,
+          "current_visible_range_m": 1.4720833988685615,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              952
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 953,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 951.0999999912907,
+            "input_tokens": 966,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/pit/steps/0953/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/pit/steps/0953/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 954,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "near",
+            "confidence": 1,
+            "visual_assessment": "Red sphere clearly visible and centered in frame 953, with depth indicating it is within 1 metre.",
+            "decision_rationale": "The red sphere is visible and within 1 metre in frame 953, so no further movement is needed.",
+            "evidence_frames": [
+              953
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "STOP"
+          },
+          "actual_displacement_xy_m": 0.03701244053953388,
+          "current_target_pixels": 3996,
+          "current_visible_range_m": 1.0857291116146746,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              953
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 954,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 952.099999991267,
+            "input_tokens": 966,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/pit/steps/0954/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/pit/steps/0954/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "wrong_visibility_claim",
+      "trial": "rgbd/first_current/basin",
+      "summary": {
+        "scene": "basin",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "budget_exhausted",
+        "resource_limit": false,
+        "actions": 3000,
+        "autonomous_actions": 2996,
+        "initial_depth_camera_range_m": 5.019255416386514,
+        "first_recovered_action": 6,
+        "max_context_tokens": 969,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 2990,
+        "state_samples": 30010,
+        "sampled_actuator_force_peak": 24.262789174884027,
+        "sampled_base_speed_peak_m_s": 0.6884176816791494,
+        "min_upright": 0.9290128602340731,
+        "wall_contact_samples": 29891,
+        "path_m": 4.960074120694719,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 9,
+          "decision": {
+            "target_visible": true,
+            "target_location": "left",
+            "proximity": "far",
+            "confidence": 0.9,
+            "visual_assessment": "Red sphere visible in frame 0, located on the left side of the scene.",
+            "decision_rationale": "The red sphere is visible and located to the left, but at a distance of 4.57m. Moving forward will reduce distance and bring it closer.",
+            "evidence_frames": [
+              0
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.4690217624602605,
+          "current_target_pixels": 0,
+          "current_visible_range_m": null,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              8
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 9,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 7.09999999999964,
+            "input_tokens": 916,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/basin/steps/0009/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/basin/steps/0009/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 10,
+          "decision": {
+            "target_visible": true,
+            "target_location": "left",
+            "proximity": "far",
+            "confidence": 0.8,
+            "visual_assessment": "Red sphere visible in frame 0, located on the left side of the scene, with depth measurement indicating it is 4.57m away.",
+            "decision_rationale": "The red sphere is visible and located to the left, but at a distance of 4.57m. To approach it, the quadruped should move forward.",
+            "evidence_frames": [
+              0
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.4822577232694938,
+          "current_target_pixels": 0,
+          "current_visible_range_m": null,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              9
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 10,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 8.099999999999975,
+            "input_tokens": 916,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/basin/steps/0010/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/basin/steps/0010/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "wrong_visibility_claim",
+      "trial": "rgbd/first_current/perlin_rough",
+      "summary": {
+        "scene": "perlin_rough",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": false,
+        "termination": "budget_exhausted",
+        "resource_limit": false,
+        "actions": 3000,
+        "autonomous_actions": 2996,
+        "initial_depth_camera_range_m": 4.919436864428577,
+        "first_recovered_action": 7,
+        "max_context_tokens": 969,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 2988,
+        "state_samples": 30014,
+        "sampled_actuator_force_peak": 25.437632106227877,
+        "sampled_base_speed_peak_m_s": 0.7095411144252914,
+        "min_upright": 0.960030050016541,
+        "wall_contact_samples": 29879,
+        "path_m": 4.122911351800832,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 9,
+          "decision": {
+            "target_visible": true,
+            "target_location": "left",
+            "proximity": "far",
+            "confidence": 0.9,
+            "visual_assessment": "Red sphere visible in frame 0, located to the left of the camera's view, with depth measurement indicating it is 4.59m away.",
+            "decision_rationale": "The red sphere is visible and located to the left, but at a distance of 4.59m. To approach it, the quadruped should move forward.",
+            "evidence_frames": [
+              0
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.49215667545993796,
+          "current_target_pixels": 0,
+          "current_visible_range_m": null,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              8
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 9,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 7.4999999999997735,
+            "input_tokens": 916,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/perlin_rough/steps/0009/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/perlin_rough/steps/0009/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 10,
+          "decision": {
+            "target_visible": true,
+            "target_location": "left",
+            "proximity": "far",
+            "confidence": 0.8,
+            "visual_assessment": "Red sphere visible in frame 0, located to the left of the camera's view, with depth measurement indicating it is 4.59m away.",
+            "decision_rationale": "The red sphere is visible and located to the left, but at a distance of 4.59m. To approach it, the quadruped should move forward.",
+            "evidence_frames": [
+              0
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.39444750416508073,
+          "current_target_pixels": 0,
+          "current_visible_range_m": null,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              9
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 10,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 8.500000000000108,
+            "input_tokens": 918,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/perlin_rough/steps/0010/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/perlin_rough/steps/0010/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "successful_trial",
+      "trial": "rgbd/first_current/stairs",
+      "summary": {
+        "scene": "stairs",
+        "mode": "rgbd",
+        "horizon": "first_current",
+        "completed": true,
+        "success": true,
+        "termination": "success_visible_near",
+        "resource_limit": false,
+        "actions": 552,
+        "autonomous_actions": 549,
+        "initial_depth_camera_range_m": 4.949107564323969,
+        "first_recovered_action": 6,
+        "max_context_tokens": 965,
+        "max_input_frames": 2,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 5,
+        "stalled_forward_actions": 534,
+        "state_samples": 5538,
+        "sampled_actuator_force_peak": 27.230833244007652,
+        "sampled_base_speed_peak_m_s": 0.5567313889667318,
+        "min_upright": 0.9468672791635271,
+        "wall_contact_samples": 5354,
+        "path_m": 6.185921823746284,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 551,
+          "decision": {
+            "target_visible": true,
+            "target_location": "centre",
+            "proximity": "far",
+            "confidence": 0.95,
+            "visual_assessment": "Red sphere clearly visible in centre of frame at frame 550, with depth indicating proximity.",
+            "decision_rationale": "The red sphere is visible and closer at frame 550, so move forward to approach it.",
+            "evidence_frames": [
+              550
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.4876094221062089,
+          "current_target_pixels": 1737,
+          "current_visible_range_m": 1.6777298944586867,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              550
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 551,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 550.0000000007755,
+            "input_tokens": 965,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/stairs/steps/0551/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/stairs/steps/0551/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 552,
+          "decision": {
+            "target_visible": true,
+            "target_location": "right",
+            "proximity": "far",
+            "confidence": 0.98,
+            "visual_assessment": "Red sphere clearly visible in frame 551, centered in view.",
+            "decision_rationale": "The red sphere is visible and closer in frame 551 (1.25m range) than in frame 0 (4.95m range). Move forward to approach the target.",
+            "evidence_frames": [
+              551
+            ],
+            "evidence_sources": [
+              "current_rgb",
+              "current_depth"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.43951254302340836,
+          "current_target_pixels": 4017,
+          "current_visible_range_m": 1.2525579343190494,
+          "actual_context": {
+            "horizon": "first_current",
+            "mode": "rgbd",
+            "input_frame_ids": [
+              0,
+              551
+            ],
+            "input_frame_count": 2,
+            "input_image_count": 4,
+            "all_recorded_frame_count": 552,
+            "first_frame_in_context": true,
+            "history_span_sim_s": 551.0000000007518,
+            "input_tokens": 965,
+            "vision_placeholder_tokens": 216,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgbd/first_current/trials/stairs/steps/0552/transition.json",
+          "inference_records": [
+            "rgbd/first_current/trials/stairs/steps/0552/inference_1/output.json"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "successful_trial",
+      "trial": "rgb/current/perlin_rough",
+      "summary": {
+        "scene": "perlin_rough",
+        "mode": "rgb",
+        "horizon": "current",
+        "completed": true,
+        "success": true,
+        "termination": "success_visible_near",
+        "resource_limit": false,
+        "actions": 63,
+        "autonomous_actions": 59,
+        "initial_depth_camera_range_m": 4.919436864428577,
+        "first_recovered_action": 3,
+        "max_context_tokens": 566,
+        "max_input_frames": 1,
+        "unsupported_evidence_claims": 0,
+        "false_visible_claims": 0,
+        "stalled_forward_actions": 0,
+        "state_samples": 644,
+        "sampled_actuator_force_peak": 30.17597648795899,
+        "sampled_base_speed_peak_m_s": 0.8543060268688326,
+        "min_upright": 0.9199836674297731,
+        "wall_contact_samples": 0,
+        "path_m": 14.484547445106276,
+        "obstacle_contact_scope": "autonomous phase, 10Hz sampled contacts with explicit obstacles; normal support floor excluded"
+      },
+      "evidence": [
+        {
+          "step": 62,
+          "decision": {
+            "target_visible": true,
+            "target_location": "right",
+            "proximity": "far",
+            "confidence": 0.9,
+            "visual_assessment": "Red sphere visible in top right corner of frame.",
+            "decision_rationale": "Approach the red sphere by moving forward along the visible path.",
+            "evidence_frames": [
+              61
+            ],
+            "evidence_sources": [
+              "current_rgb"
+            ],
+            "action": "FORWARD"
+          },
+          "actual_displacement_xy_m": 0.4085250790917776,
+          "current_target_pixels": 2258,
+          "current_visible_range_m": 1.2892161424638975,
+          "actual_context": {
+            "horizon": "current",
+            "mode": "rgb",
+            "input_frame_ids": [
+              61
+            ],
+            "input_frame_count": 1,
+            "input_image_count": 1,
+            "all_recorded_frame_count": 62,
+            "first_frame_in_context": false,
+            "history_span_sim_s": 0.0,
+            "input_tokens": 566,
+            "vision_placeholder_tokens": 54,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgb/current/trials/perlin_rough/steps/0062/transition.json",
+          "inference_records": [
+            "rgb/current/trials/perlin_rough/steps/0062/inference_1/output.json"
+          ]
+        },
+        {
+          "step": 63,
+          "decision": {
+            "target_visible": false,
+            "target_location": "absent",
+            "proximity": "far",
+            "confidence": 0,
+            "visual_assessment": "no red pixels detected in the grayscale image",
+            "decision_rationale": "no red sphere visible, must search the environment",
+            "evidence_frames": [
+              62
+            ],
+            "evidence_sources": [
+              "current_rgb"
+            ],
+            "action": "TURN_RIGHT"
+          },
+          "actual_displacement_xy_m": 0.057393626999794584,
+          "current_target_pixels": 0,
+          "current_visible_range_m": null,
+          "actual_context": {
+            "horizon": "current",
+            "mode": "rgb",
+            "input_frame_ids": [
+              62
+            ],
+            "input_frame_count": 1,
+            "input_image_count": 1,
+            "all_recorded_frame_count": 63,
+            "first_frame_in_context": false,
+            "history_span_sim_s": 0.0,
+            "input_tokens": 566,
+            "vision_placeholder_tokens": 54,
+            "model_max_position_embeddings": 262144,
+            "runtime_input_token_limit": 16384,
+            "output_token_limit": 224,
+            "truncated": false,
+            "past_assistant_outputs_in_context": false,
+            "past_action_history_in_context": false
+          },
+          "full_transition": "rgb/current/trials/perlin_rough/steps/0063/transition.json",
+          "inference_records": [
+            "rgb/current/trials/perlin_rough/steps/0063/inference_1/output.json"
+          ]
+        }
+      ]
+    }
+  ]
+}

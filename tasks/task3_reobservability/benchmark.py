@@ -80,6 +80,9 @@ ACTION_ORDER = ["forward", "back", "left", "right", "left_hold", "right_hold",
 
 def build_scene_terrain(scene: Scene, seed: int = 7):
     """Slab terrain when the profile is in the kit, else the legacy generator."""
+    if scene.terrain_params and scene.terrain_params.get("design_version") == 3:
+        from terrain_design_v3 import build_terrain_v3
+        return build_terrain_v3(scene.terrain_params)
     if scene.terrain_params is not None:
         return build_terrain(scene.terrain_profile, **scene.terrain_params)
     try:
@@ -163,7 +166,7 @@ def rollout_with_visibility(model, data, terrain, controller: Controller, primit
             command = [primitive.vx, primitive.vy, wz]
         else:
             command = [primitive.vx, primitive.vy, primitive.wz]
-        torque = (target_angles - data.qpos[7:]) * controller.kps - data.qvel[6:] * controller.kds
+        torque = (target_angles - data.qpos[7:25]) * controller.kps - data.qvel[6:24] * controller.kds
         data.ctrl[:] = np.clip(torque, lo, hi)
         mujoco.mj_step(model, data)
         xyz = np.array(data.qpos[:3], dtype=float)

@@ -37,8 +37,10 @@ def evaluate(env, predict, episodes, output):
             Image.fromarray(env.render()).save(output / f'eval_{episode:03d}_front.png')
             results.append(dict(episode=episode, reward=total, steps=info['step_id'],
                                 success=info['is_success'], reason=info['termination_reason'],
+                                stage_success=info['stage_success'], stage=info['stage'],
                                 evaluation=info['evaluation']))
-    report = dict(episodes=results, success_rate=float(np.mean([r['success'] for r in results])))
+    report = dict(episodes=results, success_rate=float(np.mean([r['success'] for r in results])),
+                  stage_success_rate=float(np.mean([r['stage_success'] for r in results])))
     write_json(output / 'evaluation.json', report)
     return report
 
@@ -49,12 +51,17 @@ def train_drq(env, config, output, tracking=None):
     from .parallel import Collector
     cfg = config['policy']['rl']
     count = cfg['num_envs']
-    if count < 1 or cfg['total_steps'] % count:
-        raise ValueError('num_envs must be positive and divide total_steps exactly')
+    if count < 1 or cfg['total_steps'] < 1:
+        raise ValueError('num_envs and total_steps must be positive')
     agent = make_agent(env, cfg)
     start = 0
     if cfg['checkpoint']:
         start = load_agent(agent, cfg['checkpoint'])['step']
+    elif cfg['initialize_from']:
+        # 换奖励阶段只迁移视觉编码器与 actor；critic/优化器/步数重新开始。
+        source = torch.load(cfg['initialize_from'], map_location=cfg['device'], weights_only=True)
+        agent.encoder.load_state_dict(source['encoder'])
+        agent.actor.load_state_dict(source['actor'])
     replay = Replay(cfg['replay_capacity'], cfg['batch_size'], cfg['nstep'], cfg['gamma'], config['seed'])
     updates, episodes = 0, 0
     episode_returns = np.zeros(count)
@@ -68,13 +75,14 @@ def train_drq(env, config, output, tracking=None):
         LOGGER.info('DrQ-v2 training device=%s num_envs=%d total_transitions=%d', cfg['device'], count, cfg['total_steps'])
         with (output / 'train.jsonl').open('w', buffering=1) as trace:
             for base_step in range(start, start + cfg['total_steps'], count):
+                active = min(count, start + cfg['total_steps'] - base_step)
                 tick = perf_counter()
-                actions = act_batch(agent, obs, base_step)
+                actions = act_batch(agent, obs[:active], base_step)
                 next_obs, rewards, terminated, truncated, infos = collector.step(actions)
                 collect_seconds += perf_counter() - tick
                 # 每条真实 transition 对应一个全局步，保持原有每两步一次更新的比例。
                 # 不能把一次向量 step 当一次样本，否则并行越多，训练更新反而越少。
-                for i in range(count):
+                for i in range(active):
                     step = base_step + i
                     reward, info = float(rewards[i]), infos[i]
                     replay.add(obs[i], actions[i], reward, next_obs[i], bool(terminated[i]), bool(truncated[i]), env_id=i)
@@ -97,32 +105,38 @@ def train_drq(env, config, output, tracking=None):
                                   'perf/collect_seconds': collect_seconds, 'perf/update_seconds': update_seconds}
                         record.update({'loss/' + key: value for key, value in last_metrics.items()})
                         record.update({'reward/' + key: value for key, value in info['reward_terms'].items()})
+                        record.update({'control/tcp_error_m': info['tcp_error_m'],
+                                       'control/tcp_motion_m': info['tcp_motion_m'],
+                                       'reward/event_bonus': info['event_bonus']})
                         if done:
                             record.update({'episode/return': float(episode_returns[i]), 'episode/length': info['step_id'],
                                            'episode/env_id': i, 'episode/success': int(info['is_success']),
-                                           'episode/fallen': int(terminated[i] and not info['is_success']),
+                                           'episode/stage_success': int(info['stage_success']),
+                                           'episode/fallen': int(info['termination_reason'] == 'fallen'),
                                            'episode/time_limit': int(truncated[i])})
                         tracking.log(record, step=step + 1)
                     if done:
                         episodes += 1
-                        LOGGER.info('RL episode=%d env=%d steps=%d return=%.3f success=%s',
-                                    episodes, i, info['step_id'], episode_returns[i], info['is_success'])
+                        LOGGER.info('RL episode=%d env=%d steps=%d return=%.3f stage=%s stage_success=%s wall_success=%s',
+                                    episodes, i, info['step_id'], episode_returns[i], info['stage'], info['stage_success'], info['is_success'])
                         episode_returns[i] = 0.
                     if (step + 1) % cfg['log_every'] == 0:
                         LOGGER.info('DrQ-v2 step=%d updates=%d replay=%d critic_loss=%s samples/s=%.2f',
                                     step + 1, updates, len(replay), last_metrics.get('critic_loss'),
                                     (step + 1 - start) / (perf_counter() - started))
                 # 已执行完整批次后再存盘，checkpoint 步数与真实采样量一致。
-                end_step = base_step + count
+                end_step = base_step + active
                 if end_step // cfg['save_every'] > base_step // cfg['save_every']:
                     save_agent(agent, output / 'checkpoint.pt', end_step, config)
-                obs = collector.reset_finished(next_obs, terminated | truncated)
+                if end_step < start + cfg['total_steps']:
+                    obs = collector.reset_finished(next_obs, terminated | truncated)
         elapsed = perf_counter() - started
     finally:
         collector.close()
     save_agent(agent, output / 'checkpoint.pt', start + cfg['total_steps'], config)
     changed = any(not torch.equal(a, b) for a, b in zip(first_parameters, agent.actor.parameters()))
     summary = dict(algorithm='drqv2', environment_steps=cfg['total_steps'], num_envs=count,
+                   stage=cfg['curriculum']['stage'], controller=cfg['controller'],
                    device=cfg['device'], updates=updates, elapsed_seconds=elapsed,
                    transitions_per_second=cfg['total_steps'] / elapsed,
                    collect_seconds=collect_seconds, update_seconds=update_seconds,
@@ -177,6 +191,10 @@ def run_rl(config, mode, view=False):
     cfg = config['policy']['rl']
     if cfg['checkpoint']:
         cfg['checkpoint'] = str((ROOT / cfg['checkpoint']).resolve())
+    if cfg['initialize_from']:
+        cfg['initialize_from'] = str((ROOT / cfg['initialize_from']).resolve())
+        if cfg['checkpoint'] or cfg['algorithm'] != 'drqv2':
+            raise ValueError('initialize_from is for DrQ stage transfer; do not combine with checkpoint')
     if mode not in ('train', 'eval', 'run'):
         raise ValueError('RL modes: train, eval/run')
     if mode == 'train' and cfg['num_envs'] > 1 and (view or cfg['algorithm'] != 'drqv2'):
@@ -198,6 +216,7 @@ def run_rl(config, mode, view=False):
         env = StoneStackEnv(config, render_mode='human' if view else None)
         (output / 'scene.xml').write_text(env.built.xml)
         write_json(output / 'task.json', dict(task='stack10_4321', courses=[4, 3, 2, 1],
+                   curriculum=cfg['curriculum'], controller=cfg['controller'],
                    stone_names=env.names, targets_m=env.targets.tolist(), observation=cfg['observation'],
                    action='world translation xyz, world rotation vector xyz, opening; normalized [-1,1]',
                    success_criterion='task2_contact_wall_v1 plus stability hold'))

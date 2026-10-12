@@ -15,7 +15,7 @@ cd LunarBench
 
 已有 checkout 执行 `git submodule update --init --recursive`。DrQ-v2 和 GPT-as-Policy 以固定提交的 submodule 引用。地形、机器人网格、模型权重和运行产物不随源码上传，准备方式见 [资源说明](assets/README.md) 和 [源码与依赖范围](docs/REPOSITORY.md)。文档中的 `/home/lry/...` 是本机路径；新机器优先使用下面的仓库相对路径命令。
 
-月面机器人仿真仓库。当前只保留五个核心目录，按实际需要逐步扩展。
+月面机器人仿真仓库。MuJoCo/UE 场景与 Isaac Lab GPU 训练分别组织，按实际需要逐步扩展。
 
 ```text
 MoonSim/
@@ -23,6 +23,8 @@ MoonSim/
 ├── ue/           # UE 场景导入、渲染和已有 demo 的显示逻辑
 ├── mujoco/       # 机器人动力学、碰撞和控制
 ├── tasks/        # TASK1 石头收集；TASK2 Qwen 直接控制与强化学习堆叠
+├── isaac_tasks/  # 独立 Isaac Lab TASK2、离线 MuJoCo→USD 导出、GPU PPO
+├── IsaacLab/     # 本机安装的上游发行包（Git 忽略）
 ├── tools/        # 离线资源转换、启动、部署和验证脚本
 └── README.md
 ```
@@ -38,6 +40,8 @@ MoonSim/
 **资源 → UE / MuJoCo → Task。**
 
 ## 当前能运行什么
+
+TASK2 新增 [独立 Isaac Lab GPU 训练入口](isaac_tasks/README.md)：继承当前 UR5e 石头堆叠场景，已实际验证 4096 环境 PPO 短训练。场景转换与物理差异、成功率边界见 [验收记录](isaac_tasks/VALIDATION.md)。原 MuJoCo TASK2 入口继续保留。
 
 已有月面地形 + Go2 demo。UE 显示完整月面和岩石，MuJoCo 计算机器人与局部地形、岩石的接触。既有 Go2 checkpoint 继续用于 demo 的步态控制，不新增算法接入。
 
@@ -55,6 +59,10 @@ TASK1 的 UE RGB-D 与 MuJoCo LiDAR 已接入 bridge，默认运行 Z-Mobile-man
 ## TASK3 地形导致的目标重新可观测性
 
 本节介绍**任务与地形定义**本身。下方的实验章节是历史记录，其结论已经过审计修正，见文末说明。
+
+![TASK3 地形导致的目标重新可观测性总览](docs/images/task3_reobservability_overview.png)
+
+上图是 TASK3 的总体示意：目标固定不动，机器人**曾经看到过**它（①），运动后因地形几何被遮挡（②），继续运动后重新可见（③）。下方是三种机器人相机视角、可见性序列示例（`stairs_up` 的 `V X V X ...`）、8 类遮挡机制，以及 box slab 构造与两条框架规则。原图见工作区根目录 `月面地形中的目标重观测性.png`。
 
 ### 任务
 

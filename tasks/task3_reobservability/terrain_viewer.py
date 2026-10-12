@@ -111,7 +111,7 @@ def place(model, data, terrain, xy, controller, yaw: float = 0.0) -> None:
     mujoco.mj_resetData(model, data)
     data.qpos[:3] = [x, y, support_height(terrain, x, y, yaw) + ROBOT_BASE_HEIGHT_M]
     data.qpos[3:7] = [math.cos(yaw / 2.0), 0.0, 0.0, math.sin(yaw / 2.0)]
-    data.qpos[7:] = controller.default_angles
+    data.qpos[7:25] = controller.default_angles
     data.qvel[:] = 0.0
     mujoco.mj_forward(model, data)
 
@@ -153,7 +153,7 @@ def run_check(name: str, controller_name: str, ground: str, policy: Path | None,
         start = np.array(data.qpos[:3], dtype=float)
         up_min, fallen = 1.0, False
         for step in range(int(round(seconds / dt))):
-            torque = (angles - data.qpos[7:]) * controller.kps - data.qvel[6:] * controller.kds
+            torque = (angles - data.qpos[7:25]) * controller.kps - data.qvel[6:24] * controller.kds
             data.ctrl[:] = np.clip(torque, lo, hi)
             mujoco.mj_step(model, data)
             up_min = min(up_min, upright_of(data))
@@ -320,8 +320,8 @@ def view(name: str, controller_name: str, ground: str, policy: Path | None,
                 viewer.cam.trackbodyid = model.body("base_link").id
                 viewer.cam.distance = 3.2
             for _ in range(steps_per_frame):
-                torque = ((state["angles"] - data.qpos[7:]) * controller.kps
-                          - data.qvel[6:] * controller.kds)
+                torque = ((state["angles"] - data.qpos[7:25]) * controller.kps
+                          - data.qvel[6:24] * controller.kds)
                 data.ctrl[:] = np.clip(torque, lo, hi)
                 mujoco.mj_step(model, data)
                 tick += 1

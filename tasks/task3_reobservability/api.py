@@ -296,7 +296,7 @@ class MuJoCoEnvironment:
         self.data.qpos[:3] = [x, y, self.terrain.height(x, y) + ROBOT_BASE_HEIGHT_M]
         yaw = self.scene_spec.yaw_rad
         self.data.qpos[3:7] = [np.cos(yaw / 2), 0, 0, np.sin(yaw / 2)]
-        self.data.qpos[7:] = self.controller.default_angles
+        self.data.qpos[7:25] = self.controller.default_angles
         self.data.qvel[:] = 0.0
         self.controller.reset()
         mujoco.mj_forward(self.model, self.data)
@@ -358,7 +358,7 @@ class MuJoCoEnvironment:
 
     def _proprioception(self) -> np.ndarray:
         gravity = self.data.xmat[1].reshape(3, 3)[:, 2].copy()
-        return np.concatenate([self.data.qpos[7:], self.data.qvel[6:],
+        return np.concatenate([self.data.qpos[7:25], self.data.qvel[6:24],
                                self.data.qvel[:3], gravity])
 
     def _render(self):

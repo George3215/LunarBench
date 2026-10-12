@@ -1,0 +1,17 @@
+# 三路相机直接以 96×72 渲染，减少渲染、缓存和 CNN 的开销。
+observation: visual
+num_envs: 256
+cameras: true
+camera_width: 96
+camera_height: 72
+stage: grasp
+physics_dt: 0.0015
+control_steps: 160
+episode_steps: 1000
+rollout_steps: 24
+# 每批 256×24/4=1536 条样本；显存紧张时可改为 8。
+num_mini_batches: 4
+iterations: 2000
+steps: 1000
+checkpoint: null
+logger: wandb

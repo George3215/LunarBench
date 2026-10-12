@@ -1,0 +1,18 @@
+diff --git a/llava/train/sequence_parallel/globals.py b/llava/train/sequence_parallel/globals.py
+index 44ccbbf..3fdc19d 100755
+--- a/llava/train/sequence_parallel/globals.py
++++ b/llava/train/sequence_parallel/globals.py
+@@ -16,7 +16,12 @@
+ 
+ import os
+ 
+-import deepspeed.comm as dist
++if os.environ.get("NAVILA_SINGLE_GPU_INFERENCE") == "1":
++    # Single-device evaluation never initializes sequence-parallel groups.
++    # Avoid importing DeepSpeed's CUDA build probes on inference-only hosts.
++    import torch.distributed as dist
++else:
++    import deepspeed.comm as dist
+ import torch
+ 
+ 

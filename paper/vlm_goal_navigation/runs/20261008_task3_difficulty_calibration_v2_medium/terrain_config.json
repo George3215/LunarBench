@@ -1,0 +1,39 @@
+{
+  "version": 2,
+  "level": "medium",
+  "seed": 23,
+  "max_native_candidates": 24,
+  "native_relief_priority": true,
+  "added_occluder_type": "cube",
+  "walls_allowed_only_for_window_structure": true,
+  "loss_requirement": "entity_line_of_sight",
+  "calibration_source": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/runs/20261007_222608_qwen3vl8b_all_terrain_context",
+  "calibration_decision": {
+    "complete_suite_required": true,
+    "rate_definition": "successful trials / completed non-resource trials, all six conditions pooled; family-balanced rate reported separately",
+    "calibration_rate": 0.10215053763440861,
+    "family_balanced_rate": 0.03333333333333333,
+    "threshold_low_strict": 0.05,
+    "threshold_high_strict": 0.4,
+    "resource_fraction": 0.0,
+    "resource_review_required": false,
+    "direction": "keep",
+    "basis": "full suite, not interim observations",
+    "scene_design_revision_required": true,
+    "next_design": "native low relief preferred, seeded cubic blocks fallback, walls only in window structures",
+    "maximum_adaptive_revisions": 2,
+    "no_unbounded_retries": true,
+    "max_actions_each_trial": 3000
+  },
+  "max_actions_per_trial": 3000,
+  "conditions": [
+    "current",
+    "first_current",
+    "all_history"
+  ],
+  "sensor_conditions": [
+    "rgb",
+    "rgbd"
+  ],
+  "no_prompt_or_image_resolution_change_during_geometry_calibration": true
+}

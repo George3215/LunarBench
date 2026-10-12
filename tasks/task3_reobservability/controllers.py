@@ -163,8 +163,8 @@ class LeggedManipController(Controller):
 
     def act(self, data, command) -> np.ndarray:
         torch = self.torch
-        qj = torch.tensor(data.qpos[7:], dtype=torch.float32).unsqueeze(0)
-        dqj = torch.tensor(data.qvel[6:], dtype=torch.float32).unsqueeze(0) * self.joint_vel_scale
+        qj = torch.tensor(data.qpos[7:25], dtype=torch.float32).unsqueeze(0)
+        dqj = torch.tensor(data.qvel[6:24], dtype=torch.float32).unsqueeze(0) * self.joint_vel_scale
         quat = torch.tensor(data.qpos[3:7], dtype=torch.float32)
         qw, qx, qy, qz = quat
         gravity = torch.tensor([2.0 * (-qz * qx + qw * qy),

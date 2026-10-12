@@ -65,12 +65,27 @@ policy:
     cpu_threads: 4
     num_envs: 1            # DrQ 共享策略的采样进程数；总步数按所有环境合计
     checkpoint: null      # train: 恢复权重/优化器；eval: 必填模型路径
+    initialize_from: null # 换课程：只迁移 DrQ encoder/actor，critic 和步数重新开始
     total_steps: 500000
     episode_steps: 1000
     control_seconds: 0.12
+    controller: local_dls  # local_dls 小步局部 IK；legacy 只用于旧轨迹对照
     max_delta_m: 0.05
     max_rotation_rad: 0.35
     success_hold_seconds: 1.2
+    curriculum:
+      stage: stack10      # grasp / lift / place / stack4 / stack7 / stack9 / stack10
+      contact_force_n: 0.05
+      grasp_height_m: 0.02
+      grasp_hold_seconds: 0.36
+      lift_height_m: 0.08
+      lift_hold_seconds: 0.60
+      place_hold_seconds: 0.60
+      relative_tolerance_m: 0.02  # 相邻动作观测中，石头相对 TCP 的最大位移
+      grasp_bonus: 10.0   # 同一石头每回合只发一次
+      lift_bonus: 15.0
+      place_bonus: 25.0
+      stage_bonus: 30.0
     slot_spacing_m: 0.17
     goal_tolerance_m: 0.04
     gamma: 0.99
@@ -90,11 +105,14 @@ policy:
       enabled: false
       project: task2-stone-stack
     reward:
-      reach: 0.5
-      grasp: 1.0
-      lift: 2.0
-      transport: 3.0
-      place: 10.0
+      reach: 2.0
+      center: 1.0
+      touch: 2.0
+      grasp: 3.0
+      hold: 4.0
+      lift: 6.0
+      transport: 5.0
+      place: 15.0
       step_cost: 0.01
       action_cost: 0.001
       success_bonus: 100.0

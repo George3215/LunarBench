@@ -1,5 +1,7 @@
 # TASK2 第二条策略：强化学习
 
+当前推荐：[先抓取、再堆叠的课程训练](CURRICULUM.md)。旧长训练发现 IK 临时状态与物理状态共用问题，已修复；新课程从头训练，不接续旧 checkpoint。
+
 ## 固定任务 01
 
 - 十块原有 paper 石头，seed=17，固定形状与可达料区，UR5e/Robotiq 初始状态不变。
@@ -29,25 +31,11 @@ DrQ-v2 观测为 `uint8 (9,84,84)`：eye_in_hand/top/front 各 RGB 三通道拼�
 每个动作持续默认 0.12 秒真实物理积分，IK/位置伺服只转换网络目标，不产生任务路径。
 目标门限不保证实体每一步没有跟踪误差或超调，也不保证无碰撞。
 
-## 稠密奖励
+## 稠密奖励与课程
 
-`reward.py` 返回接近、双指接触、抬起、搬运靠近目标、释放且有支撑的放置项。
-夹持必须两片指垫实际接触同一石块，不能用“命令闭合”代替；上层必须由正确的下层支撑。
-固定目标沿 X 按 4/3/2/1 排列，层高来自现有石头平均厚度，默认槽间距 0.17 m。
-这些只是可修改的奖励锚点，不是 IK 路径；不规则石头的最终稳定几何以真实接触判据为准。
+当前奖励包括接近、居中、单指/双指接触、同石保持、抬升、搬运和抓取后的释放放置，使用势函数差分及每回合一次的阶段事件奖金。抓取成功要求石头脱离外部支撑并保持；仅碰到石头不算成功。最终完整墙仍使用原生物理判据。
 
-势函数：
-
-```text
-Phi = 0.5 reach + 1 grasp + 2 lift + 3 transport + 10 place
-reward = gamma * Phi(next) - Phi(current)
-         - step_cost - action_cost * mean(action²)
-         + success_bonus * success - fall_penalty * fallen
-```
-
-真正终止时下一势能为 0；时间截断保留下一势能和 bootstrap。没有“每步保持抓取不断领正奖励”。
-默认 success_bonus=100，fall_penalty=10。所有权重在 `task2.yaml: policy.rl.reward`，可以在单次配置覆盖。
-最终成功不依赖 reward 大小；放置奖励锚点允许调整，但不能绕过原生物理判据。
+权重、阶段、事件门限和晋级方式见 [CURRICULUM.md](CURRICULUM.md)。课程配置从 `configs/rl_curriculum_01_grasp.yaml` 开始；旧配置 `rl_stack10_drqv2_200k_parallel.yaml` 仍表示直接学习完整墙。
 
 ## 环境与运行
 
@@ -124,6 +112,6 @@ W&B 项目为 `task2-stone-stack`，DrQ 每 `log_every` 步记录奖励分项及
 WANDB_MODE=online bash /home/lry/MoonUnrealEnv/MoonSim/tasks/task2_stack/rl.sh --config /home/lry/MoonUnrealEnv/MoonSim/tasks/task2_stack/configs/rl_stack10_drqv2_200k_parallel.yaml --mode train
 ```
 
-`total_steps` 是所有环境的 transition 总和，必须能被 `num_envs` 整除。200000 步、8 环境对应 25000 次向量推进；每个环境的回合上限仍是 1000 步。探索、学习率外的探索噪声调度、更新间隔和 checkpoint 均按全局 transition 计数，默认每两条样本更新一次。各环境独立累积 n-step，终止末帧先写入 replay，再仅重置结束的环境。训练不打开 viewer，使用单环境 `--mode eval --view` 查看模型。
+`total_steps` 是所有环境的 transition 总和，不要求被 `num_envs` 整除；最后一批只推进剩余数量的环境。200000 步、8 环境对应 25000 次向量推进；每个环境的回合上限仍是 1000 步。探索、学习率外的探索噪声调度、更新间隔和 checkpoint 均按全局 transition 计数，默认每两条样本更新一次。各环境独立累积 n-step，终止末帧先写入 replay，再仅重置结束的环境。训练不打开 viewer，使用单环境 `--mode eval --view` 查看模型。
 
 W&B 额外记录 `perf/transitions_per_second`、累计采样和更新耗时；JSONL 每行带 `env_id`。多进程环境数只对 DrQ 生效，SAC 多环境尚未接入。并行配置是独立新训练；不会自动接续或停止其他进程。

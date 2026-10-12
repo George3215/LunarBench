@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-10T15:52:08+08:00",
+  "scope": "formal NaVILA matrix recorded autonomous transitions; archived attempts excluded",
+  "recorded_autonomous_transitions": 9562,
+  "timing": {
+    "client_inference_total_s": 3498.116,
+    "client_inference_mean_s": 0.36584,
+    "execution_and_observation_total_s": 12429.752,
+    "execution_and_observation_mean_s": 1.29991,
+    "execution_fraction_of_these_two_measured_segments": 0.78038,
+    "run_wall_s_snapshot": 17276.38467013702,
+    "coverage_note": "request preparation, episode initialization and some report/file work are outside these two timing segments; execution time includes physics, camera reads and observation saves, without finer substage timing"
+  },
+  "hardware": {
+    "gpu": "RTX 4090",
+    "gpu_total_MiB": 24564,
+    "gpu_used_MiB_snapshot": 23302,
+    "model_process_used_MiB_snapshot": 22718,
+    "logical_cpus": 24,
+    "available_system_memory_GiB_approx": 45
+  },
+  "implementation": {
+    "resident_local_models": 1,
+    "active_trial_slots": 6,
+    "model_requests": "serial client and single HTTPServer",
+    "physics_execution": "serial Trial.complete loop",
+    "renderer": "Mesa llvmpipe LLVM 15.0.7; software renderer matched to persisted experiment images",
+    "request_quota": null,
+    "vision_encoding": "prepared once for context check and again in upstream generation"
+  },
+  "slow_trajectory_example": {
+    "trial": "rgb/current/barrier_a0",
+    "executed_autonomous_actions": 1594,
+    "last_100_actions": {
+      "FORWARD": 100
+    },
+    "last_100_displacement_sum_m": 0.00236,
+    "common_total_step_budget": 3000
+  },
+  "changes_applied_in_this_diagnostic": false
+}

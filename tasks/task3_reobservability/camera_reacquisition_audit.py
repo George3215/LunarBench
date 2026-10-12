@@ -40,10 +40,11 @@ class Camera:
         mask=mask_rgb(self.rgb,self.red_min); yy,xx=np.where(mask)
         visible=len(xx)>=3
         dep=np.clip(np.nan_to_num(self.depth,nan=20,posinf=20,neginf=0),0,20)
-        grid=dep.reshape(4,60,4,80).mean(axis=(1,3)).ravel().tolist()
+        height,width=dep.shape
+        grid=dep.reshape(4,height//4,4,width//4).mean(axis=(1,3)).ravel().tolist()
         # Only RGB/depth image measurements. No target position or simulator pose.
         return {'pixels':int(len(xx)), 'visible':visible,
-                'centroid':[float(xx.mean()/320),float(yy.mean()/240)] if len(xx) else None,
+                'centroid':[float(xx.mean()/width),float(yy.mean()/height)] if len(xx) else None,
                 'median_target_depth':float(np.median(self.depth[mask])) if len(xx) else None,
                 'depth_grid':grid, 'rgb_mean':(self.rgb.mean(axis=(0,1))/255).tolist()}
     def segmentation_check(self):

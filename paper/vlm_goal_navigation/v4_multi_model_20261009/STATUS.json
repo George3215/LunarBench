@@ -1,0 +1,65 @@
+{
+  "phase": "paused",
+  "prerequisite": null,
+  "request_count_limit": null,
+  "pid": 2554075,
+  "models": {
+    "navila-llama3-8b-8f": {
+      "state": "paused",
+      "protocol": "matrix",
+      "reason": "user_requested_pause"
+    },
+    "tagavlm-qwen2-0.5b-camera-adapted": {
+      "state": "queued",
+      "reason": "相机骨干适配；禁用仿真拓扑/graph_sprels，不能代表完整原生 Taga 方法"
+    },
+    "tagavlm-qwen2-7b-camera-adapted": {
+      "state": "queued",
+      "reason": "相机骨干适配；禁用仿真拓扑/graph_sprels，不能代表完整原生 Taga 方法"
+    },
+    "abot-n0": {
+      "state": "unavailable",
+      "reason": "官方 ABot-N0 分支当前只有论文说明/媒体，没有推理代码、公开模型权重或 release assets；原生测评暂不可运行"
+    },
+    "qwen-vla": {
+      "state": "unavailable",
+      "reason": "论文 2605.30280 官方仓库当前只有说明/媒体，没有推理代码、权重链接或 release assets"
+    },
+    "qwen-robotnav-4b": {
+      "state": "unavailable",
+      "reason": "论文 2606.18112 官方 README 明确声明目前没有发布权重计划；没有可下载的官方 4B 权重"
+    }
+  },
+  "active_model": "navila-llama3-8b-8f",
+  "active_protocol": "matrix",
+  "active_trial_status": {
+    "status": "paused",
+    "completed": 62,
+    "expected": 132,
+    "success_count": 23,
+    "terminations": {
+      "fallen": 2,
+      "out_of_bounds": 15,
+      "success_visible_near": 23,
+      "context_limit": 18,
+      "budget_exhausted": 4
+    },
+    "active_trials": {
+      "rgbd/first_current/pit_a2": 2295,
+      "rgbd/first_current/basin_a1": 2060,
+      "rgb/first_current/basin_a2": 687,
+      "rgbd/current/basin_a2": 505,
+      "rgbd/first_current/basin_a2": 499,
+      "rgb/first_current/waves_a0": 42
+    },
+    "model_generate_calls": 37044,
+    "wall_s": 89453.170119457,
+    "max_actions_per_trial": 3000,
+    "paused_at": "2026-10-11T11:55:57.081829+08:00",
+    "pause_reason": "user_requested_archive_and_pause",
+    "raw_stop_status": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/v4_multi_model_20261009/archives/pause_20261011_115454/raw_stop_status/RUN_STATUS.json"
+  },
+  "paused_at": "2026-10-11T11:55:57.081829+08:00",
+  "pause_reason": "user_requested_archive_and_pause",
+  "archive_directory": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/v4_multi_model_20261009/archives/pause_20261011_115454"
+}

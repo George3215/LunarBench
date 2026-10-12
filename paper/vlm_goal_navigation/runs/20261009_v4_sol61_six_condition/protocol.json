@@ -1,0 +1,60 @@
+{
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "medium",
+  "version": "v4-sol61-camera-only/1",
+  "admission_source": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/recovery_mechanism_v4_20261009_r2",
+  "scene_count": 22,
+  "trial_count": 132,
+  "scenes": [
+    "terrain_design_v4/barrier_a0",
+    "terrain_design_v4/barrier_a1",
+    "terrain_design_v4/barrier_a2",
+    "terrain_design_v4/trench_a0",
+    "terrain_design_v4/stairs_up_a2",
+    "terrain_design_v4/slope_up_a2",
+    "terrain_design_v4/pit_a0",
+    "terrain_design_v4/pit_a1",
+    "terrain_design_v4/pit_a2",
+    "terrain_design_v4/basin_a1",
+    "terrain_design_v4/basin_a2",
+    "terrain_design_v4/waves_a0",
+    "terrain_design_v4/waves_a1",
+    "terrain_design_v4/waves_a2",
+    "terrain_design_v4/perlin_a1",
+    "terrain_design_v4/perlin_a2",
+    "terrain_design_v4/perlin_rough_a0",
+    "terrain_design_v4/perlin_rough_a1",
+    "terrain_design_v4/perlin_rough_a2",
+    "terrain_design_v4/window_a0",
+    "terrain_design_v4/window_a1",
+    "terrain_design_v4/window_a2"
+  ],
+  "sensor_conditions": [
+    "rgb",
+    "rgbd"
+  ],
+  "context_conditions": [
+    "current",
+    "first_current",
+    "all_history"
+  ],
+  "system_prompt": "Control the quadruped to find the red sphere, approach it, and finish with the sphere clearly visible and within 1 metre of the camera. Use only the observations supplied in this request. No hidden earlier frames, target coordinates, scene name, or previous assistant messages are available.\nActions last 1 second: FORWARD vx=0.6m/s, BACKWARD vx=-0.5m/s, STRAFE_LEFT vy=0.5m/s, STRAFE_RIGHT vy=-0.5m/s, TURN_LEFT wz=0.6rad/s, TURN_RIGHT wz=-0.6rad/s. STOP ends the trial after a short stand. Actual motion can differ on terrain or against obstacles. Look for a traversable route, avoid repeated collisions, recover sight when the target is occluded, and avoid overshooting. STOP only when the current target is visible and reliably within 1 metre.\nEach supplied RGB image is tagged with an observation frame ID. In RGB-D requests it is followed by aligned ideal camera depth: fixed grayscale white=0m axial depth, black=10m or farther/invalid. A numeric red-region range is calculated from RGB red pixels and depth back-projection, without ground-truth object identity; null means no reliable red-region depth, not arrival. Historical depth belongs to its historical frame and is not the current range.\nFor each action, give a brief public explanation of the strategy and cite the supplied frame IDs and evidence channels that support it. Explain whether you use current observations or remembered supplied images/depth. Do not provide a long internal chain of thought. If there is no earlier frame in the request, do not claim to have observed one.\nReturn one JSON object, no markdown:\n{\"target_visible\":true or false,\"target_location\":\"left|centre|right|absent|uncertain\",\"proximity\":\"near|far|uncertain\",\"confidence\":number from 0 to 1,\"visual_assessment\":\"brief visible evidence\",\"decision_rationale\":\"brief strategy and reason for this action\",\"evidence_frames\":[integer frame IDs],\"evidence_sources\":[\"current_rgb|past_rgb|current_depth|past_depth\"],\"action\":\"FORWARD|BACKWARD|STRAFE_LEFT|STRAFE_RIGHT|TURN_LEFT|TURN_RIGHT|STOP\"}",
+  "max_steps": 3000,
+  "budget_includes_controlled_approach": true,
+  "raw_camera_resolution": [
+    640,
+    480
+  ],
+  "image_area_cap": 65536,
+  "max_output_tokens_including_reasoning": 4096,
+  "no_truncation_or_sampling": true,
+  "history_definition": "all action-boundary camera frames including common approach",
+  "policy_tools": [],
+  "previous_response_id": null,
+  "past_outputs_or_actions_supplied": false,
+  "depth": "ideal aligned camera depth and RGB-threshold red-region range only",
+  "ground_truth": "isolated evaluator and fixed task initialization only; never sent to policy",
+  "success": ">=20 visible target pixels and <1m surface range for three 10Hz samples; upright/in bounds",
+  "comparison_limitations": "Different image encoder, reasoning, token budget and decoding from Qwen; same camera area cap, task, action and step budget",
+  "seed": 7
+}

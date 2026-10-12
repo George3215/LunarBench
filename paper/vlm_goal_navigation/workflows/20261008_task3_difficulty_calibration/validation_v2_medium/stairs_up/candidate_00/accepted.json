@@ -1,0 +1,212 @@
+{
+  "scene_name": "stairs_up",
+  "source_scene": {
+    "name": "stairs_up",
+    "terrain_profile": "stairs_up",
+    "target_xy": [
+      5.0,
+      0.0
+    ],
+    "target_height_m": 0.5,
+    "approach_xy": [
+      -4.6,
+      0.0
+    ],
+    "lost_xy": [
+      -0.5,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": null,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "rising crest hides a target that was visible from far away",
+    "notes": [
+      "expect V: 1 -> 0 -> 1 while walking up",
+      "expected best action: forward (commit to the climb)"
+    ]
+  },
+  "adjusted_scene": {
+    "name": "stairs_up",
+    "terrain_profile": "stairs_up",
+    "target_xy": [
+      5.0,
+      0.0
+    ],
+    "target_height_m": 0.65,
+    "approach_xy": [
+      -2.0,
+      0.0
+    ],
+    "lost_xy": [
+      -2.0,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 2.15,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "rising crest hides a target that was visible from far away",
+    "notes": [
+      "expect V: 1 -> 0 -> 1 while walking up",
+      "expected best action: forward (commit to the climb)",
+      "Calibrated medium; native relief preferred; cubic fallback; versioned terrain changes."
+    ]
+  },
+  "original_terrain_geometry_unchanged": true,
+  "added_occluder": null,
+  "terrain_spec": {
+    "profile": "stairs_up",
+    "step_count": 10,
+    "step_rise_m": 0.15,
+    "step_tread_m": 0.3,
+    "crest_x_m": 3.0,
+    "landing_height_m": 1.5,
+    "size_m": [
+      12.0,
+      6.0
+    ],
+    "resolution_m": 0.05,
+    "navigation_design_changes": [],
+    "navigation_difficulty_level": "medium",
+    "navigation_recipe_seed": 23,
+    "navigation_original_geometry_unchanged": true
+  },
+  "initial": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 45,
+    "target_visible_rgb_pixels": 45,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.49819444444444444,
+      0.3901851851851852
+    ],
+    "median_target_axial_depth_m": 6.617237091064453,
+    "median_target_surface_range_m": 6.756653532106968,
+    "camera_to_target_centre_m": 6.862936186951623,
+    "base_xy_target_distance_m_diagnostic": 7.007141456863188,
+    "camera_xyz_evaluator": [
+      -1.7010577627725028,
+      -0.0005749559128663728,
+      0.5182045905111692
+    ],
+    "target_centre_xyz_evaluator": [
+      5.0,
+      0.0,
+      2.0
+    ],
+    "upright": 0.9997136309783264,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "initial_depth": {
+    "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+    "red_pixel_count": 45,
+    "valid_red_depth_count": 45,
+    "red_region_median_axial_depth_m": 6.617237091064453,
+    "red_region_median_surface_range_m": 6.756653532106968,
+    "centroid_uv": [
+      0.49819444444444444,
+      0.3901851851851852
+    ],
+    "image_width": 640,
+    "image_height": 480,
+    "vertical_fov_deg": 87.0,
+    "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+    "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+  },
+  "approach_action": "FORWARD",
+  "approach_actions": 3,
+  "approach_end_sim_time_s": 3.899999999999792,
+  "loss": {
+    "step": 3,
+    "measurement": {
+      "sim_time_s": 3.899999999999792,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 5.91874084517774,
+      "base_xy_target_distance_m_diagnostic": 6.029788414811258,
+      "camera_xyz_evaluator": [
+        -0.7271262760626155,
+        0.055832583823124005,
+        0.5072171849220328
+      ],
+      "target_centre_xyz_evaluator": [
+        5.0,
+        0.0,
+        2.0
+      ],
+      "upright": 0.9986631442446413,
+      "in_bounds": true,
+      "near_and_visible": false,
+      "step": 3,
+      "action": "FORWARD",
+      "success_streak": 0
+    },
+    "kind": "terrain_occlusion",
+    "blocking_geom": "stairs_up_step_9",
+    "displacement_m": 0.9782389424932083
+  },
+  "loss_qpos": [
+    -1.0296644693737205,
+    0.038661533391697187,
+    0.33637547583226046,
+    0.9994968953312373,
+    -0.01816384444176276,
+    -0.01842546220009931,
+    0.01834484453533162,
+    0.043741099113795555,
+    0.8515864455887306,
+    -1.4226717407513603,
+    -0.05958133330628819,
+    0.34843458982820513,
+    -1.401208019327063,
+    0.05377148241872928,
+    1.025045797616024,
+    -1.4755890951863457,
+    -0.09406005922676129,
+    1.0465410054651474,
+    -1.1468236728313823,
+    -0.0022572506576002383,
+    -0.0005864295695907162,
+    0.0009353844150811752,
+    0.0005823404838694702,
+    0.05394148028821437,
+    -1.5599466790190523e-05
+  ],
+  "reference_termination": "success_visible_near",
+  "reference_actions": [
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "STRAFE_RIGHT",
+    "FORWARD",
+    "STRAFE_RIGHT",
+    "FORWARD"
+  ],
+  "reference_privileged": true,
+  "accepted_candidate": 0,
+  "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/workflows/20261008_task3_difficulty_calibration/validation_v2_medium/stairs_up/candidate_00"
+}

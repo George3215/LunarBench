@@ -1,0 +1,208 @@
+{
+  "scene_name": "trench",
+  "source_scene": {
+    "name": "trench",
+    "terrain_profile": "trench",
+    "target_xy": [
+      4.6,
+      0.0
+    ],
+    "target_height_m": 0.15,
+    "approach_xy": [
+      -5.0,
+      0.0
+    ],
+    "lost_xy": [
+      -0.3,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": null,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "the robot walks down into a depression; the raised far rim hides the target",
+    "notes": [
+      "expect V: 1 -> 0 -> 1, visible again once the robot climbs the far ramp",
+      "expected best action: forward (commit through the depression)"
+    ]
+  },
+  "adjusted_scene": {
+    "name": "trench",
+    "terrain_profile": "trench",
+    "target_xy": [
+      4.6,
+      0
+    ],
+    "target_height_m": 0.35,
+    "approach_xy": [
+      -5,
+      0
+    ],
+    "lost_xy": [
+      -5,
+      0
+    ],
+    "yaw_rad": 0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 0.9,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "the robot walks down into a depression; the raised far rim hides the target",
+    "notes": [
+      "expect V: 1 -> 0 -> 1, visible again once the robot climbs the far ramp",
+      "expected best action: forward (commit through the depression)",
+      "Navigation anchors adjusted; original terrain geometry retained."
+    ]
+  },
+  "original_terrain_geometry_unchanged": true,
+  "added_occluder": null,
+  "terrain_spec": {
+    "profile": "trench",
+    "depth_m": 0.7,
+    "half_width_m": 1.2,
+    "ramp_m": 1.75,
+    "far_height_m": 0.55,
+    "steps_down": 5,
+    "steps_up": 9,
+    "size_m": [
+      12.0,
+      6.0
+    ],
+    "resolution_m": 0.05
+  },
+  "initial": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 52,
+    "target_visible_rgb_pixels": 52,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.49798677884615383,
+      0.49851762820512824
+    ],
+    "median_target_axial_depth_m": 9.197526931762695,
+    "median_target_surface_range_m": 9.198282313782734,
+    "camera_to_target_centre_m": 9.303945665623058,
+    "base_xy_target_distance_m_diagnostic": 9.607141456796363,
+    "camera_xyz_evaluator": [
+      -4.701057762772561,
+      -0.0005749559127856758,
+      0.5182045905112347
+    ],
+    "target_centre_xyz_evaluator": [
+      4.6,
+      0.0,
+      0.75
+    ],
+    "upright": 0.9997136309783218,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "initial_depth": {
+    "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+    "red_pixel_count": 52,
+    "valid_red_depth_count": 52,
+    "red_region_median_axial_depth_m": 9.197526931762695,
+    "red_region_median_surface_range_m": 9.198282313782734,
+    "centroid_uv": [
+      0.49798677884615383,
+      0.49851762820512824
+    ],
+    "image_width": 640,
+    "image_height": 480,
+    "vertical_fov_deg": 87.0,
+    "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+    "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+  },
+  "approach_action": "FORWARD",
+  "approach_actions": 8,
+  "approach_end_sim_time_s": 9.299999999999775,
+  "loss": {
+    "step": 8,
+    "measurement": {
+      "sim_time_s": 9.299999999999775,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 5.842291691956424,
+      "base_xy_target_distance_m_diagnostic": 6.087036051410493,
+      "camera_xyz_evaluator": [
+        -1.1364649874674468,
+        0.40355954580742376,
+        -0.28076736194491053
+      ],
+      "target_centre_xyz_evaluator": [
+        4.6,
+        0.0,
+        0.75
+      ],
+      "upright": 0.9394342571288331,
+      "in_bounds": true,
+      "near_and_visible": false,
+      "step": 8,
+      "action": "FORWARD",
+      "success_streak": 0
+    },
+    "kind": "terrain_occlusion",
+    "blocking_geom": "trench_up_8",
+    "displacement_m": 3.547248638391718
+  },
+  "loss_qpos": [
+    -1.4770501544704528,
+    0.34852447722031404,
+    -0.32593965331264363,
+    0.982137211313229,
+    -0.0355476995835369,
+    0.1702246535603428,
+    0.07187785840197451,
+    -0.1613017034240898,
+    0.838636721961028,
+    -1.6041287815907044,
+    -0.18634376203628022,
+    0.4083450509548282,
+    -1.6190751278875826,
+    0.25039753666148545,
+    1.4816994269888306,
+    -1.7082917061800962,
+    -0.25983451114054484,
+    1.2884264792674358,
+    -1.3814188588134888,
+    -0.02517653310636755,
+    -0.0004793810558539905,
+    0.0010150369508319594,
+    0.0005097285015262357,
+    0.05475284633576083,
+    -5.0944937302841996e-05
+  ],
+  "reference_termination": "success_visible_near",
+  "reference_actions": [
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "STRAFE_RIGHT",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "STRAFE_RIGHT",
+    "FORWARD",
+    "FORWARD"
+  ],
+  "reference_privileged": true,
+  "accepted_candidate": 0,
+  "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/all_terrain_validation/trench/candidate_00"
+}

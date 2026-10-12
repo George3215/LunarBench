@@ -1,0 +1,6 @@
+{
+  "excluded_from_formal_results": true,
+  "reason": "上游 NaVILA 从 model.llm.config 读取 4096 裁剪上限；先前仅清除 model.config，导致历史输入被截断",
+  "fix": "禁用外层和 llm.config 两处裁剪，保留原配置4096有效上下文预算；完整嵌入超过预算时返回 context_limit",
+  "original_state_retained": true
+}

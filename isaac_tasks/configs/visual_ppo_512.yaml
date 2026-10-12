@@ -1,0 +1,33 @@
+# 完整 4+3+2+1：程序路点 + 5 cm 区域内的视觉残差 PPO。
+# 小批样本数 = num_envs × rollout_steps / num_mini_batches。
+control: residual
+observation: visual
+num_envs: 512
+cameras: true
+camera_width: 64
+camera_height: 48
+stage: stack10
+physics_dt: 0.0015
+control_steps: 160
+episode_steps: 1000
+rollout_steps: 24
+num_mini_batches: 4
+iterations: 2000
+steps: 1000
+checkpoint: null
+init_noise_std: 0.1
+logger: wandb
+
+# 残差是相对程序目标的绝对偏置，不逐步累加；夹爪由接触状态机控制。
+residual:
+  local_radius_m: 0.05
+  position_residual_m: 0.01
+  rotation_residual_rad: 0.15
+  grasp_z_offset_m: 0.012
+  support_preload_m: 0.003
+  travel_z_m: 0.45
+  phase_steps: 120
+  max_retries: 3
+  progress_weight: 5.0
+  residual_cost: 0.002
+  retry_penalty: 2.0

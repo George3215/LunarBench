@@ -7,13 +7,28 @@ from functools import partial
 import os
 
 import numpy as np
+import gymnasium as gym
 from gymnasium.vector import AsyncVectorEnv, AutoresetMode
 
 from .env import StoneStackEnv
 
 
+class PausableEnv(gym.Wrapper):
+    """最后不足一批时，None 只返回缓存观测，不推进物理、不计步。"""
+    def reset(self, **kwargs):
+        self.last_obs, info = self.env.reset(**kwargs)
+        return self.last_obs, info
+
+    def step(self, action):
+        if action is None:
+            return self.last_obs, 0., False, False, {}
+        result = self.env.step(action)
+        self.last_obs = result[0]
+        return result
+
+
 def make_worker(config):
-    return StoneStackEnv(config)
+    return PausableEnv(StoneStackEnv(config))
 
 
 def unpack_info(info, index):
@@ -46,8 +61,10 @@ class Collector:
 
     def step(self, actions):
         if self.vector is not None:
-            obs, rewards, terminated, truncated, info = self.vector.step(actions)
-            return obs, rewards, terminated, truncated, [unpack_info(info, i) for i in range(self.count)]
+            active = len(actions)
+            padded = list(actions) + [None] * (self.count - active)
+            obs, rewards, terminated, truncated, info = self.vector.step(padded)
+            return obs[:active], rewards[:active], terminated[:active], truncated[:active], [unpack_info(info, i) for i in range(active)]
         obs, reward, terminated, truncated, info = self.env.step(actions[0])
         return obs[None], np.array([reward]), np.array([terminated]), np.array([truncated]), [info]
 

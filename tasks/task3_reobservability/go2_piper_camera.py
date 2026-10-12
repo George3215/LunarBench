@@ -176,7 +176,10 @@ def _scene_xml(terrain, target: np.ndarray, ground: str = "auto") -> tuple[str, 
     asset_root = (GO2_PIPER_XML.parent / "assets").as_posix()
     source = source.replace('file="assets/', f'file="{asset_root}/')
     spec = ground_spec(terrain, ground)
-    source = source.replace("  <asset>\n", "  <asset>\n" + spec.asset_xml, 1)
+    # Navigation setup may add a documented finite occluder without replacing
+    # the original terrain/collider. Other Task3 callers leave this absent.
+    spec.geom_xml += terrain.spec.get('navigation_extra_geom_xml', '')
+    source = source.replace("  <asset>\n", "  <asset>\n" + spec.asset_xml + terrain.spec.get("navigation_extra_asset_xml", ""), 1)
     source = source.replace(
         '    <body name="base_link" pos="0 -10 0.5" euler="0 0.0  1.57"',
         '    <body name="base_link" pos="0 0 0.5" euler="0 0 0"',
@@ -198,7 +201,7 @@ def _scene_xml(terrain, target: np.ndarray, ground: str = "auto") -> tuple[str, 
         '    </body>\n'
     )
     source = source.replace("  <worldbody>\n", "  <worldbody>\n" + spec.geom_xml, 1)
-    source = source.replace("</worldbody>", target_body + "  </worldbody>", 1)
+    source = source.replace("</worldbody>", target_body + terrain.spec.get("navigation_dynamic_body_xml", "") + "  </worldbody>", 1)
     return source, spec
 
 

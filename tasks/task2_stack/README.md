@@ -23,6 +23,8 @@ bash /home/lry/MoonUnrealEnv/task2.sh --config /home/lry/MoonUnrealEnv/MoonSim/t
 
 ## 强化学习
 
+当前推荐先训练抓取，再逐步扩展到完整墙，见 [课程训练说明](docs/CURRICULUM.md)；入口配置为 `configs/rl_curriculum_01_grasp.yaml`。旧长训练发现并修复了 IK 临时状态共用问题，新课程不要接续旧 checkpoint。
+
 RL 使用项目内 `.venv-rl`，不修改 Qwen 环境或模型服务。首次安装见 [RL.md](docs/RL.md)。
 
 短训练、保存 checkpoint、加载后评估：

@@ -1353,3 +1353,18 @@ python tasks/task3_reobservability/realsense.py   # 只探测真实 RealSense，
 | `step_rise_002/004/006.json` | `leggedmanip` 台阶高度扫描 |
 
 同目录下其余 JSON 是更早 schema 的 smoke run，没有 `ground_kind` / `surface_check` 字段，不能当作当前结果引用。
+
+
+## Qwen3-VL 全地形上下文与深度对照 Trial
+
+运行 `bash /home/lry/MoonUnrealEnv/task3_qwen.sh`。使用本地 `MoonSim/assets/model/Qwen3-VL-8B-Instruct`，覆盖现有 15 类地形和 16 个窗口参数变体，共 31 场景 × 3 种上下文 × RGB/RGB-D = 186 trial。目标与起点已调整；保留原地形，必要时增加记录位置/尺寸/XML的有限实体遮挡物。全部场景先实际验证首帧可见、运动后实体遮挡以及参考控制器近距可达。离开视野不算实体遮挡。
+
+上下文分别为仅当前帧、首帧＋当前帧、全部已保存动作边界历史帧。不给过去 assistant 输出、过去动作列表、世界坐标或分割。RGB-D 给对应所选帧的理想对齐深度和相机测距。全部历史遇到资源上限明确终止，不截断、不摘要、不抽帧。
+
+成功要求当前相机目标身份正确且可见≥20像素、可见表面三维深度距离中位数严格小于1m，连续3个10Hz物理样本满足，身体直立且未越界。身体XY距离和模型口头到达不能单独判成功。动作累计预算1000→2000→3000，包括统一接近阶段，终止后不重试；格式修复最多一次。
+
+每次保存原始 RGB/深度、完整 messages 与提示词、网络 token IDs/attention mask、图像预处理 hash、所选帧 IDs/数量/token数、完整模型输出、引用依据与简短公开策略说明、实际动作与真实模拟器 qpos/qvel/contact/force 状态。公开说明不是隐藏思维记录或内部因果证据。输入上限16384是本机运行边界，模型原生配置上限262144；context_limit/GPU资源终止单独统计。
+
+结果目录自动生成 `trial_browser.html`、`REPORT.md`、`analysis.json`、`audit.json` 与 `RUN_STATUS.json`；31场景验收图片在 `paper/vlm_goal_navigation/all_terrain_validation/scene_review.html`。逐位无损深度归档支持恢复并核验 hash。186 trial全部完成且审计通过才标记complete。数据是MuJoCo物理执行记录，没有连接实体机械狗。
+
+详细方案见 [ALL_TERRAIN_CONTEXT_PROTOCOL.md](../../paper/vlm_goal_navigation/ALL_TERRAIN_CONTEXT_PROTOCOL.md)。

@@ -111,6 +111,7 @@ assets/environments/lunar/LunarRock3D/
 !docs/images/task3_terrains.png
 !docs/images/task3_scenes.png
 !docs/images/task3_history_horizon.png
+!docs/images/task3_reobservability_overview.png
 
 # --- task3 packaging: excluded from the public task release ---
 # Third-party robot assets are large and licensed separately (480 MB of USD meshes);
@@ -130,3 +131,37 @@ Stop-WifiHotspot.cmd
 hotspot-log.txt
 pelican-cycling.html
 pr_body.md
+
+# Isaac Lab 上游发行包与隔离运行环境由安装脚本建立。
+/IsaacLab/
+/isaac_tasks/assets/
+
+# ---- VLM / 导航实验的原始运行产物（本机保留，不入库）----
+# 逐 step 日志、逐次模型调用记录、渲染转储与浏览器导出，合计约 10.9 GB、
+# 109 万个文件。协议、脚本、汇总报告和小体积地形元数据仍然入库；原始产物
+# 的存放位置与复现方式见 paper/vlm_goal_navigation/EXPERIMENT_PLAN.md。
+paper/vlm_goal_navigation/**/*.jsonl
+paper/vlm_goal_navigation/**/*.html
+paper/vlm_goal_navigation/**/raw_output.txt
+paper/vlm_goal_navigation/**/rendered_prompt.txt
+paper/vlm_goal_navigation/**/archives/
+paper/vlm_goal_navigation/**/measurement.json
+paper/vlm_goal_navigation/**/depth_sensor.json
+paper/vlm_goal_navigation/**/transition.json
+paper/vlm_goal_navigation/**/context.json
+paper/vlm_goal_navigation/**/messages.json
+paper/vlm_goal_navigation/**/network_input.json
+paper/vlm_goal_navigation/**/output.json
+paper/vlm_goal_navigation/**/depth.npy.json
+paper/vlm_goal_navigation/**/response.json
+paper/vlm_goal_navigation/**/observations.json
+paper/vlm_goal_navigation/**/approach_gate.json
+paper/vlm_goal_navigation/**/initialization.json
+paper/vlm_goal_navigation/**/model_metadata.json
+paper/vlm_goal_navigation/**/progress.json
+paper/vlm_goal_navigation/**/gates.json
+paper/vlm_goal_navigation/.calibration.lock
+
+# ---- Isaac Lab 训练输出 ----
+/isaac_tasks/outputs/
+

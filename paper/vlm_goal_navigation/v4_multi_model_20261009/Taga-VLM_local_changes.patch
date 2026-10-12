@@ -1,0 +1,13 @@
+diff --git a/llava/model/llava_arch.py b/llava/model/llava_arch.py
+index 00511c5..eaae5b9 100644
+--- a/llava/model/llava_arch.py
++++ b/llava/model/llava_arch.py
+@@ -795,7 +795,7 @@ def prepare_inputs_labels_for_multimodal(
+             past_key_values,
+             new_input_embeds,
+             new_labels,
+-            expanded_distance_matrix,
++            expanded_distance_matrix if nav_data is not None else None,
+         )
+ 
+     def initialize_vision_tokenizer(self, model_args, tokenizer):

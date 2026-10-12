@@ -1,0 +1,203 @@
+{
+  "scene_name": "barrier",
+  "source_scene": {
+    "name": "barrier",
+    "terrain_profile": "barrier",
+    "target_xy": [
+      5.0,
+      0.0
+    ],
+    "target_height_m": 2.0,
+    "approach_xy": [
+      -5.5,
+      0.0
+    ],
+    "lost_xy": [
+      0.5,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 2.0,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "a wall segment that is finite in y; the sight line can be taken around it",
+    "notes": [
+      "expect V: 1 -> 0 and stay 0 for forward and back, 1 again after a lateral move",
+      "expected best action: left/right, because retreat cannot outrun the wall"
+    ]
+  },
+  "adjusted_scene": {
+    "name": "barrier",
+    "terrain_profile": "barrier",
+    "target_xy": [
+      5,
+      0
+    ],
+    "target_height_m": 0.6,
+    "approach_xy": [
+      -1,
+      2
+    ],
+    "lost_xy": [
+      -1,
+      2
+    ],
+    "yaw_rad": 0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 0.6,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "a wall segment that is finite in y; the sight line can be taken around it",
+    "notes": [
+      "expect V: 1 -> 0 and stay 0 for forward and back, 1 again after a lateral move",
+      "expected best action: left/right, because retreat cannot outrun the wall",
+      "Navigation anchors adjusted; original terrain geometry retained."
+    ]
+  },
+  "original_terrain_geometry_unchanged": true,
+  "added_occluder": null,
+  "terrain_spec": {
+    "profile": "barrier",
+    "wall_x_m": 2.0,
+    "wall_width_m": 0.4,
+    "wall_height_m": 1.5,
+    "wall_half_y_m": 0.6,
+    "size_m": [
+      12.0,
+      6.0
+    ],
+    "resolution_m": 0.05
+  },
+  "initial": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 145,
+    "target_visible_rgb_pixels": 137,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.6372490875912409,
+      0.5177767639902676
+    ],
+    "median_target_axial_depth_m": 5.596139907836914,
+    "median_target_surface_range_m": 5.932744625758797,
+    "camera_to_target_centre_m": 6.041888114123254,
+    "base_xy_target_distance_m_diagnostic": 6.331349290856085,
+    "camera_xyz_evaluator": [
+      -0.701057763402215,
+      1.9994250412950973,
+      0.5182045905880588
+    ],
+    "target_centre_xyz_evaluator": [
+      5.0,
+      0.0,
+      0.45
+    ],
+    "upright": 0.9997136310271201,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "initial_depth": {
+    "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+    "red_pixel_count": 137,
+    "valid_red_depth_count": 137,
+    "red_region_median_axial_depth_m": 5.596139907836914,
+    "red_region_median_surface_range_m": 5.932744625758797,
+    "centroid_uv": [
+      0.6372490875912409,
+      0.5177767639902676
+    ],
+    "image_width": 640,
+    "image_height": 480,
+    "vertical_fov_deg": 87.0,
+    "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+    "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+  },
+  "approach_action": "STRAFE_RIGHT",
+  "approach_actions": 3,
+  "approach_end_sim_time_s": 4.1999999999997595,
+  "loss": {
+    "step": 3,
+    "measurement": {
+      "sim_time_s": 4.1999999999997595,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 5.868476302117062,
+      "base_xy_target_distance_m_diagnostic": 6.17204132042532,
+      "camera_xyz_evaluator": [
+        -0.77020044071753,
+        1.067534202792028,
+        0.5145887631245688
+      ],
+      "target_centre_xyz_evaluator": [
+        5.0,
+        0.0,
+        0.45
+      ],
+      "upright": 0.9993664461917868,
+      "in_bounds": true,
+      "near_and_visible": false,
+      "step": 3,
+      "action": "STRAFE_RIGHT",
+      "success_streak": 0
+    },
+    "kind": "terrain_occlusion",
+    "blocking_geom": "barrier_wall",
+    "displacement_m": 0.893213876593133
+  },
+  "loss_qpos": [
+    -1.0715594389931482,
+    1.1091708794458768,
+    0.3440922442722745,
+    0.997533148881719,
+    0.0025027253488267708,
+    -0.017552958701696177,
+    -0.06792088698453976,
+    0.2567820878158662,
+    0.5276248568856299,
+    -1.0763238489622933,
+    -0.0022188292902005037,
+    0.6700708790566481,
+    -1.3873974667037572,
+    -0.02205280615457264,
+    0.8046866012309496,
+    -1.4893025039569965,
+    0.2961747408590641,
+    1.0634484410282856,
+    -1.4967327032999993,
+    0.0044730323325445475,
+    -0.0006475100550646267,
+    0.000968139059328584,
+    0.0004905490100617272,
+    0.051263638681406154,
+    -3.656429377956733e-05
+  ],
+  "reference_termination": "success_visible_near",
+  "reference_actions": [
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "FORWARD",
+    "STRAFE_RIGHT"
+  ],
+  "reference_privileged": true,
+  "accepted_candidate": 1,
+  "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/all_terrain_validation/barrier/candidate_01"
+}

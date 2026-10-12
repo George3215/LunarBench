@@ -31,10 +31,12 @@ class RobotController:
     """把 profile 变成可执行的控制对象。"""
 
     def __init__(self, model, data, profile: ArmProfile, ik_data=None):
+        import mujoco
         self.model = model
         self.data = data
         self.profile = profile
-        self.ik_data = data if ik_data is None else ik_data
+        # IK 迭代会写 qpos，必须和真实积分状态分离，否则求解过程会瞬移机械臂。
+        self.ik_data = mujoco.MjData(model) if ik_data is None else ik_data
         self.qpos_addr, self.dof_addr, self.lower, self.upper = self._joint_addresses()
         self._tcp_site_id = model.site(profile.tcp_site).id
         self._pad_geom_ids = [
@@ -103,9 +105,7 @@ class RobotController:
     def tcp_pose_for(self, q: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         """给定关节角算 TCP 位姿，在**独立的 MjData** 上跑，不改变仿真状态。
 
-        注意：不能用 `self.ik_data`——`__init__` 在未显式传入时把 `ik_data` 设为
-        `self.data` 本身（task2 的调用方都没传），那样会直接改写正在仿真的 qpos。
-        这里单独维护一份只读 FK scratch。
+        这里使用独立 FK scratch，不覆盖正在求解的 IK 临时状态，更不写真实物理 qpos。
 
         用途：对一段关节轨迹做**运动学前瞻**（`kinematics.preview_trajectory`），
         以及在不推进物理的前提下检查目标是否可达。

@@ -4,6 +4,13 @@
 
 已完成未经训练的本地 VLM 基线：161 次原任务动作选择与 24 回合连续物理闭环。完整结论见 [VLM_BASELINE_RESULTS.md](VLM_BASELINE_RESULTS.md)，复现见 [REPRODUCE.md](REPRODUCE.md)。
 
+**先看这两份**：
+
+- [EXPERIMENT_PLAN.md](EXPERIMENT_PLAN.md)：实验总索引 —— 协议清单、执行顺序、当前状态、
+  结果目录约定、入库范围与下一步。
+- [TERRAIN_DESIGN_V3.md](TERRAIN_DESIGN_V3.md)：最新地形（38 个固定种子配置）的设计、
+  物理检查边界与入口。
+
 - [模型与本机可行性](MODEL_FEASIBILITY.md)
 - [本轮执行协议](runs/20261004_qwen35/EXECUTION_PROTOCOL.md)
 - [原六动作任务结果](runs/20261004_qwen35/original_six_action/RESULTS.md)：模型离线选动作，使用已真实执行且固定哈希的物理分支评分。

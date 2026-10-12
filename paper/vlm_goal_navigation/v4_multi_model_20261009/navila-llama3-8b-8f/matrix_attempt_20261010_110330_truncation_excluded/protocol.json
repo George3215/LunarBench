@@ -1,0 +1,53 @@
+{
+  "model": "navila-llama3-8b-8f",
+  "family": "navila",
+  "protocol": "matrix",
+  "scenes": [
+    "terrain_design_v4/barrier_a0",
+    "terrain_design_v4/barrier_a1",
+    "terrain_design_v4/barrier_a2",
+    "terrain_design_v4/trench_a0",
+    "terrain_design_v4/stairs_up_a2",
+    "terrain_design_v4/slope_up_a2",
+    "terrain_design_v4/pit_a0",
+    "terrain_design_v4/pit_a1",
+    "terrain_design_v4/pit_a2",
+    "terrain_design_v4/basin_a1",
+    "terrain_design_v4/basin_a2",
+    "terrain_design_v4/waves_a0",
+    "terrain_design_v4/waves_a1",
+    "terrain_design_v4/waves_a2",
+    "terrain_design_v4/perlin_a1",
+    "terrain_design_v4/perlin_a2",
+    "terrain_design_v4/perlin_rough_a0",
+    "terrain_design_v4/perlin_rough_a1",
+    "terrain_design_v4/perlin_rough_a2",
+    "terrain_design_v4/window_a0",
+    "terrain_design_v4/window_a1",
+    "terrain_design_v4/window_a2"
+  ],
+  "scene_count": 22,
+  "trial_count": 132,
+  "sensor_conditions": [
+    "rgb",
+    "rgbd"
+  ],
+  "context_conditions": [
+    "current",
+    "first_current",
+    "all_history"
+  ],
+  "max_steps": 3000,
+  "request_count_limit": null,
+  "scheduling_batch_size": 6,
+  "budget_includes_controlled_approach": true,
+  "policy_inputs": "selected camera frames and RGB-derived depth measurement only",
+  "no_ground_truth_to_policy": true,
+  "no_prior_outputs_or_actions": true,
+  "history_sampling": "none",
+  "rgbd_adaptation": "aligned depth PNG plus selected-frame RGB-derived numeric depth; not a natively trained RGBD policy",
+  "action_adapter": "NaVILA forward/turn/stop -> same 1s primitives; output distance/angle replaced by fixed primitive magnitudes",
+  "image_area_cap": 65536,
+  "success": "same V4 camera evaluator: >=20 target pixels and <1m range for three samples; upright/in bounds",
+  "resource_limits_are_not_navigation_failure_evidence": true
+}
