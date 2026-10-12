@@ -1,0 +1,369 @@
+{
+  "scene": {
+    "name": "perlin",
+    "terrain_profile": "perlin",
+    "target_xy": [
+      -0.2999999999999998,
+      0.0
+    ],
+    "target_height_m": 0.55,
+    "approach_xy": [
+      -3.8,
+      -1.35
+    ],
+    "lost_xy": [
+      -3.8,
+      -1.35
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 0.55,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "Perlin/fBm undulation, quantised into walkable steps",
+    "notes": [
+      "measured V(x) is X V X V X V X: six transitions along one traverse",
+      "anchors are chosen where the oracle label and the rendered camera agree, so 'hidden' means zero target pixels rather than a sliver",
+      "the best action depends on whether the robot is in a trough or on a crest",
+      "Calibrated medium; native relief preferred; cubic fallback; versioned terrain changes."
+    ]
+  },
+  "initial_evaluator": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 520,
+    "target_visible_rgb_pixels": 475,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.32343092105263155,
+      0.4090175438596491
+    ],
+    "median_target_axial_depth_m": 2.9975154399871826,
+    "median_target_surface_range_m": 3.321737783145217,
+    "camera_to_target_centre_m": 3.4327310110331015,
+    "base_xy_target_distance_m_diagnostic": 3.7411853910669426,
+    "camera_xyz_evaluator": [
+      -3.4536537250113732,
+      -1.3537288750110692,
+      0.4743539494007783
+    ],
+    "target_centre_xyz_evaluator": [
+      -0.3,
+      0.0,
+      0.4
+    ],
+    "upright": 0.9805567689621004,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "qpos": [
+    -3.7889417066378357,
+    -1.3504643268208816,
+    0.37809224196931207,
+    0.9951252979338191,
+    0.008286203680408196,
+    0.09825439270445538,
+    -0.0017477285181715322,
+    0.05946663974560681,
+    0.6136788330030571,
+    -1.3659056947983683,
+    -0.0598422036935808,
+    0.6622868844674882,
+    -1.4047276418549848,
+    0.08189148476037383,
+    0.8280364784694799,
+    -1.454943356064733,
+    -0.11405742664081256,
+    0.8280181194798923,
+    -1.4607781151218173,
+    0.0006369392274916476,
+    -0.0005465366311005534,
+    0.0009357422687375795,
+    0.00045110046173422937,
+    0.05341202833057689,
+    -1.5949226315392427e-05
+  ],
+  "qvel": [
+    0.0036583584191950736,
+    -0.00040038141945305194,
+    0.00021838195663826334,
+    0.00436057905494773,
+    0.004606618711631708,
+    -0.0007171465172666503,
+    -0.002477451496647166,
+    0.004953240192757088,
+    0.0013605409388959661,
+    -0.003139413638633622,
+    0.006688950382916062,
+    -0.0029818496431584466,
+    -0.0038604120221623138,
+    -0.003042492052119608,
+    0.016945053032837425,
+    -0.0033830606078713906,
+    -0.001013751157129396,
+    0.012279270944445992,
+    0.0002368492103588672,
+    1.5224396241358367e-06,
+    -1.901526797263396e-07,
+    2.7097444751462145e-05,
+    -0.0009175335020768776,
+    -1.3985221067767959e-06
+  ],
+  "initial_depth_camera_range_m": 3.321737783145217,
+  "initial_stand_s": 1.8,
+  "scene_setup": {
+    "scene_name": "perlin",
+    "source_scene": {
+      "name": "perlin",
+      "terrain_profile": "perlin",
+      "target_xy": [
+        5.0,
+        0.0
+      ],
+      "target_height_m": 0.45,
+      "approach_xy": [
+        2.0,
+        0.0
+      ],
+      "lost_xy": [
+        -1.8,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "forward_m": 0.45,
+      "climb_m": 2.4,
+      "back_m": 2.4,
+      "turn_rad": 0.6109,
+      "target_z_absolute": null,
+      "history_xy": null,
+      "history_saw_target": false,
+      "terrain_params": null,
+      "mechanism": "Perlin/fBm undulation, quantised into walkable steps",
+      "notes": [
+        "measured V(x) is X V X V X V X: six transitions along one traverse",
+        "anchors are chosen where the oracle label and the rendered camera agree, so 'hidden' means zero target pixels rather than a sliver",
+        "the best action depends on whether the robot is in a trough or on a crest"
+      ]
+    },
+    "adjusted_scene": {
+      "name": "perlin",
+      "terrain_profile": "perlin",
+      "target_xy": [
+        -0.2999999999999998,
+        0.0
+      ],
+      "target_height_m": 0.55,
+      "approach_xy": [
+        -3.8,
+        -1.35
+      ],
+      "lost_xy": [
+        -3.8,
+        -1.35
+      ],
+      "yaw_rad": 0.0,
+      "forward_m": 0.45,
+      "climb_m": 2.4,
+      "back_m": 2.4,
+      "turn_rad": 0.6109,
+      "target_z_absolute": 0.55,
+      "history_xy": null,
+      "history_saw_target": false,
+      "terrain_params": null,
+      "mechanism": "Perlin/fBm undulation, quantised into walkable steps",
+      "notes": [
+        "measured V(x) is X V X V X V X: six transitions along one traverse",
+        "anchors are chosen where the oracle label and the rendered camera agree, so 'hidden' means zero target pixels rather than a sliver",
+        "the best action depends on whether the robot is in a trough or on a crest",
+        "Calibrated medium; native relief preferred; cubic fallback; versioned terrain changes."
+      ]
+    },
+    "original_terrain_geometry_unchanged": true,
+    "added_occluder": {
+      "kind": "cube",
+      "x": -2.6516788529698214,
+      "width": 0.75,
+      "half_y": 0.375,
+      "top_z": 0.6299999985098839,
+      "bottom_z": -0.12000000149011612,
+      "exposed_dimensions_m": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "seed": 4152501620,
+      "ablation_id": "cube_4152501620",
+      "generation": "one seeded cube, finite fixed candidate list; no walls outside window structures"
+    },
+    "terrain_spec": {
+      "profile": "perlin",
+      "size_m": [
+        12.0,
+        6.0
+      ],
+      "cell_m": 0.3,
+      "cells": [
+        40,
+        20
+      ],
+      "step_quantum_m": 0.05,
+      "max_rise_m": 0.1,
+      "height_range_m": [
+        -0.3,
+        0.35
+      ],
+      "resolution_m": 0.05,
+      "noise": "perlin_fbm",
+      "octaves": 3,
+      "seed": 5,
+      "amplitude_m": 0.8,
+      "feature_m": 3.4,
+      "lateral_blend": 0.35,
+      "navigation_design_changes": [],
+      "navigation_difficulty_level": "medium",
+      "navigation_recipe_seed": 23,
+      "navigation_original_geometry_unchanged": true,
+      "navigation_extra_geom_xml": "    <geom name=\"navigation_added_occluder\" type=\"box\" size=\"0.375000 0.375000 0.375000\" pos=\"-2.276679 0.000000 0.255000\" euler=\"0 0.000000000 0\" friction=\"1.0 0.005 0.0001\" rgba=\"0.45 0.45 0.50 1\" />\n",
+      "navigation_added_occluder": {
+        "kind": "cube",
+        "x": -2.6516788529698214,
+        "width": 0.75,
+        "half_y": 0.375,
+        "top_z": 0.6299999985098839,
+        "bottom_z": -0.12000000149011612,
+        "exposed_dimensions_m": [
+          0.75,
+          0.75,
+          0.75
+        ],
+        "seed": 4152501620,
+        "ablation_id": "cube_4152501620",
+        "generation": "one seeded cube, finite fixed candidate list; no walls outside window structures"
+      }
+    },
+    "initial": {
+      "sim_time_s": 1.8000000000000014,
+      "target_segment_pixels": 520,
+      "target_visible_rgb_pixels": 475,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": [
+        0.32343092105263155,
+        0.4090175438596491
+      ],
+      "median_target_axial_depth_m": 2.9975154399871826,
+      "median_target_surface_range_m": 3.321737783145217,
+      "camera_to_target_centre_m": 3.4327310110331015,
+      "base_xy_target_distance_m_diagnostic": 3.7411853910669426,
+      "camera_xyz_evaluator": [
+        -3.4536537250113732,
+        -1.3537288750110692,
+        0.4743539494007783
+      ],
+      "target_centre_xyz_evaluator": [
+        -0.3,
+        0.0,
+        0.4
+      ],
+      "upright": 0.9805567689621004,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "initial_depth": {
+      "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+      "red_pixel_count": 475,
+      "valid_red_depth_count": 475,
+      "red_region_median_axial_depth_m": 2.9975154399871826,
+      "red_region_median_surface_range_m": 3.321737783145217,
+      "centroid_uv": [
+        0.32343092105263155,
+        0.4090175438596491
+      ],
+      "image_width": 640,
+      "image_height": 480,
+      "vertical_fov_deg": 87.0,
+      "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+      "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+    },
+    "approach_action": "STRAFE_LEFT",
+    "approach_actions": 3,
+    "approach_end_sim_time_s": 4.1999999999997595,
+    "loss": {
+      "step": 3,
+      "measurement": {
+        "sim_time_s": 4.1999999999997595,
+        "target_segment_pixels": 0,
+        "target_visible_rgb_pixels": 0,
+        "red_false_positive_pixels": 0,
+        "centroid_uv": null,
+        "median_target_axial_depth_m": null,
+        "median_target_surface_range_m": null,
+        "camera_to_target_centre_m": 3.0924402864239564,
+        "base_xy_target_distance_m_diagnostic": 3.408498048656789,
+        "camera_xyz_evaluator": [
+          -3.352124399336776,
+          -0.4919866793256571,
+          0.4753172187293071
+        ],
+        "target_centre_xyz_evaluator": [
+          -0.3,
+          0.0,
+          0.4
+        ],
+        "upright": 0.983569723788997,
+        "in_bounds": true,
+        "near_and_visible": false,
+        "step": 3,
+        "action": "STRAFE_LEFT",
+        "success_streak": 0
+      },
+      "kind": "terrain_occlusion",
+      "blocking_geom": "navigation_added_occluder",
+      "displacement_m": 0.922918951230455
+    },
+    "loss_qpos": [
+      -3.6807667435190217,
+      -0.433906872050824,
+      0.37406660734490554,
+      0.9920987729039453,
+      0.004964222479723809,
+      0.09009087301028446,
+      -0.0871723344754659,
+      -0.32441305184594565,
+      0.7562411371545731,
+      -1.5086933010453167,
+      0.06641602533337915,
+      0.6814397839118339,
+      -1.4973215846040118,
+      0.24550668079800078,
+      0.824489459477287,
+      -1.4558210109185223,
+      -0.04551731118560523,
+      0.8130753052065846,
+      -1.5963263734162154,
+      -0.006389392477825448,
+      -0.0005362572329532746,
+      0.0010468834325465513,
+      0.0005566903496046605,
+      0.05563902694858917,
+      -7.22958420616993e-05
+    ],
+    "reference_termination": "success_visible_near",
+    "reference_actions": [
+      "STRAFE_RIGHT",
+      "STRAFE_RIGHT",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "FORWARD"
+    ],
+    "reference_privileged": true,
+    "accepted_candidate": 0,
+    "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/workflows/20261008_task3_difficulty_calibration/validation_v2_medium/perlin/candidate_00"
+  }
+}

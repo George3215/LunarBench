@@ -1,0 +1,23 @@
+GATE terrain_design_v4/barrier_a0 True {'G1': True, 'G2': True, 'G3': True, 'G4': True} 1 36
+GATE terrain_design_v4/barrier_a1 True {'G1': True, 'G2': True, 'G3': True, 'G4': True} 2 36
+GATE terrain_design_v4/barrier_a2 True {'G1': True, 'G2': True, 'G3': True, 'G4': True} 3 36
+GATE terrain_design_v4/trench_a0 True {'G1': True, 'G2': True, 'G3': True, 'G4': True} 4 36
+GATE terrain_design_v4/trench_a1 False {'G1': False, 'G2': False, 'G3': False, 'G4': False} 5 36
+GATE terrain_design_v4/trench_a2 False {'G1': False, 'G2': False, 'G3': False, 'G4': False} 6 36
+GATE terrain_design_v4/stairs_up_a0 False {'G1': False, 'G2': False, 'G3': False, 'G4': False} 7 36
+GATE terrain_design_v4/stairs_up_a1 False {'G1': False, 'G2': False, 'G3': False, 'G4': False} 8 36
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/strict_recovery_gate.py", line 176, in <module>
+    try:main(a.out.resolve(),a.design_module)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/strict_recovery_gate.py", line 130, in main
+    folder=dest/f'candidate_{index:02d}';folder.mkdir(parents=True,exist_ok=True);env=nt.api.MuJoCoEnvironment(scene,terrain=terrain);camera=nt.EvaluatorCamera(env,render_size=(640,480));place(env)
+                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/recovery_mechanism_v4_20261009_paired/frozen/MoonSim/tasks/task3_reobservability/api.py", line 250, in __init__
+    self.model = build_model(self.terrain, self.target, ground)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/recovery_mechanism_v4_20261009_paired/frozen/MoonSim/tasks/task3_reobservability/go2_piper_camera.py", line 217, in build_model
+    model = mujoco.MjModel.from_xml_string(xml)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Error: size 0 must be positive in geom
+Element name 'stairs_up_a2_surface_70', id 70, line 161

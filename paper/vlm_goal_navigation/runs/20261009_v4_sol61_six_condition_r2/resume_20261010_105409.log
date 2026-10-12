@@ -1,0 +1,60 @@
+RESUME_CAMERA_MATCH rgb/current/barrier_a0 step 115 frames 116
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_sol61_trial.py", line 181, in <module>
+    main()
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_sol61_trial.py", line 127, in main
+    trial = restore(setup,terrains[setup['scene_name']],root,mode,horizon,root/f'recovery/replay_{stamp}')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/sol61_resume.py", line 41, in restore
+    terminal = trial.physics.execute(action, trial.step)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/navigation_trial.py", line 287, in execute
+    self.record(step, action)
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_qwen3vl_trial.py", line 123, in record
+    state = super().record(step, action)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/navigation_trial.py", line 247, in record
+    measurement = self.camera.read(e.model, d)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/navigation_trial.py", line 93, in read
+    seg = self.renderer.render().copy()
+          ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/rendering/classic/renderer.py", line 184, in render
+    mujoco.mjr_render(self._rect, self._scene, self._mjr_context)
+KeyboardInterrupt
+Exception ignored in: <function Renderer.__del__ at 0x733889e5bf60>
+Traceback (most recent call last):
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/rendering/classic/renderer.py", line 343, in __del__
+    self.close()
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/rendering/classic/renderer.py", line 329, in close
+    self._gl_context.free()
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/egl/__init__.py", line 133, in free
+    EGL.eglDestroyContext(EGL_DISPLAY, self._context)
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/OpenGL/error.py", line 230, in glCheckError
+    raise self._errorClass(
+OpenGL.raw.EGL._errors.EGLError: EGLError(
+	err = EGL_NOT_INITIALIZED,
+	baseOperation = eglDestroyContext,
+	cArguments = (
+		<OpenGL._opaque.EGLDisplay_pointer object at 0x7338375a70b0>,
+		<OpenGL._opaque.EGLContext_pointer object at 0x7338375a6960>,
+	),
+	result = 0
+)
+Exception ignored in: <function GLContext.__del__ at 0x733889e5b920>
+Traceback (most recent call last):
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/egl/__init__.py", line 138, in __del__
+    self.free()
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/mujoco/egl/__init__.py", line 133, in free
+    EGL.eglDestroyContext(EGL_DISPLAY, self._context)
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/OpenGL/error.py", line 230, in glCheckError
+    raise self._errorClass(
+OpenGL.raw.EGL._errors.EGLError: EGLError(
+	err = EGL_NOT_INITIALIZED,
+	baseOperation = eglDestroyContext,
+	cArguments = (
+		<OpenGL._opaque.EGLDisplay_pointer object at 0x7338375a70b0>,
+		<OpenGL._opaque.EGLContext_pointer object at 0x7338375a6960>,
+	),
+	result = 0
+)

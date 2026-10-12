@@ -68,19 +68,35 @@ v4 正式矩阵的模型是 `Qwen3-VL-8B`、`VLMnav`、`NaVILA`，传感器 `rgb
   `physical_state.json`、`rock_contacts.json`。
 - `workflows/`：校准工作流的阶段记录与最终报告。
 
-### 入库范围
+### 入库范围：记录入库，数据不入库
 
-仓库只提交**协议、脚本、配置、小体积地形元数据与汇总报告**。以下原始产物保留在本机、
-由 `.gitignore` 排除，合计约 10.9 GB / 109 万个文件：
+**实验记录入库**（已进行的实验可以按仓库内容核对与引用）：
 
-- 逐 step / 逐次模型调用日志（`*.jsonl`、`measurement.json`、`network_input.json`、
-  `output.json`、`context.json`、`messages.json` 等）；
+- 协议与设计：`*PROTOCOL.md`、`RESEARCH_DESIGN.md`、各 `DESIGN.md`、`PROTOCOL.json`；
+- 运行状态与报告：`RUN_STATUS.json`、`STATUS.json`、`REPORT.md`、`FINAL_REPORT.md`、
+  `FINAL_RESULTS.json`、`WORKFLOW_STATUS.json`、`summary.json`；
+- 逐 trial 结果与准入记录：`result.json`、`admission_records.json`、
+  `formal_manifest.json`、`admission_audit.json`、`formal_admission.jsonl`、
+  `gates.json`、`progress.json`、`candidate_inventory.json`、`design_inventory.json`；
+- 小型审查页与运行日志：`index.html`、`scene_review.html`、`terrain_gallery.html`
+  （约 1–152 KB）、`run.log`、`matrix.log`、`calibration_workflow.log`；
+- 地形定义与物理检查：`terrain_design_v3/` 的 `terrain.json`、`slabs.json`、
+  `inspection.json`、`physical_state.json`、`rock_contacts.json`。
+
+**实验数据不入库**，由 `.gitignore` 排除，合计约 10.9 GB / 109 万个文件：
+
+- 逐 trial 原始轨迹：`state.jsonl`、`evaluator.jsonl`、`trace.jsonl`；
+- 逐 step / 逐次模型调用原始日志：`measurement.json`、`depth_sensor.json`、
+  `transition.json`、`context.json`、`messages.json`、`network_input.json`、
+  `output.json`、`depth.npy.json`、`response.json`、`observations.json`；
 - 渲染转储（`rgb/`、`rgbd/`、`depth.npy`、逐位深度归档）与提示词原文
   （`raw_output.txt`、`rendered_prompt.txt`）；
-- 浏览器导出（`trial_browser.html`）与 `archives/`、`isaac_tasks/outputs/`。
+- 巨型浏览器导出 `trial_browser.html`（单文件 111–635 MB），以及 `archives/`、
+  `isaac_tasks/outputs/`。
 
-这不是数据丢失：原始产物按上表路径留在本机。**换机器后无法直接从仓库重放这些对照**，
+这不是数据丢失：原始数据按上表路径留在本机。**换机器后无法直接从仓库重放这些对照**，
 需要按对应协议重新执行准入与 trial，因此引用这些数字时必须同时引用协议、模型提交和日期。
+`trial_browser.html` 可由逐 trial 的 `result.json` 重新生成，所以它是派生数据而非记录。
 
 ## 5. 入口命令
 

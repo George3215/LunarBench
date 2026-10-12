@@ -1,0 +1,332 @@
+{
+  "scene": {
+    "name": "basin",
+    "terrain_profile": "basin",
+    "target_xy": [
+      7.0,
+      0.0
+    ],
+    "target_height_m": 0.3,
+    "approach_xy": [
+      0.0,
+      0.0
+    ],
+    "lost_xy": [
+      0.0,
+      0.0
+    ],
+    "yaw_rad": 0.0,
+    "forward_m": 0.45,
+    "climb_m": 2.4,
+    "back_m": 2.4,
+    "turn_rad": 0.6109,
+    "target_z_absolute": 0.3,
+    "history_xy": null,
+    "history_saw_target": false,
+    "terrain_params": null,
+    "mechanism": "a target inside a stepped basin; the near rim occludes it at a grazing angle",
+    "notes": [
+      "measured V(x) is X V X: hidden for x < -5.0, visible -4.95..+1.95, hidden after",
+      "the occlusion is a grazing angle, not a wall: from very far away the sight line to a target below the rim hits the flat ground first",
+      "note this is the *opposite* ordering from stairs_up: here walking toward the basin is what reveals the target, which is why the direction of the effect has to be measured rather than assumed",
+      "Calibrated medium; native relief preferred; cubic fallback; versioned terrain changes."
+    ]
+  },
+  "initial_evaluator": {
+    "sim_time_s": 1.8000000000000014,
+    "target_segment_pixels": 60,
+    "target_visible_rgb_pixels": 60,
+    "red_false_positive_pixels": 0,
+    "centroid_uv": [
+      0.4911458333333333,
+      0.2829861111111111
+    ],
+    "median_target_axial_depth_m": 6.056970596313477,
+    "median_target_surface_range_m": 6.552757761155506,
+    "camera_to_target_centre_m": 6.6578262249095115,
+    "base_xy_target_distance_m_diagnostic": 6.986271607911906,
+    "camera_xyz_evaluator": [
+      0.35776274126961305,
+      0.0016570755216612863,
+      -0.3053366819479706
+    ],
+    "target_centre_xyz_evaluator": [
+      7.0,
+      0.0,
+      0.15
+    ],
+    "upright": 0.951790082836277,
+    "in_bounds": true,
+    "near_and_visible": false
+  },
+  "qpos": [
+    0.013734098779511417,
+    0.008929555413419775,
+    -0.36268956034248495,
+    0.9878436567714765,
+    0.010112892126592056,
+    0.15493394457446466,
+    -0.007623123230745293,
+    -0.04710128417303152,
+    0.6365345490716242,
+    -1.5019574021834152,
+    -0.05237445896234617,
+    0.6847422604999984,
+    -1.4364171329737219,
+    0.06735858797894978,
+    0.8596528386287321,
+    -1.518254297341355,
+    -0.1588870544856322,
+    0.7947909484196587,
+    -1.5405728692511567,
+    -0.0005620882242077787,
+    -0.0005134987556671745,
+    0.0009273847791934532,
+    0.0004381187953160636,
+    0.0531051473008379,
+    -1.5202167460250957e-05
+  ],
+  "qvel": [
+    0.001689850195123827,
+    0.0012448901091618462,
+    -0.0010361865789246187,
+    0.001892472899985637,
+    0.005896653371375171,
+    -0.002649459884180407,
+    -0.003700549467490075,
+    0.006932182259968795,
+    -0.013277313157962293,
+    -0.004534856221991397,
+    0.003899380959146419,
+    -0.010622749294148418,
+    -0.007182175247558275,
+    0.0004637284312386222,
+    0.002667628560164301,
+    -0.007166515409349554,
+    -0.005828303211927117,
+    0.008812797574909003,
+    0.0004721698978404346,
+    2.2176800433411727e-06,
+    -3.9719055064731773e-07,
+    2.7439941925170077e-05,
+    -0.002080899975312114,
+    -1.8654005324260063e-06
+  ],
+  "initial_depth_camera_range_m": 6.552757761155506,
+  "initial_stand_s": 1.8,
+  "scene_setup": {
+    "scene_name": "basin",
+    "source_scene": {
+      "name": "basin",
+      "terrain_profile": "basin",
+      "target_xy": [
+        2.0,
+        0.0
+      ],
+      "target_height_m": 0.45,
+      "approach_xy": [
+        -4.0,
+        0.0
+      ],
+      "lost_xy": [
+        -5.8,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "forward_m": 0.45,
+      "climb_m": 2.4,
+      "back_m": 2.4,
+      "turn_rad": 0.6109,
+      "target_z_absolute": -0.45,
+      "history_xy": null,
+      "history_saw_target": false,
+      "terrain_params": null,
+      "mechanism": "a target inside a stepped basin; the near rim occludes it at a grazing angle",
+      "notes": [
+        "measured V(x) is X V X: hidden for x < -5.0, visible -4.95..+1.95, hidden after",
+        "the occlusion is a grazing angle, not a wall: from very far away the sight line to a target below the rim hits the flat ground first",
+        "note this is the *opposite* ordering from stairs_up: here walking toward the basin is what reveals the target, which is why the direction of the effect has to be measured rather than assumed"
+      ]
+    },
+    "adjusted_scene": {
+      "name": "basin",
+      "terrain_profile": "basin",
+      "target_xy": [
+        7.0,
+        0.0
+      ],
+      "target_height_m": 0.3,
+      "approach_xy": [
+        0.0,
+        0.0
+      ],
+      "lost_xy": [
+        0.0,
+        0.0
+      ],
+      "yaw_rad": 0.0,
+      "forward_m": 0.45,
+      "climb_m": 2.4,
+      "back_m": 2.4,
+      "turn_rad": 0.6109,
+      "target_z_absolute": 0.3,
+      "history_xy": null,
+      "history_saw_target": false,
+      "terrain_params": null,
+      "mechanism": "a target inside a stepped basin; the near rim occludes it at a grazing angle",
+      "notes": [
+        "measured V(x) is X V X: hidden for x < -5.0, visible -4.95..+1.95, hidden after",
+        "the occlusion is a grazing angle, not a wall: from very far away the sight line to a target below the rim hits the flat ground first",
+        "note this is the *opposite* ordering from stairs_up: here walking toward the basin is what reveals the target, which is why the direction of the effect has to be measured rather than assumed",
+        "Calibrated medium; native relief preferred; cubic fallback; versioned terrain changes."
+      ]
+    },
+    "original_terrain_geometry_unchanged": true,
+    "added_occluder": null,
+    "terrain_spec": {
+      "profile": "basin",
+      "depth_m": 0.9,
+      "floor_half_m": 0.8,
+      "steps": 6,
+      "tread_m": 0.4,
+      "rise_m": 0.15,
+      "center_x_m": 1.5,
+      "floor_z_m": -0.9,
+      "size_m": [
+        16.0,
+        6.0
+      ],
+      "resolution_m": 0.05,
+      "navigation_design_changes": [],
+      "navigation_difficulty_level": "medium",
+      "navigation_recipe_seed": 23,
+      "navigation_original_geometry_unchanged": true
+    },
+    "initial": {
+      "sim_time_s": 1.8000000000000014,
+      "target_segment_pixels": 60,
+      "target_visible_rgb_pixels": 60,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": [
+        0.4911458333333333,
+        0.2829861111111111
+      ],
+      "median_target_axial_depth_m": 6.056970596313477,
+      "median_target_surface_range_m": 6.552757761155506,
+      "camera_to_target_centre_m": 6.6578262249095115,
+      "base_xy_target_distance_m_diagnostic": 6.986271607911906,
+      "camera_xyz_evaluator": [
+        0.35776274126961305,
+        0.0016570755216612863,
+        -0.3053366819479706
+      ],
+      "target_centre_xyz_evaluator": [
+        7.0,
+        0.0,
+        0.15
+      ],
+      "upright": 0.951790082836277,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "initial_depth": {
+      "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+      "red_pixel_count": 60,
+      "valid_red_depth_count": 60,
+      "red_region_median_axial_depth_m": 6.056970596313477,
+      "red_region_median_surface_range_m": 6.552757761155506,
+      "centroid_uv": [
+        0.4911458333333333,
+        0.2829861111111111
+      ],
+      "image_width": 640,
+      "image_height": 480,
+      "vertical_fov_deg": 87.0,
+      "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+      "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+    },
+    "approach_action": "FORWARD",
+    "approach_actions": 3,
+    "approach_end_sim_time_s": 4.799999999999693,
+    "loss": {
+      "step": 3,
+      "measurement": {
+        "sim_time_s": 4.799999999999693,
+        "target_segment_pixels": 0,
+        "target_visible_rgb_pixels": 0,
+        "red_false_positive_pixels": 0,
+        "centroid_uv": null,
+        "median_target_axial_depth_m": null,
+        "median_target_surface_range_m": null,
+        "camera_to_target_centre_m": 5.300986334383325,
+        "base_xy_target_distance_m_diagnostic": 5.574191958655731,
+        "camera_xyz_evaluator": [
+          1.7275626676198121,
+          0.0805510905937102,
+          -0.3934815684515971
+        ],
+        "target_centre_xyz_evaluator": [
+          7.0,
+          0.0,
+          0.15
+        ],
+        "upright": 0.9992272421813447,
+        "in_bounds": true,
+        "near_and_visible": false,
+        "step": 3,
+        "action": "FORWARD",
+        "success_streak": 0
+      },
+      "kind": "terrain_occlusion",
+      "blocking_geom": "basin_right_ground",
+      "displacement_m": 1.4130036599792457
+    },
+    "loss_qpos": [
+      1.4260577499894675,
+      0.05276159104630006,
+      -0.5649831655863679,
+      0.998907677873815,
+      -0.005607630149741066,
+      -0.018624302871917908,
+      0.0424869498950269,
+      0.04147423706223066,
+      0.3707795749410639,
+      -1.2827953316647647,
+      -0.045585821838055283,
+      0.8682257607662971,
+      -1.3641366514055981,
+      0.03644811493645613,
+      1.1329115689941978,
+      -1.2456146139683808,
+      -0.09170925583777717,
+      0.7993012561842909,
+      -1.4594977624861887,
+      -0.00214839831786512,
+      -0.0007089656285851098,
+      0.0008497427769124148,
+      0.0005751769812647614,
+      0.05245160829508289,
+      -1.453160852621287e-05
+    ],
+    "reference_termination": "success_visible_near",
+    "reference_actions": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "TURN_RIGHT",
+      "FORWARD",
+      "STRAFE_RIGHT",
+      "STRAFE_RIGHT",
+      "FORWARD",
+      "STRAFE_RIGHT"
+    ],
+    "reference_privileged": true,
+    "accepted_candidate": 0,
+    "evidence_path": "/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/workflows/20261008_task3_difficulty_calibration/validation_v2_medium/basin/candidate_00"
+  }
+}

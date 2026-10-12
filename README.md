@@ -13,7 +13,15 @@ git clone --recurse-submodules https://github.com/George3215/LunarBench.git
 cd LunarBench
 ```
 
-已有 checkout 执行 `git submodule update --init --recursive`。DrQ-v2 和 GPT-as-Policy 以固定提交的 submodule 引用。地形、机器人网格、模型权重和运行产物不随源码上传，准备方式见 [资源说明](assets/README.md) 和 [源码与依赖范围](docs/REPOSITORY.md)。文档中的 `/home/lry/...` 是本机路径；新机器优先使用下面的仓库相对路径命令。
+已有 checkout 执行 `git submodule update --init --recursive`。DrQ-v2 和 GPT-as-Policy 以固定提交的 submodule 引用。地形、机器人网格、模型权重和运行产物不随源码上传，准备方式见 [资源说明](assets/README.md) 和 [源码与依赖范围](docs/REPOSITORY.md)。
+
+工作区级第三方模型（NaVILA、Taga-VLM、ABot、Qwen-VLA、Qwen-RobotNav 等）不在本仓库内，它们的上游链接、固定提交、可运行状态与权重下载方式集中记录在 [第三方组件与上游来源](docs/THIRD_PARTY.md)，机器可读清单为 [`docs/third_party_models.json`](docs/third_party_models.json)：
+
+```bash
+bash tools/fetch_third_party.sh --list      # 目录 / 上游 / 固定提交 / 状态
+bash tools/fetch_third_party.sh             # 按固定提交克隆或切换
+bash tools/fetch_third_party.sh --weights   # 打印权重下载命令
+```文档中的 `/home/lry/...` 是本机路径；新机器优先使用下面的仓库相对路径命令。
 
 月面机器人仿真仓库。MuJoCo/UE 场景与 Isaac Lab GPU 训练分别组织，按实际需要逐步扩展。
 

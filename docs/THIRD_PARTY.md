@@ -12,6 +12,18 @@
 关联文档：[源码与依赖范围](REPOSITORY.md) · [资源说明](../assets/README.md) ·
 [VLM 实验安排](../paper/vlm_goal_navigation/EXPERIMENT_PLAN.md)。
 
+机器可读清单：[`third_party_models.json`](third_party_models.json)（每个目录的 origin、
+固定提交、用途、可运行状态与权重链接），配套脚本
+[`tools/fetch_third_party.sh`](../tools/fetch_third_party.sh)：
+
+```bash
+bash tools/fetch_third_party.sh --list      # 目录 / 上游 / 固定提交 / 状态
+bash tools/fetch_third_party.sh             # 按固定提交克隆或切换
+bash tools/fetch_third_party.sh --weights   # 打印权重下载命令
+```
+
+目标目录默认是 `<工作区>/third_party`，可用 `LUNARBENCH_THIRD_PARTY` 覆盖。
+
 ## 1. Git submodule（克隆时按固定提交拉取）
 
 `git clone --recurse-submodules` 或 `git submodule update --init --recursive` 获取。
@@ -62,6 +74,32 @@ TASK3 的运动控制器有两份，都由 `--controller` 选择，都是第三�
 
 模型权重（`NaVILA/checkpoints/`、`Taga-VLM/model_zoo/`、`MoonSim/assets/model/Qwen3-VL-8B-Instruct/`
 等）与 Hugging Face 本地缓存同样不入库，按各自的上游下载方式准备。
+
+### 模型权重链接
+
+权重不随仓库发布；下表是本机实际使用的权重及其上游位置。`huggingface-cli download`
+命令可由 `bash tools/fetch_third_party.sh --weights` 直接生成。
+
+| 权重 | 上游链接 | 本机落点 | 来源 |
+| --- | --- | --- | --- |
+| `navila-llama3-8b-8f` | <https://huggingface.co/a8cheng/navila-llama3-8b-8f> | `NaVILA/checkpoints/navila-llama3-8b-8f` | NaVILA README |
+| NaVILA SigLIP 预训练 | <https://huggingface.co/a8cheng/navila-siglip-llama3-8b-v1.5-pretrain> | — | NaVILA README |
+| NaVILA 数据集 | <https://huggingface.co/datasets/a8cheng/NaVILA-Dataset> | — | NaVILA README |
+| `TagaVLM-qwen2-0.5b` | <https://huggingface.co/tiredtony/TagaVLM-qwen2-0.5b> | `Taga-VLM/model_zoo/TagaVLM-qwen2-0.5b` | Taga-VLM README |
+| `TagaVLM-qwen2-7b` | <https://huggingface.co/tiredtony/TagaVLM-qwen2-7b> | `Taga-VLM/model_zoo/TagaVLM-qwen2-7b` | Taga-VLM README |
+| TagaVLM 推理数据 | <https://huggingface.co/datasets/tiredtony/TagaVLM_infer_data> | `Taga-VLM/data` | Taga-VLM README |
+| SigLIP 视觉骨干 | <https://huggingface.co/google/siglip-so400m-patch14-384> | `Taga-VLM/model_zoo/siglip-so400m-patch14-384` | 本地目录名推断，未连通核验 |
+| ABotN 数据集 | <https://huggingface.co/datasets/acvlab/ABotN-POIBench> | — | ABot-Navigation README |
+| `Qwen3-VL-8B-Instruct` | <https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct> | `MoonSim/assets/model/Qwen3-VL-8B-Instruct` | 仓库内为本地路径；官方 HF id 未连通核验 |
+
+**未发布的权重**：ABot-N0、Qwen-VLA、Qwen-RobotNav 三个上游仓库当前没有公开权重
+（Qwen-RobotNav README 明确声明暂无发布计划），因此它们在 v4 矩阵中**不可运行**，
+不能算作缺席的对照结果。
+
+**尚未落地的模型**：v4 正式矩阵列出的 `VLMnav`
+（<https://github.com/Jirl-upenn/VLMnav>）在本机 `third_party/` 下不存在克隆，也没有
+运行环境；要引用它的必填结果，需先按 `docs/third_party_models.json` 的
+`planned_not_cloned` 落地并固定提交。
 
 ## 4. 资产与数据集上游
 

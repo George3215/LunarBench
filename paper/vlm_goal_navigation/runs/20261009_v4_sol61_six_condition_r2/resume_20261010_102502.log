@@ -1,0 +1,21 @@
+RESUME_CAMERA_MATCH rgb/current/barrier_a0 step 115 frames 116
+RESUME_CAMERA_MATCH rgbd/current/barrier_a0 step 115 frames 116
+RESUME_CAMERA_MATCH rgb/current/barrier_a1 step 99 frames 100
+RESUME_CAMERA_MATCH rgbd/current/barrier_a1 step 96 frames 97
+RESUME_CAMERA_MATCH rgbd/current/barrier_a2 step 38 frames 39
+RESUME_CAMERA_MATCH rgbd/all_history/barrier_a2 step 12 frames 13
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_sol61_trial.py", line 181, in <module>
+    main()
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_sol61_trial.py", line 143, in main
+    records = policy.decide_batch([t.prepare() for t in selected])
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/v4_sol61_trial.py", line 143, in <listcomp>
+    records = policy.decide_batch([t.prepare() for t in selected])
+                                   ^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/MoonSim/tasks/task3_reobservability/all_terrain_context_trial.py", line 95, in prepare
+    self.step+=1;self.step_folder=self.folder/'steps'/f'{self.step:04d}';self.step_folder.mkdir(parents=True)
+                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/pathlib.py", line 1116, in mkdir
+    os.mkdir(self, mode)
+FileExistsError: [Errno 17] File exists: '/home/lry/MoonUnrealEnv/MoonSim/paper/vlm_goal_navigation/runs/20261009_v4_sol61_six_condition_r2/rgb/current/trials/barrier_a0/steps/0116'

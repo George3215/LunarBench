@@ -136,15 +136,22 @@ pr_body.md
 /IsaacLab/
 /isaac_tasks/assets/
 
-# ---- VLM / 导航实验的原始运行产物（本机保留，不入库）----
-# 逐 step 日志、逐次模型调用记录、渲染转储与浏览器导出，合计约 10.9 GB、
-# 109 万个文件。协议、脚本、汇总报告和小体积地形元数据仍然入库；原始产物
-# 的存放位置与复现方式见 paper/vlm_goal_navigation/EXPERIMENT_PLAN.md。
-paper/vlm_goal_navigation/**/*.jsonl
-paper/vlm_goal_navigation/**/*.html
+# ---- VLM / 导航实验：数据不入库，记录入库 ----
+# 只排除"实验数据"（逐 step / 逐次模型调用的原始日志、渲染转储、可重放的
+# 巨型浏览器导出），合计约 10.9 GB、109 万个文件。"实验记录"（协议、脚本、
+# RUN_STATUS / REPORT / FINAL_RESULTS / 逐 trial result.json / 准入记录 /
+# 小型审查页与运行日志）仍然入库。存放位置与复现方式见
+# paper/vlm_goal_navigation/EXPERIMENT_PLAN.md。
+#
+# 逐 trial 原始轨迹与巨型浏览器导出
+paper/vlm_goal_navigation/**/state.jsonl
+paper/vlm_goal_navigation/**/evaluator.jsonl
+paper/vlm_goal_navigation/**/trace.jsonl
+paper/vlm_goal_navigation/**/trial_browser.html
 paper/vlm_goal_navigation/**/raw_output.txt
 paper/vlm_goal_navigation/**/rendered_prompt.txt
 paper/vlm_goal_navigation/**/archives/
+# 逐 step / 逐次模型调用的原始协议日志
 paper/vlm_goal_navigation/**/measurement.json
 paper/vlm_goal_navigation/**/depth_sensor.json
 paper/vlm_goal_navigation/**/transition.json
@@ -155,12 +162,9 @@ paper/vlm_goal_navigation/**/output.json
 paper/vlm_goal_navigation/**/depth.npy.json
 paper/vlm_goal_navigation/**/response.json
 paper/vlm_goal_navigation/**/observations.json
-paper/vlm_goal_navigation/**/approach_gate.json
-paper/vlm_goal_navigation/**/initialization.json
-paper/vlm_goal_navigation/**/model_metadata.json
-paper/vlm_goal_navigation/**/progress.json
-paper/vlm_goal_navigation/**/gates.json
 paper/vlm_goal_navigation/.calibration.lock
+# 运行日志属于实验记录，覆盖上面的全局 *.log
+!paper/vlm_goal_navigation/**/*.log
 
 # ---- Isaac Lab 训练输出 ----
 /isaac_tasks/outputs/

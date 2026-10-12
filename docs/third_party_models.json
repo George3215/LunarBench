@@ -1,0 +1,171 @@
+{
+  "schema": "lunarbench-third-party-models/1",
+  "note": "工作区级第三方模型/代码清单。这些目录位于外层 <workspace>/third_party/，不属于 MoonSim Git 仓库，也不会被提交。本文件让换机器后可据此重新克隆并固定到同一提交。人类可读版本见 docs/THIRD_PARTY.md。",
+  "workspace": {
+    "clone_root": "<workspace>/third_party",
+    "clone_root_example": "/home/lry/MoonUnrealEnv/third_party",
+    "override_env": "LUNARBENCH_THIRD_PARTY",
+    "fetch_script": "tools/fetch_third_party.sh"
+  },
+  "repositories": [
+    {
+      "id": "navila",
+      "dir": "NaVILA",
+      "origin": "https://github.com/AnjieCheng/NaVILA",
+      "commit": "76b98f233dd0fff05dfcd69435eec6740febff9d",
+      "license": "LICENSE (见仓库内)",
+      "role": "VLM 目标导航基线；RGB-D 为适配输入，动作映射到共同 1 s 原语",
+      "state": "runnable",
+      "env": ".conda-env",
+      "weights": [
+        {
+          "type": "huggingface",
+          "repo": "a8cheng/navila-llama3-8b-8f",
+          "local_path": "checkpoints/navila-llama3-8b-8f",
+          "source": "NaVILA/README.md 记录"
+        },
+        {
+          "type": "huggingface",
+          "repo": "a8cheng/navila-siglip-llama3-8b-v1.5-pretrain",
+          "source": "NaVILA/README.md 记录"
+        },
+        {
+          "type": "huggingface-dataset",
+          "repo": "a8cheng/NaVILA-Dataset",
+          "source": "NaVILA/README.md 记录"
+        }
+      ],
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/models.json"
+    },
+    {
+      "id": "taga-vlm",
+      "dir": "Taga-VLM",
+      "origin": "https://github.com/APEX-BJUT/Taga-VLM",
+      "commit": "db2f2884e2ca29a0d85219a637435415b94e0a93",
+      "license": "LICENSE (见仓库内)",
+      "role": "VLM 目标导航基线；本项目只做相机骨干适配，禁用仿真拓扑与 graph_sprels，不代表完整原生 Taga 方法",
+      "state": "runnable",
+      "env": ".venv",
+      "weights": [
+        {
+          "type": "huggingface",
+          "repo": "tiredtony/TagaVLM-qwen2-0.5b",
+          "local_path": "model_zoo/TagaVLM-qwen2-0.5b",
+          "source": "Taga-VLM/README.md 的 huggingface-cli download 命令"
+        },
+        {
+          "type": "huggingface",
+          "repo": "tiredtony/TagaVLM-qwen2-7b",
+          "local_path": "model_zoo/TagaVLM-qwen2-7b",
+          "source": "Taga-VLM/README.md 的 huggingface-cli download 命令"
+        },
+        {
+          "type": "huggingface",
+          "repo": "tiredtony/TagaVLM_infer_data",
+          "local_path": "data",
+          "repo_type": "dataset",
+          "source": "Taga-VLM/README.md 的 huggingface-cli download 命令"
+        },
+        {
+          "type": "huggingface",
+          "repo": "google/siglip-so400m-patch14-384",
+          "local_path": "model_zoo/siglip-so400m-patch14-384",
+          "source": "本地 model_zoo 实际内容；视觉骨干，官方 HF id 未在本机连通核验"
+        }
+      ],
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/models.json"
+    },
+    {
+      "id": "abot-navigation",
+      "dir": "ABot-Navigation",
+      "origin": "https://github.com/amap-cvlab/ABot-Navigation",
+      "commit": "2a0aefb56f1e2d315bba924239e9e8ad9dca9d92",
+      "license": "见仓库内（未发现顶层 LICENSE 文件）",
+      "role": "ABot 导航评测接口与 agent 示例参考",
+      "state": "reference",
+      "weights": [
+        {
+          "type": "huggingface-dataset",
+          "repo": "acvlab/ABotN-POIBench",
+          "source": "ABot-Navigation/README 记录（另有 PointBench / Short-Horizon-OVON，ModelScope 同名）"
+        }
+      ],
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/REPOSITORIES.json"
+    },
+    {
+      "id": "abot-n0",
+      "dir": "ABot-N0",
+      "origin": "https://github.com/amap-cvlab/ABot-Navigation",
+      "commit": "77ceab459a801f48d186b360604eca7a7dd95811",
+      "note": "与 ABot-Navigation 同源、不同提交；官方 ABot-N0 分支当前只有论文说明/媒体",
+      "role": "ABot-N0 原生测评",
+      "state": "unavailable",
+      "reason": "无推理代码、公开模型权重或 release assets，原生测评暂不可运行",
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/models.json"
+    },
+    {
+      "id": "qwen-vla",
+      "dir": "Qwen-VLA",
+      "origin": "https://github.com/QwenLM/Qwen-VLA",
+      "commit": "fa25ab1e69fd9d4318aa0fc5d3f2114a443f78d3",
+      "license": "见仓库内（未发现顶层 LICENSE 文件）",
+      "role": "Qwen-VLA 对照",
+      "state": "unavailable",
+      "reason": "仓库只有说明/媒体，无推理代码、权重链接或 release assets",
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/models.json"
+    },
+    {
+      "id": "qwen-robotnav",
+      "dir": "Qwen-RobotNav",
+      "origin": "https://github.com/QwenLM/Qwen-RobotNav",
+      "commit": "f74cf1f6079300aee6e40e03858da2f98b1b7261",
+      "license": "见仓库内（未发现顶层 LICENSE 文件）",
+      "role": "Qwen-RobotNav-4B 对照",
+      "state": "unavailable",
+      "reason": "官方 README 明确声明目前没有发布权重计划",
+      "recorded_in": "paper/vlm_goal_navigation/v4_multi_model_20261009/models.json"
+    },
+    {
+      "id": "object-rel-nav",
+      "dir": "object-rel-nav",
+      "origin": "https://github.com/oravus/object-rel-nav",
+      "commit": "6da34c30871e9b8a8cdc46c8607fe3683763020e",
+      "license": "见仓库内（未发现顶层 LICENSE 文件）",
+      "role": "Object-relative navigation 基线与 HM3D 数据准备参考（工作区 .tmp/hm3d_cfg、.tmp/annots）",
+      "state": "reference",
+      "recorded_in": "docs/THIRD_PARTY.md"
+    }
+  ],
+  "local_only": [
+    {
+      "id": "navigation_inference",
+      "dir": "navigation_inference",
+      "origin": null,
+      "note": "本地自建，无 git 远端。无状态、仅相机的推理 HTTP 服务（camera_server.py），基于 LLaVA 常量与对话模板，不 import 仿真器、不读写文件。",
+      "state": "local"
+    }
+  ],
+  "planned_not_cloned": [
+    {
+      "id": "vlmnav",
+      "origin": "https://github.com/Jirl-upenn/VLMnav",
+      "role": "v4 正式矩阵中列出的模型之一（PROTOCOL.json formal_matrix.models）",
+      "state": "not_cloned",
+      "reason": "本机 third_party/ 下不存在该克隆，也未安装运行环境；引用其必填结果前需先落地并固定提交"
+    }
+  ],
+  "local_checkpoints_not_in_third_party": [
+    {
+      "id": "qwen3-vl-8b-instruct",
+      "local_path": "MoonSim/assets/model/Qwen3-VL-8B-Instruct",
+      "repo": "Qwen/Qwen3-VL-8B-Instruct",
+      "source": "仓库内引用为本地路径；官方 HF 仓库 id 未在本机联通 Hugging Face 核验",
+      "used_by": "task3_qwen.sh 全地形上下文 186 trial 基线"
+    }
+  ],
+  "excluded_from_repo": [
+    "third_party/ 下的 8 个参考克隆（合计约 60 GB）",
+    "模型权重（NaVILA/checkpoints、Taga-VLM/model_zoo、assets/model/Qwen3-VL-8B-Instruct 等）",
+    "Hugging Face 本地缓存（.hf-cache/、.hf-home/）"
+  ]
+}
