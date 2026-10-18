@@ -5,7 +5,7 @@
 | 模型 | 正式完成 | 确认到达 | 恢复可见 | 终止类型 |
 | --- | --- | --- | --- | --- |
 | qwen3vl8b | 22/22 | 5 | 13 | {"budget_exhausted": 17, "success_visible_near": 5} |
-| spatial_interactor8b | 19/22 | 0 | 9 | {"budget_exhausted": 1, "invalid_model_output": 18} |
+| spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
 | spatialreasoner | 0/22 | 未测 | 未测 | {} |
 | spatialrgpt | 0/22 | 未测 | 未测 | {} |
 | robobrain25_8b_nv | 0/22 | 未测 | 未测 | {} |

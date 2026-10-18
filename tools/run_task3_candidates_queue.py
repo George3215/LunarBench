@@ -80,6 +80,7 @@ def main():
             if phase=='stopped_with_error':
                 raise RuntimeError('existing frozen queue requires review before using GPU')
             time.sleep(10)
+        candidates = []
         for key,backend in [('spatialreasoner','native_qwen'),('spatialrgpt','spatialrgpt'),('robobrain25_8b_nv','native_qwen')]:
             while read(root/(key+'_download.json')).get('status')!='complete':
                 stopped()
@@ -109,6 +110,11 @@ def main():
                 save(status_file,state)
                 backup(key+' interface diagnostic')
                 continue
+            state['models'][key]={'state':'smoke_passed_queued','completed_smoke_cases':len(results)}
+            save(status_file,state)
+            backup(key+' interface passed')
+            candidates.append((key,command))
+        for key,command in candidates:
             wait_gpu()
             run=root/'runs'/key
             state['phase']='running_'+key

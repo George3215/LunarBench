@@ -18,6 +18,8 @@
 | **Memory Over Maps**，IROS2026 | 室内物体定位及后续导航 | 保存带位姿的 RGB-D 关键帧，检索/VLM重排，按需反投影与融合目标位置 | **里程计+RGB-D 目标记忆的重要参照**。不做全局三维重建，但可能利用预先积累的场景视图；必须核验每个评测是否有预探索，不能直接纳入严格在线未知场景对比 | [论文](https://arxiv.org/abs/2603.20530)、[官方代码](https://github.com/RuiZhou-cn/memory-over-maps)。公开检索、定位、导航代码，导航仍调用 PointNav；本轮未部署 |
 | **GOAT / GOAT-Bench**，2023/2024 | 室内多模态、多目标终身导航 | 实例语义记忆；类别、图像、文字指定目标；复用历史探索 | **室内泛化评测参考**，不是初始可见遮挡恢复的现成等价任务。应另生成 first-seen→occluded→recovered 事件和实例身份约束 | [GOAT论文](https://arxiv.org/abs/2311.06430)、[GOAT-Bench官方代码](https://github.com/Ram81/goat-bench)、[基准论文](https://arxiv.org/abs/2404.06609)。基准有代码；数据访问、迁移成本另计 |
 
+**不列入主对比的近邻：** [ObjectReact（CoRL2025）](https://object-react.github.io/) 有[官方仓库](https://github.com/oravus/object-rel-nav)，物体相对控制和 WayObject Costmap 值得学习，但其标准流程先从手机/机器人走过的视频建立相对三维场景图，执行时定位并计算到目标的图路径。它使用先前环境遍历，不能作为本研究“无预建图、初次进入环境”的直接同条件基线。可借鉴对象相对表征，不能忽略其预探索信息优势。[SGC-Nav](https://yeksakura.github.io/SGC-Nav/) 的结构化历史/停止判断也相关，但本次作者页仍标 Code Soon，不放入“已有可复现开源仓库”的名单。避障中预测隐藏动态障碍、跟踪移动人及单纯图像遮挡检测，也不等于静态目标重新捕获。
+
 ## 别人怎样处理“看到后又看不到”
 
 **EZREAL 的方向记忆最接近本题，但公开代码和论文方案必须分开。** 已读取 master 的 `src/tile_node.py`：检测方向先结合当前 yaw 转到固定参考系；目标不可见时读取最近关键帧方向并作角度平均，没有关键帧时用当前朝向。关键帧还保存位置和视觉特征。`src/utils/keyframe_utils.py` 包含基于假设距离、历史位置与当前朝向更新关键帧的逻辑。论文描述的加权融合/主动搜索不能直接等同于当前仓库里已发布的平均方向回退。它提供了很合适的“历史方向保持”机制基线。
