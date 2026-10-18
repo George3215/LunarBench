@@ -1,0 +1,1203 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": {
+    "goal_evidence": "red sphere",
+    "tentative_route": "forward",
+    "occlusion_hypothesis": "no occlusion",
+    "uncertainty": "unknown terrain behind visible surfaces",
+    "revision_trigger": "when the robot reaches the midpoint of the path"
+  },
+  "result": {
+    "scene": "pit_a1",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 14,
+    "controlled_approach_actions": 2,
+    "autonomous_actions": 12,
+    "inference_count": 14,
+    "total_inference_s": 69.11615814299876,
+    "amortized_inference_s": 69.11615814299876,
+    "wall_s_including_scheduler_wait": 182.66407065100066,
+    "simulated_s": 15.200000000001745,
+    "path_m": 4.324097314256864,
+    "state_samples": 153,
+    "min_upright": 0.7144401512312271,
+    "final_evaluator": {
+      "sim_time_s": 15.200000000001745,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 2.682860522284367,
+      "base_xy_target_distance_m_diagnostic": 2.735295786205161,
+      "camera_xyz_evaluator": [
+        2.1034418168445455,
+        1.1999358521319847,
+        0.3200141972887448
+      ],
+      "target_centre_xyz_evaluator": [
+        4.5,
+        0.0,
+        0.2
+      ],
+      "upright": 0.7411938022936249,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "action_counts": {
+      "FORWARD": 14
+    },
+    "max_steps": 64,
+    "observation_frame_count": 15,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/pit_a1",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": true,
+    "reappearance_predictions": [],
+    "policy_action_counts": {
+      "FORWARD": 12
+    },
+    "policy_action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 3,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has reached the midpoint of the path and the red sphere is visible and within 1 metre of the camera",
+        "evidence_frames": [
+          0,
+          1,
+          2
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "self_odometry": {
+          "observation_poses": [
+            {
+              "frame_id": 0,
+              "x_m": 0.0,
+              "y_m": 0.0,
+              "z_m": 0.0,
+              "yaw_rad": 0.0,
+              "roll_rad": 0.0712,
+              "pitch_rad": 0.5313
+            },
+            {
+              "frame_id": 1,
+              "x_m": 0.3495,
+              "y_m": 0.0096,
+              "z_m": -0.2767,
+              "yaw_rad": 0.0775,
+              "roll_rad": 0.0059,
+              "pitch_rad": 0.4939
+            },
+            {
+              "frame_id": 2,
+              "x_m": 0.5227,
+              "y_m": -0.0247,
+              "z_m": -0.4265,
+              "yaw_rad": 0.1238,
+              "roll_rad": 0.0459,
+              "pitch_rad": 0.494
+            }
+          ]
+        },
+        "recent_executed_motion": [
+          "FORWARD"
+        ],
+        "own_initial_or_revised_plan": {
+          "goal_evidence": "red sphere",
+          "tentative_route": "forward",
+          "occlusion_hypothesis": "no occlusion",
+          "uncertainty": "unknown terrain behind visible surfaces",
+          "revision_trigger": "when the robot reaches the midpoint of the path"
+        },
+        "stop_available": true,
+        "allowed_actions": [
+          "FORWARD",
+          "BACKWARD",
+          "STRAFE_LEFT",
+          "STRAFE_RIGHT",
+          "TURN_LEFT",
+          "TURN_RIGHT"
+        ]
+      },
+      "current_frame_before": 2,
+      "actual_displacement_xy_m": 0.4783601594452106,
+      "self_odometry_after": {
+        "x_m": 0.9939,
+        "y_m": 0.0579,
+        "z_m": -0.8221,
+        "yaw_rad": 0.1607,
+        "roll_rad": 0.0256,
+        "pitch_rad": 0.4911
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.8815267971717742,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_24_42",
+        "hit_distance_m": 2.6472250770480623,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "dc59d7da9383834d6f28413a374a7e01a1b5068ad39f58eb918f9b48cc563837",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s RGB",
+          "image_sha256": "cc16010425685c8d604bcf62545a8e044a1e378becfddfb335cfd217c2ccbd84",
+          "pixel_values_float32_sha256": "14f9a480d19a31288ee31840db314298a55e86ab8a3a2d5d6cf22bb7f1e3abbc"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "cfe7c425b1eafd290df0254dfcd84e5164f048409f9c9618be202274d33fb328",
+          "pixel_values_float32_sha256": "98ac3cfba941bd51a61eaeadcc07895072159668f80abe9c41a7f58824d3438e"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "move forward until the red sphere is within 1 metre of the camera",
+        "evidence_frames": [
+          0,
+          1,
+          3
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "self_odometry": {
+          "from_frame": 2,
+          "to_frame": 3,
+          "displacement_xy_m": 0.4784,
+          "yaw_change_rad": 0.0369,
+          "low_translation": false
+        },
+        "spatial_belief": "the red sphere is directly in front of the camera",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.430452649116978,
+      "self_odometry_after": {
+        "x_m": 1.4202,
+        "y_m": 0.1177,
+        "z_m": -1.1773,
+        "yaw_rad": 0.179,
+        "roll_rad": 0.0569,
+        "pitch_rad": 0.3414
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.94077509616493,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_24_41",
+        "hit_distance_m": 2.0041702825992056,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "d9af9df3cb937f1f4a9ab8b78f124fa474b126b6fa33e95e388f3f0b77955a7c",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s RGB",
+          "image_sha256": "6b927e67ef953db2fea12f950646b64ae45728e86f936c994df1d9743aa5d229",
+          "pixel_values_float32_sha256": "916bfeb0de592728dabb32cc6878110f01d0eb9f57f40d1f8b37d81aab83e3f7"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "a9917fc74abfffb1f783de6a051e7d26f3ddd174178b1707d66251dccef0c9af",
+          "pixel_values_float32_sha256": "46d2e78f0bd733e4f49b35e4b80526bd0bdc6cf1ff1f1be5f356564d1dc68129"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          4
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the red sphere is directly in front of the quadruped",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 4,
+      "actual_displacement_xy_m": 0.4464927445649339,
+      "self_odometry_after": {
+        "x_m": 1.8659,
+        "y_m": 0.1437,
+        "z_m": -1.408,
+        "yaw_rad": 0.1879,
+        "roll_rad": -0.0302,
+        "pitch_rad": 0.1935
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9808845403663837,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_24_39",
+        "hit_distance_m": 1.0571117141394402,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "84cbb308f57f9f6128392a5f5d72036a859bf03033ab00d0611b509c515d0d99",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.200s RGB",
+          "image_sha256": "88640c96861bc013165588c25dc41bd61e4d12911765bf81657d24a5d0ba4d44",
+          "pixel_values_float32_sha256": "19d0d294f10c3fd7f20a41c1ddd81e757cc86f3a5c0cf77a857bfb66052eba78"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "9f5a1e54920dac6cecf37fae924c2292dfb165531af53913292dd1109ba2fc38",
+          "pixel_values_float32_sha256": "ffa2822392d9ad779b39c4a5999b36dd1adad581deaad0f35dc2f81f51cc4288"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          5
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the quadruped is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 5,
+      "actual_displacement_xy_m": 0.42520165836789675,
+      "self_odometry_after": {
+        "x_m": 2.2881,
+        "y_m": 0.1941,
+        "z_m": -1.3277,
+        "yaw_rad": 0.3,
+        "roll_rad": -0.0782,
+        "pitch_rad": -0.2666
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9617301750587823,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_24_40",
+        "hit_distance_m": 0.9572881427358234,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "d1f5884dd69e1b90d83b66ed2258be2fe67df7cc9285cd3c04ccf8b0ba88ea1a",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.200s RGB",
+          "image_sha256": "18706fbcb7d46bd78ad7f639d6bd5ea2c7c1993aeb35a8dd80f5b55c8b076939",
+          "pixel_values_float32_sha256": "f0d33620835d36dbf43808911c9965642a4d3be58cff68b265a72d4a1a243319"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "df612ebc497e41569439e06088258eee95f3d1e360a35c491647cf85c20fc2dc",
+          "pixel_values_float32_sha256": "4ebfa9aba3c009556bfff52367a51caf32bb8e759a3b9e696ddb3065923dcafd"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          6
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the red sphere is directly in front of the quadruped",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 6,
+      "actual_displacement_xy_m": 0.34835335787454497,
+      "self_odometry_after": {
+        "x_m": 2.6273,
+        "y_m": 0.2737,
+        "z_m": -1.1291,
+        "yaw_rad": 0.3013,
+        "roll_rad": 0.1066,
+        "pitch_rad": -0.4483
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.8960617796731476,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_24_40",
+        "hit_distance_m": 0.6269127730263152,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "08def28423fda84fca948855abfa96db503600b8d62e391c0baac3e4eb07c56d",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 6, simulation time 7.200s RGB",
+          "image_sha256": "9894f042c2e6421f330a71e179bbddf7a89de6b5c3d1de4b9797a088387eed40",
+          "pixel_values_float32_sha256": "4136d15f6ddd52a7f927439c321893a4057581e318effb27f998385341024d81"
+        },
+        {
+          "label": "Observation frame 6, simulation time 7.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5ebf1094a6e5dbc4dd9aabe97b61a1e858e98f5f603f86d64f49bed96b8bfe01",
+          "pixel_values_float32_sha256": "54c74ffeda3cde164780894d06b6bdce1b75179915e8f1a9750f0adc060ea4fb"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          7
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the quadruped is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 7,
+      "actual_displacement_xy_m": 0.2208088833787146,
+      "self_odometry_after": {
+        "x_m": 2.7896,
+        "y_m": 0.4234,
+        "z_m": -0.9962,
+        "yaw_rad": 0.4039,
+        "roll_rad": -0.1434,
+        "pitch_rad": -0.6614
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7810459332736129,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_25_41",
+        "hit_distance_m": 0.7969432475803675,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "85c4a02a7d2edeaaba3658bb6b8f738436eea7068f345f63e315c504f374041e",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 7, simulation time 8.200s RGB",
+          "image_sha256": "dc6cbfa469b112267075618ae16071c892734342455b3a897c52ed252e6f2ab8",
+          "pixel_values_float32_sha256": "2b7eb675efe0050df9e787bd24d25425129f5181a7d009574cd9065d9b876193"
+        },
+        {
+          "label": "Observation frame 7, simulation time 8.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "3ed7ea18e12158ea8145163a2a38494f1330d4e76caaa256bd7a0e3422b3bbb7",
+          "pixel_values_float32_sha256": "0f9d9dc1cf1eadfc3ad242d806547f103c52a4aee15f82c8c977d2a942c9af6d"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          8
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 8,
+      "actual_displacement_xy_m": 0.20338437213050775,
+      "self_odometry_after": {
+        "x_m": 2.9666,
+        "y_m": 0.5236,
+        "z_m": -0.8058,
+        "yaw_rad": 0.4698,
+        "roll_rad": 0.1226,
+        "pitch_rad": -0.4828
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.8790426615582295,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_25_42",
+        "hit_distance_m": 0.8083903878469991,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "227c108a2ad155189b3b4a1bec69037c633b6e7bd83958d2f548e99ebfcb4979",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 8, simulation time 9.200s RGB",
+          "image_sha256": "6e97594a0cbe18440e4d68f7455f043eaa4dfbbde775272b4c105044d5c4eb8b",
+          "pixel_values_float32_sha256": "fe56ac0a216f91262446d9bc01ad62ab6f52617237615d2d6156b5798b27981a"
+        },
+        {
+          "label": "Observation frame 8, simulation time 9.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "acf3c10b64b306395dbcf488ddde89733742dc3321f4813330e4a0f3b01707bf",
+          "pixel_values_float32_sha256": "6e1c0ddf828574daacf0aa7df2c0fb976087afa7b7e34a211755abfba6080ef2"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          9
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 9,
+      "actual_displacement_xy_m": 0.1811090206062428,
+      "self_odometry_after": {
+        "x_m": 3.0391,
+        "y_m": 0.6896,
+        "z_m": -0.7072,
+        "yaw_rad": 0.5623,
+        "roll_rad": -0.1651,
+        "pitch_rad": -0.7136
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7457389862924979,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a1_26_42",
+        "hit_distance_m": 0.8300829676171357,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "87d2895c4366087daa5c94e74b1ab74c0ac7e22ba27ab7517306c4db34b46198",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 9, simulation time 10.200s RGB",
+          "image_sha256": "07683ca0f2cd1031cf088de1963bb8bd48c4da27e7617f10236d0079e649a5af",
+          "pixel_values_float32_sha256": "8c5bf4d491cfee8d77feb0c856daa6dfb4cba8db5cfa23ab2c40115806d03056"
+        },
+        {
+          "label": "Observation frame 9, simulation time 10.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "2e9a74f1377d88f166fd9ab7139958feda37a00d201f203a1fc539aeba430019",
+          "pixel_values_float32_sha256": "e853c21d237ca9e14a8b4e737f57d4cce5088ab6adb10fcab1bad3388e123c03"
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          10
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 10,
+      "actual_displacement_xy_m": 0.16104684159348556,
+      "self_odometry_after": {
+        "x_m": 3.1833,
+        "y_m": 0.7613,
+        "z_m": -0.473,
+        "yaw_rad": 0.5474,
+        "roll_rad": 0.0718,
+        "pitch_rad": -0.7308
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.742750585506873,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "pit_a1_26_43",
+        "hit_distance_m": 0.9226181590139056,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "1780ef34ed356dded5b34cad7a36ca011958c837147efbc8ddb21680002eead9",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 10, simulation time 11.200s RGB",
+          "image_sha256": "974fd6136be2d5fd0afc01127b9241098bb44f40ff6b3c19864518e8900cfa7f",
+          "pixel_values_float32_sha256": "e5dd9f1722faa6b0ae88f215675a4f96d845c2f70ec747bd6f12cf7878ceeff9"
+        },
+        {
+          "label": "Observation frame 10, simulation time 11.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1eb7186b1dfa5b6094c2ea5f09008aa74354365861cedf30728ab37a4820df44",
+          "pixel_values_float32_sha256": "b89f4bdd5220b2dd8702201dd745b43e7213951d2b3cc2ab1e2ac805a0e85236"
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          11
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 11,
+      "actual_displacement_xy_m": 0.1678390287387515,
+      "self_odometry_after": {
+        "x_m": 3.3021,
+        "y_m": 0.8799,
+        "z_m": -0.3708,
+        "yaw_rad": 0.5675,
+        "roll_rad": -0.0596,
+        "pitch_rad": -0.6716
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7814627643071279,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "pit_a1_26_44",
+        "hit_distance_m": 1.0760163207814146,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "8e0fcd7527b83d95700c20edb7d37dfc978e2416e85b5fe43611993ca904e3f0",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 11, simulation time 12.200s RGB",
+          "image_sha256": "46d03f433b245814bb65f5c76efd3f222087a67d8c0d3a7cbcbb9854a0e8384e",
+          "pixel_values_float32_sha256": "8df8b1b9d0da5fad3bc4c16aaa53a7f494ce4cd106b5b12ad8e45c9f1d4fb50a"
+        },
+        {
+          "label": "Observation frame 11, simulation time 12.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "713d15fb69772f455b5637e053857c251f8151245eaabf3e0b8e108c1545070f",
+          "pixel_values_float32_sha256": "78e6b4d20c87b91383f6e9e0868d515603c41588c68bbcc16a6f8a24c65f6970"
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          12
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 12,
+      "actual_displacement_xy_m": 0.10517327470323612,
+      "self_odometry_after": {
+        "x_m": 3.3511,
+        "y_m": 0.9729,
+        "z_m": -0.2988,
+        "yaw_rad": 0.6811,
+        "roll_rad": 0.0488,
+        "pitch_rad": -0.6783
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7777100740574718,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "pit_a1_26_44",
+        "hit_distance_m": 1.0376961976469907,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "ea45a7240344c244979472572508b03a46af0fef1abbed5dcfd009b135d277e7",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 12, simulation time 13.200s RGB",
+          "image_sha256": "ecf7a8eef7a064723e4f50f513cee0d54034b66b5c4fb37e048f41534d599b63",
+          "pixel_values_float32_sha256": "d49fc0d7a865a293793fbccd5d4301a77964b1372d4833e9d0e783083121d31f"
+        },
+        {
+          "label": "Observation frame 12, simulation time 13.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "fa5bed6edeab1a8fcd27bca03e201f49375e5c829358f47f138647af5ac1358c",
+          "pixel_values_float32_sha256": "352909aac26543dff33b2cf0abb0b0823fbc26819d66f2ee7c27d44414f39c61"
+        }
+      ]
+    },
+    {
+      "step": 14,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the robot has moved forward and the red sphere is now in the centre of the frame",
+        "evidence_frames": [
+          0,
+          1,
+          13
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the robot is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 13,
+      "actual_displacement_xy_m": 0.19442074485617505,
+      "self_odometry_after": {
+        "x_m": 3.4284,
+        "y_m": 1.1513,
+        "z_m": -0.089,
+        "yaw_rad": 0.6858,
+        "roll_rad": 0.0176,
+        "pitch_rad": -0.7358
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7411938022936249,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.532062107334386,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "775fb25dc184bf6f506bea7e30c7fbca08aa3e30ca0e9aaaaa0dc8d425d5e718",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 13, simulation time 14.200s RGB",
+          "image_sha256": "c05f11865865cc28421e5a0a59c067c9048f17f7b81712fed036824d2feda8db",
+          "pixel_values_float32_sha256": "0f0382415cc50d1dd4b5edfa881588ed029b340f49ea4cf78fe22196f6500a97"
+        },
+        {
+          "label": "Observation frame 13, simulation time 14.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e16038ed55b6b9f93b111d19be4639c203b685e4a9e4ca3028ee702e6f95df7d",
+          "pixel_values_float32_sha256": "b144e25d014a791dedd4fd8d228d05d5a7ba4702a0a5e2fd96d431eab6b81349"
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 14,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": 3.4284,
+        "y_m": 1.1513,
+        "z_m": -0.089,
+        "yaw_rad": 0.6858,
+        "roll_rad": 0.0176,
+        "pitch_rad": -0.7358
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.7411938022936249,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.532062107334386,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "e7875b1f49f284cdb847cbe659384f1ef2ae114601c6fb0f3e9d579f6ee82157",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b040ad98a4152738d93785afd3b94e845fdfb6a265ac2361f151ddb7aef3d842",
+          "pixel_values_float32_sha256": "3f02eb61c45fab8b434faf214a74eb309fe452926b0c9206a096724a456517fe"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "7f6ccd64266de78fd4dd2ce061e91662d0d9d9b8470298a45712626ddcad9232",
+          "pixel_values_float32_sha256": "74a483f1c6cc04a76a4300d1ed091255c88ccaa204a6412c80e57effa2c93b81"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "98341b3d6eca35addf67dea84fa6980234376e07794cd40d8aafa6c3812aa7a0",
+          "pixel_values_float32_sha256": "ad05cc8dea14a6eeb7a81e73fb07f2be074729ffb8e210572c52ab01cd0f81ce"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5067d4eaf0d3f003675cee34f3dc5f70d5761d4c541548534c0711248a105bfe",
+          "pixel_values_float32_sha256": "a287454d2db1e490491391b6f31b2078bea7661ef228f3c5460096b6bc41efa8"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.200s RGB",
+          "image_sha256": "441da7236f6ffdd8fb4cdfa2d9ce7b8d8df8cf2f7a8e82c530714d92266ce613",
+          "pixel_values_float32_sha256": "4ffdde8f9355812718dc7e88cd1bd2bb555c2116b32da783c585e51f2cfb2f1a"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "441da7236f6ffdd8fb4cdfa2d9ce7b8d8df8cf2f7a8e82c530714d92266ce613",
+          "pixel_values_float32_sha256": "4ffdde8f9355812718dc7e88cd1bd2bb555c2116b32da783c585e51f2cfb2f1a"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.0,\n\"visual_assessment\": \"no red sphere visible\",\n\"decision_rationale\": \"the red sphere is not visible in the current frame\",\n\"evidence_frames\": [0, 1, 14],\n\"evidence_sources\": [\"current_rgb\"],\n\"action\": \"FORWARD\",\n\"self_odometry\": [0.0, 0.0, 0.0, 0.0],\n\"recent_executed_motion\": [{\"action\": \"FORWARD\", \"from_frame\": 8, \"to_frame\": 9, \"displacement_xy_m\": 0.2034, \"yaw_change_rad\": 0.0659, \"low_translation\": false}, {\"action\": \"FORWARD\", \"from_frame\": 9, \"to_frame\": 10, \"displacement_xy_m\": 0.1811, \"yaw_change_rad\": 0.0925, \"low_translation\": false}, {\"action\": \"FORWARD\", \"from_frame\": 10, \"to_frame\": 11, \"displacement_xy_m\": 0.161, \"yaw_change_rad\": -0.0149, \"low_translation\": false}, {\"action\": \"FORWARD\", \"from_frame\": 11, \"to_frame\": 12, \"displacement_xy_m\": 0.1678, \"yaw_change_rad\": 0.0201, \"low_translation\": false}, {\"action\": \"FORWARD\", \"from_frame\": 12, \"to_frame\": 13, \"displacement_xy_m\": 0.1052, \"yaw_change_rad\": 0.1136, \"low_translation\": false}, {\"action\": \"FORWARD\", \"from_frame\": 13, \"to_frame\": 14, \"displacement_xy_m\": 0.1944, \"yaw_change_rad\": 0.0047, \"low_translation\": false}],\n\"own_initial_or_revised_plan\": {\"goal_evidence\": \"red sphere\", \"tentative_route\": \"forward\", \"occlusion_hypothesis\": \"no occlusion\", \"uncertainties\": \"unknown terrain behind visible surfaces\", \"revision_trigger\": \"when the robot reaches the midpoint of the path\"},\n\"stop_available\": false,\n\"allowed_actions\": [\"FORWARD\", \"BACKWARD\", \"STRAFE_LEFT\", \"STRAFE_RIGHT\",",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\"target_visible\":false,\"target_location\":\"absent\",\"proximity\":\"uncertain\",\"confidence\":0.0,\"visual_assessment\":\"no red sphere visible in any frame\",\"decision_rationale\":\"the robot is in a black and white environment with no red spheres visible in any frame\",\"evidence_frames\":[0,1,14],\"evidence_sources\":[\"current_rgb\"],\"action\":\"FORWARD\",\"self_odometry\":{\"x_m\":0.0,\"y_m\":0.0,\"z_m\":0.0,\"yaw_rad\":0.0,\"roll_rad\":0.0712,\"pitch_rad\":0.5313},\"recent_executed_motion\":[{\"action\":\"FORWARD\",\"from_frame\":8,\"to_frame\":9,\"displacement_xy_m\":0.2034,\"yaw_change_rad\":0.0659,\"low_translation\":false}]}}://://://",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}

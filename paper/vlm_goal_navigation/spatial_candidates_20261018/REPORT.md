@@ -7,8 +7,27 @@
 | qwen3vl8b | 22/22 | 5 | 13 | {"budget_exhausted": 17, "success_visible_near": 5} |
 | spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
 | spatialreasoner | 0/22 | 未测 | 未测 | {} |
-| spatialrgpt | 8/22 | 1 | 3 | {"invalid_model_output": 7, "success_visible_near": 1} |
+| spatialrgpt | 12/22 | 2 | 4 | {"invalid_model_output": 10, "success_visible_near": 2} |
 | robobrain25_8b_nv | 0/22 | 未测 | 未测 | {} |
+
+## 已完成回合的行为与失败分析
+
+- **qwen3vl8b**：成功场景 basin_a1, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；只执行前进/STOP即到达 0 回合；恢复可见但未到达 8 回合。
+  有效动作判断 1246 次，其中当前可见性一致 1183 次；宣称 near 179 次，其中 178 次不满足当前可见且<1m。非法 STOP 路径屏蔽 171 次，实际拒绝 STOP 0 次。
+- **spatial_interactor8b**：成功场景 无；只执行前进/STOP即到达 0 回合；恢复可见但未到达 10 回合。
+  有效动作判断 193 次，其中当前可见性一致 95 次；宣称 near 46 次，其中 46 次不满足当前可见且<1m。非法 STOP 路径屏蔽 68 次，实际拒绝 STOP 0 次。
+  当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。
+- **spatialrgpt**：成功场景 basin_a1, trench_a0；只执行前进/STOP即到达 2 回合；恢复可见但未到达 2 回合。
+  有效动作判断 62 次，其中当前可见性一致 23 次；宣称 near 61 次，其中 61 次不满足当前可见且<1m。非法 STOP 路径屏蔽 39 次，实际拒绝 STOP 0 次。
+  当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。
+  当前所有成功都只含前进/STOP，尚不能证明学会了需要转向、侧移或绕行的遮挡恢复策略。
+
+## 完整22场景配对比较
+
+- spatialreasoner：等待全部22场景及输入配对审计通过，不给最终排序。
+- spatialrgpt：等待全部22场景及输入配对审计通过，不给最终排序。
+- robobrain25_8b_nv：等待全部22场景及输入配对审计通过，不给最终排序。
+这些统计只描述冻结小样本套件，地形级别相关；跨骨干和原生视觉预处理差异仍在，不能单独归因于空间预训练。
 
 ## 两场景接口诊断（每场景最多2动作，不纳入正式成功率）
 
@@ -27,6 +46,7 @@ Qwen/Spatial-Interactor 是前轮冻结协议记录；新增模型有原生 toke
 RoboBrain 使用作者链接的官方 ModelScope NV 权重，分片与 HF 哈希一致。SpatialRGPT 首轮为无额外region的通用多图配置，不能代表其原生区域深度分支完整能力。
 未完成全场景且未通过输入审计前，不给出最终模型排序。即使到达率不同，也不能直接归因于空间训练数据。
 当前目标是红球；结果不能单独证明开放词汇语义理解或跨目标类别泛化。
+请求已经包含由 RGB-D 计算的红像素数和距离；可见性字段与记录一致不等于独立验证视觉识别能力。
 原V4准入证明可重观测，不保证全部场景已经认证完整<1m到达路线。
 
 新方法及开源导航对照的取舍见 [RELATED_WORK.md](RELATED_WORK.md)。

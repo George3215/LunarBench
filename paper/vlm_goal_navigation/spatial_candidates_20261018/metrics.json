@@ -1,4 +1,5 @@
 {
+  "status": "in_progress",
   "comparison_scope": "cross-backbone transfer, not a causal spatial-pretraining ablation",
   "models": {
     "qwen3vl8b": {
@@ -19,6 +20,25 @@
         "budget_exhausted": 17,
         "success_visible_near": 5
       },
+      "successful_scenes": [
+        "basin_a1",
+        "slope_up_a2",
+        "stairs_up_a2",
+        "trench_a0",
+        "waves_a0"
+      ],
+      "reobserved_without_arrival_scenes": [
+        "barrier_a0",
+        "basin_a2",
+        "perlin_a1",
+        "perlin_rough_a0",
+        "perlin_rough_a1",
+        "perlin_rough_a2",
+        "waves_a2",
+        "window_a0"
+      ],
+      "invalid_output_scenes": [],
+      "visibility_accuracy_on_valid_decisions": 0.949438202247191,
       "state": "complete"
     },
     "spatial_interactor8b": {
@@ -39,6 +59,43 @@
         "budget_exhausted": 1,
         "invalid_model_output": 21
       },
+      "successful_scenes": [],
+      "reobserved_without_arrival_scenes": [
+        "barrier_a0",
+        "basin_a1",
+        "perlin_a1",
+        "perlin_a2",
+        "perlin_rough_a1",
+        "perlin_rough_a2",
+        "stairs_up_a2",
+        "trench_a0",
+        "waves_a0",
+        "waves_a1"
+      ],
+      "invalid_output_scenes": [
+        "barrier_a1",
+        "barrier_a2",
+        "basin_a1",
+        "basin_a2",
+        "perlin_a1",
+        "perlin_a2",
+        "perlin_rough_a0",
+        "perlin_rough_a1",
+        "perlin_rough_a2",
+        "pit_a0",
+        "pit_a1",
+        "pit_a2",
+        "slope_up_a2",
+        "stairs_up_a2",
+        "trench_a0",
+        "waves_a0",
+        "waves_a1",
+        "waves_a2",
+        "window_a0",
+        "window_a1",
+        "window_a2"
+      ],
+      "visibility_accuracy_on_valid_decisions": 0.49222797927461137,
       "state": "complete"
     },
     "spatialreasoner": {
@@ -56,26 +113,51 @@
       "model_near_claims_outside_1m_gate": 0,
       "mean_autonomous_actions": null,
       "terminations": {},
+      "successful_scenes": [],
+      "reobserved_without_arrival_scenes": [],
+      "invalid_output_scenes": [],
+      "visibility_accuracy_on_valid_decisions": null,
       "state": "not_evaluated"
     },
     "spatialrgpt": {
-      "completed": 8,
-      "arrivals": 1,
-      "reobserved": 3,
+      "completed": 12,
+      "arrivals": 2,
+      "reobserved": 4,
       "legal_vlm_stop": 0,
-      "forward_only_arrivals": 1,
+      "forward_only_arrivals": 2,
       "rejected_stops": 0,
-      "stop_paths_masked_during_generation": 19,
-      "valid_initial_plans": 8,
-      "valid_decisions": 36,
-      "current_visibility_correct_decisions": 13,
-      "model_near_claims": 36,
-      "model_near_claims_outside_1m_gate": 36,
-      "mean_autonomous_actions": 4.5,
+      "stop_paths_masked_during_generation": 39,
+      "valid_initial_plans": 12,
+      "valid_decisions": 62,
+      "current_visibility_correct_decisions": 23,
+      "model_near_claims": 61,
+      "model_near_claims_outside_1m_gate": 61,
+      "mean_autonomous_actions": 5.166666666666667,
       "terminations": {
-        "invalid_model_output": 7,
-        "success_visible_near": 1
+        "invalid_model_output": 10,
+        "success_visible_near": 2
       },
+      "successful_scenes": [
+        "basin_a1",
+        "trench_a0"
+      ],
+      "reobserved_without_arrival_scenes": [
+        "slope_up_a2",
+        "stairs_up_a2"
+      ],
+      "invalid_output_scenes": [
+        "barrier_a0",
+        "barrier_a1",
+        "barrier_a2",
+        "basin_a2",
+        "pit_a0",
+        "pit_a1",
+        "pit_a2",
+        "slope_up_a2",
+        "stairs_up_a2",
+        "waves_a1"
+      ],
+      "visibility_accuracy_on_valid_decisions": 0.3709677419354839,
       "state": "partial"
     },
     "robobrain25_8b_nv": {
@@ -93,7 +175,28 @@
       "model_near_claims_outside_1m_gate": 0,
       "mean_autonomous_actions": null,
       "terminations": {},
+      "successful_scenes": [],
+      "reobserved_without_arrival_scenes": [],
+      "invalid_output_scenes": [],
+      "visibility_accuracy_on_valid_decisions": null,
       "state": "not_evaluated"
+    }
+  },
+  "paired_vs_qwen3vl8b": {
+    "spatialreasoner": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    },
+    "spatialrgpt": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    },
+    "robobrain25_8b_nv": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
     }
   },
   "smoke_diagnostics_not_formal_SR": {
