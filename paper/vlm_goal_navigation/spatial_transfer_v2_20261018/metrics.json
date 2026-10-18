@@ -2,43 +2,58 @@
   "status": "partial",
   "models": {
     "qwen3vl8b": {
-      "completed": 20,
+      "completed": 22,
       "arrivals": 5,
       "reobserved": 13,
       "legal_vlm_stop": 1,
       "forward_only_arrivals": 0,
       "rejected_stops": 0,
       "stop_paths_masked_during_generation": 171,
-      "valid_initial_plans": 20,
-      "valid_decisions": 1118,
-      "current_visibility_correct_decisions": 1055,
+      "valid_initial_plans": 22,
+      "valid_decisions": 1246,
+      "current_visibility_correct_decisions": 1183,
       "model_near_claims": 179,
       "model_near_claims_outside_1m_gate": 178,
-      "mean_autonomous_actions": 55.9,
+      "mean_autonomous_actions": 56.63636363636363,
       "terminations": {
-        "budget_exhausted": 15,
+        "budget_exhausted": 17,
         "success_visible_near": 5
       }
     },
     "spatial_interactor8b": {
-      "completed": 0,
+      "completed": 1,
       "arrivals": 0,
       "reobserved": 0,
       "legal_vlm_stop": 0,
       "forward_only_arrivals": 0,
       "rejected_stops": 0,
       "stop_paths_masked_during_generation": 0,
-      "valid_initial_plans": 0,
-      "valid_decisions": 0,
+      "valid_initial_plans": 1,
+      "valid_decisions": 3,
       "current_visibility_correct_decisions": 0,
       "model_near_claims": 0,
       "model_near_claims_outside_1m_gate": 0,
-      "mean_autonomous_actions": null,
-      "terminations": {}
+      "mean_autonomous_actions": 3.0,
+      "terminations": {
+        "invalid_model_output": 1
+      }
     }
   },
   "paired": {
-    "completed_pairs": 0
+    "completed_pairs": 1,
+    "arrival_difference": 0.0,
+    "bootstrap_95_ci": [
+      0.0,
+      0.0
+    ],
+    "spatial_only_arrived": 0,
+    "qwen_only_arrived": 0,
+    "mcnemar_exact_two_sided_p": 1.0,
+    "terrain_families": 1,
+    "family_cluster_bootstrap_95_ci": [
+      0.0,
+      0.0
+    ]
   },
   "uncertainty_scope": "scene bootstrap, not repeated-seed or checkpoint-training uncertainty"
 }

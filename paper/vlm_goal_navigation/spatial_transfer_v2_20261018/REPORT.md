@@ -4,15 +4,15 @@
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| qwen3vl8b | 20/22 | 5 | 13 | 1 | 0 |
-| spatial_interactor8b | 0/22 | 0 | 0 | 0 | 0 |
+| qwen3vl8b | 22/22 | 5 | 13 | 1 | 0 |
+| spatial_interactor8b | 1/22 | 0 | 0 | 0 | 0 |
 
 到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。
 
 | 场景 | Qwen 到达 / 终止 | Spatial 到达 / 终止 |
 | --- | --- | --- |
 | barrier_a0 | 失败 / budget_exhausted | 待完成 |
-| barrier_a1 | 失败 / budget_exhausted | 待完成 |
+| barrier_a1 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | barrier_a2 | 失败 / budget_exhausted | 待完成 |
 | basin_a1 | 成功 / success_visible_near | 待完成 |
 | basin_a2 | 失败 / budget_exhausted | 待完成 |
@@ -31,6 +31,13 @@
 | waves_a1 | 失败 / budget_exhausted | 待完成 |
 | waves_a2 | 失败 / budget_exhausted | 待完成 |
 | window_a0 | 失败 / budget_exhausted | 待完成 |
+| window_a1 | 失败 / budget_exhausted | 待完成 |
+| window_a2 | 失败 / budget_exhausted | 待完成 |
+
+已完成配对数 1；Spatial−Qwen 到达率差 0.0 个百分点。
+配对场景 bootstrap 95% 区间 [0.0, 0.0] 个百分点；精确 McNemar p=1.0000。
+考虑同一地形族 a0/a1/a2 的相关性：1 个族的 cluster bootstrap 区间 [0.0, 0.0] 个百分点。McNemar 的独立场景假设在此不完全成立，仅作描述。
+单回合/固定种子的场景级小样本区间，不覆盖多次训练或生成随机性的方差。
 
 ## 解释边界
 
