@@ -1,0 +1,258 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": {
+    "goal_evidence": "The target red sphere is visible and has a consistent depth estimate, suggesting it is a real target rather than a visual artifact. The target direction is toward the distant horizon where the sphere is located.",
+    "tentative_route": "Move forward while keeping the target in view; the target remains visible and the depth estimate suggests it is not nearby. If the target becomes occluded or the depth estimate changes, the route should be revised.",
+    "occlusion_hypothesis": "The target remains visible in the current view, so occlusion is not expected. However, the target is distant, so nearby objects or terrain changes could occlude it later.",
+    "uncertainty": "High. The target is distant and the scene has no clear landmarks or scale reference. The depth estimate has some error, and the target direction is based on a single observation. The target might be small or the target region might be misaligned.",
+    "revision_trigger": "If the target becomes occluded, the depth estimate changes by more than 0.5m, or the target direction changes by more than 30 degrees."
+  },
+  "result": {
+    "scene": "slope_up_a2",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 4,
+    "controlled_approach_actions": 3,
+    "autonomous_actions": 1,
+    "inference_count": 3,
+    "total_inference_s": 24.547219153999322,
+    "amortized_inference_s": 12.273609576999661,
+    "wall_s_including_scheduler_wait": 37.574348715999804,
+    "simulated_s": 5.299999999999638,
+    "path_m": 1.6571490111253175,
+    "state_samples": 54,
+    "min_upright": 0.9773166470544159,
+    "final_evaluator": {
+      "sim_time_s": 5.299999999999638,
+      "target_segment_pixels": 6,
+      "target_visible_rgb_pixels": 6,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": [
+        0.54453125,
+        0.48541666666666666
+      ],
+      "median_target_axial_depth_m": 4.125997066497803,
+      "median_target_surface_range_m": 4.1543619376370495,
+      "camera_to_target_centre_m": 4.204376997268065,
+      "base_xy_target_distance_m_diagnostic": 4.382093057789274,
+      "camera_xyz_evaluator": [
+        -0.6126193525020449,
+        0.15551304241207495,
+        0.7792610271499186
+      ],
+      "target_centre_xyz_evaluator": [
+        3.5,
+        0.0,
+        1.638891
+      ],
+      "upright": 0.9773166470544159,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "action_counts": {
+      "FORWARD": 4
+    },
+    "max_steps": 64,
+    "observation_frame_count": 5,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/slope_up_a2",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": true,
+    "reappearance_predictions": [
+      {
+        "step": 4,
+        "distance_m": 0.8,
+        "path_m": 1.6571490111253175
+      }
+    ],
+    "policy_action_counts": {
+      "FORWARD": 1
+    },
+    "policy_action_sequence": [
+      "FORWARD"
+    ],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 4,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "decision_rationale": "I keep moving forward while keeping the target in view, as the target remains visible and the depth estimate suggests it is not nearby. If the target becomes occluded or the depth estimate changes, I will revise the route.",
+        "evidence_frames": [
+          0,
+          2,
+          3
+        ],
+        "evidence_sources": [
+          "current_rgb",
+          "current_depth",
+          "self_odometry"
+        ],
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "far",
+        "confidence": 0.7,
+        "visual_assessment": "The target remains visible in the current view, so occlusion is not expected. However, the target is distant, so nearby objects or terrain changes could occlude it later.",
+        "spatial_belief": "The target is distant and the scene has no clear landmarks or scale reference. The depth estimate has some error, and the target direction is based on a single observation. The target might be small or the target region might be misaligned.",
+        "plan_update": "I will keep moving forward while keeping the target in view, as the target remains visible and the depth estimate suggests it is not nearby. If the target becomes occluded or the depth estimate changes, I will revise the route.",
+        "expected_reappearance_m": 0.8
+      },
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.48212187055666855,
+      "self_odometry_after": {
+        "x_m": 1.6321,
+        "y_m": 0.1279,
+        "z_m": 0.0623,
+        "yaw_rad": 0.0793,
+        "roll_rad": -0.0288,
+        "pitch_rad": -0.2115
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 6,
+        "median_target_surface_range_m": 4.1543619376370495,
+        "upright": 0.9773166470544159,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "slope_up_a2_surface_88",
+        "hit_distance_m": 1.1352606672495933,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "770a6bb03ee7a6f38455fdb18e56409afb8e4685d74d38e034dd8a0ea052cd4e",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "1be128b47d1a4e6559d0486c4902de127942f298e940e7f30a72ca6abab836dd",
+          "pixel_values_float32_sha256": "be7b55258a4b9702a689d4fd83719b71eb7aeeb94df29a25190b97a869c252cc"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8ce3c9d4a1c4f05b91575873789b5f392e75cd1515fd3d92e058fe92eb0772a3",
+          "pixel_values_float32_sha256": "ddc25890676c1c150dde23d576ad5ab33ce7435a3ae6b6e57c4ad56314807dac"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s RGB",
+          "image_sha256": "c5c46cb70485616a516374cecf8108a75fee30757c1697e62eeb9a1bc1069de7",
+          "pixel_values_float32_sha256": "6e0d4e522a67b3f86cfbae51cf8706dccc4701a374b31bf76bd9fa42ded80731"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ad5ce1fd2d98eacee645901baf1967f5475e600e2548031b359f7b4da707190d",
+          "pixel_values_float32_sha256": "859c4cc6ed467bc49690ba4c7b30b292586da473f3e922cf6414f959659f3d08"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s RGB",
+          "image_sha256": "67caca0e247f67c8280c3e9a56e1badc9959d3351bb62f6e5585a8d1d2b3f9ec",
+          "pixel_values_float32_sha256": "b781074ad5e9f5812e2e927c1678b7b5818421549a6bb6b697f84387034bf741"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "94dfbe3643bb5df68f7ade530048b6c2666c8f293439c1d1e0386fa559f8ece0",
+          "pixel_values_float32_sha256": "1baf11292d7ecc4ee87285dc0a59ba94ecc9c1be3620f0f5e4382cd2e6a1def9"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 4,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": 1.6321,
+        "y_m": 0.1279,
+        "z_m": 0.0623,
+        "yaw_rad": 0.0793,
+        "roll_rad": -0.0288,
+        "pitch_rad": -0.2115
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 6,
+        "median_target_surface_range_m": 4.1543619376370495,
+        "upright": 0.9773166470544159,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "slope_up_a2_surface_88",
+        "hit_distance_m": 1.1352606672495933,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "d4022950343bc5a06e2f6e6c8f990e91d6fa0fde12909a1854a46a29e54a01c3",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "1be128b47d1a4e6559d0486c4902de127942f298e940e7f30a72ca6abab836dd",
+          "pixel_values_float32_sha256": "be7b55258a4b9702a689d4fd83719b71eb7aeeb94df29a25190b97a869c252cc"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8ce3c9d4a1c4f05b91575873789b5f392e75cd1515fd3d92e058fe92eb0772a3",
+          "pixel_values_float32_sha256": "ddc25890676c1c150dde23d576ad5ab33ce7435a3ae6b6e57c4ad56314807dac"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s RGB",
+          "image_sha256": "c5c46cb70485616a516374cecf8108a75fee30757c1697e62eeb9a1bc1069de7",
+          "pixel_values_float32_sha256": "6e0d4e522a67b3f86cfbae51cf8706dccc4701a374b31bf76bd9fa42ded80731"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ad5ce1fd2d98eacee645901baf1967f5475e600e2548031b359f7b4da707190d",
+          "pixel_values_float32_sha256": "859c4cc6ed467bc49690ba4c7b30b292586da473f3e922cf6414f959659f3d08"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s RGB",
+          "image_sha256": "67caca0e247f67c8280c3e9a56e1badc9959d3351bb62f6e5585a8d1d2b3f9ec",
+          "pixel_values_float32_sha256": "b781074ad5e9f5812e2e927c1678b7b5818421549a6bb6b697f84387034bf741"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "94dfbe3643bb5df68f7ade530048b6c2666c8f293439c1d1e0386fa559f8ece0",
+          "pixel_values_float32_sha256": "1baf11292d7ecc4ee87285dc0a59ba94ecc9c1be3620f0f5e4382cd2e6a1def9"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.300s RGB",
+          "image_sha256": "7c1c645a3bbfdd91097c20a86601d94d208a60c2d320608713ddd1b3417b8935",
+          "pixel_values_float32_sha256": "25833c26f53356885a0913154208ea3609e5e383ca285dd4fc2205a80f18ab91"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d69b6f9499d7be799888a1f58659a6218a030765ddcfbbd4b47f489248acd73d",
+          "pixel_values_float32_sha256": "0b4c9409e27ce37d036adff6f9c1fd362c0bf557735252c395004a7a09cec54d"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "<think>\n\n</think>\n\nI will keep moving forward while keeping the target in view, as the target remains visible and the depth estimate suggests it is not nearby. If the target becomes occluded or the depth estimate changes, I will revise the route.\nAction: FORWARD\nDecision rationale: The target remains visible and the depth estimate suggests it is not nearby, so I will keep moving forward while keeping the target in view. If the target becomes occluded or the depth estimate changes, I will revise the route.\nEvidence: current_rgb, current_depth, self_odometry, recent_executed_motion, own_initial_or_revised_plan\nConfidence: 0.8",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "<think>\n\n</think>\n\nI will keep moving forward while keeping the target in view, as the target remains visible and the depth estimate suggests it is not nearby. If the target becomes occluded or the depth estimate changes, I will revise the route.\n{\"target_visible\":true,\"target_location\":\"centre\",\"proximity\":\"far\",\"confidence\":0.9,\"visual_assessment\":\"The target remains visible in the current RGB view, though it is small and distant. The depth estimate indicates it is not nearby, which is consistent with the visual appearance.\",\"decision_rationale\":\"I continue forward to approach the target while it remains visible and not nearby. This follows the plan to keep moving forward and keep the target in view.\",\"evidence_frames\":[0,2,3,4],\"evidence_sources\":[\"current_rgb\",\"current_depth\",\"past_rgb\",\"past_depth\"]}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
