@@ -1,6 +1,6 @@
 {
   "pid": 107851,
-  "phase": "running_spatialrgpt",
+  "phase": "running_robobrain25_8b_nv",
   "models": {
     "spatialreasoner": {
       "state": "smoke_requires_review",
@@ -26,8 +26,7 @@
       }
     },
     "robobrain25_8b_nv": {
-      "state": "smoke_passed_queued",
-      "completed_smoke_cases": 2
+      "state": "running"
     }
   },
   "backups": [
@@ -75,25 +74,30 @@
       "reason": "spatialrgpt 20 of 22",
       "commit": "9616ed77594281d72942f879f10be840bb709457",
       "pushed": true
+    },
+    {
+      "reason": "spatialrgpt final status",
+      "commit": "ade092cbb9c565ff51d9bd7c5dfd21123456a93c",
+      "pushed": true
     }
   ],
   "robobrain_source": "official ModelScope; same NV weight SHA256 as HF",
-  "current_pid": 110135,
+  "current_pid": 119777,
   "current": {
     "status": "running",
-    "completed": 21,
+    "completed": 1,
     "expected": 22,
-    "arrivals": 3,
-    "legal_vlm_stop": 1,
+    "arrivals": 0,
+    "legal_vlm_stop": 0,
     "terminations": {
-      "invalid_model_output": 18,
-      "success_visible_near": 3
+      "out_of_bounds": 1
     },
     "active": {
-      "window_a2": 4
+      "barrier_a0": 39,
+      "barrier_a2": 0
     },
-    "generation_calls": 212,
-    "wall_s": 1258.5996672059991
+    "generation_calls": 41,
+    "wall_s": 239.02677794600095
   },
-  "updated_unix": 1792311008.8690507
+  "updated_unix": 1792311272.7150104
 }
