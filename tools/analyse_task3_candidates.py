@@ -3,13 +3,42 @@ import argparse
 import csv
 import importlib.util
 import json
+import math
+import collections
 from pathlib import Path
+
+import numpy as np
 
 REPO = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('task3_analysis', REPO / 'paper/vlm_goal_navigation/analyse_spatial_transfer_v4.py')
 analysis = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(analysis)
 KEYS = ('spatialreasoner', 'spatialrgpt', 'robobrain25_8b_nv')
+
+
+def paired_comparison(reference, candidate):
+    if len(reference) != 22 or len(candidate) != 22:
+        return {'ready':False,'reason':'full 22-scene results required; no partial ranking'}
+    left = {r['scene']:r for r in reference}
+    right = {r['scene']:r for r in candidate}
+    if set(left) != set(right):
+        return {'ready':False,'reason':'scene sets differ'}
+    scenes = sorted(left)
+    delta = np.array([int(right[s]['arrived'])-int(left[s]['arrived']) for s in scenes])
+    groups = collections.defaultdict(list)
+    for scene,d in zip(scenes,delta):
+        groups[scene.rsplit('_a',1)[0]].append(d)
+    families = [np.array(v) for v in groups.values()]
+    rng = np.random.default_rng(17)
+    samples = [np.concatenate([families[i] for i in rng.integers(len(families),size=len(families))]).mean() for _ in range(20000)]
+    better,worse = int((delta>0).sum()),int((delta<0).sum())
+    n = better+worse
+    p = min(1.,2*sum(math.comb(n,k) for k in range(min(better,worse)+1))/2**n) if n else 1.
+    return dict(ready=True,paired_scenes=len(scenes),terrain_families=len(families),
+        candidate_minus_qwen_arrival_rate=float(delta.mean()),
+        terrain_family_cluster_bootstrap_95_ci=np.quantile(samples,[.025,.975]).tolist(),
+        candidate_only_arrivals=better,qwen_only_arrivals=worse,mcnemar_exact_two_sided_p=p,
+        interpretation='descriptive fixed-suite cross-backbone transfer; small correlated sample; no single-factor causal claim')
 
 
 def main():
@@ -25,6 +54,7 @@ def main():
     smoke_audits = {}
     audits = {}
     locations = {}
+    by_model = {}
     for key in ('qwen3vl8b', 'spatial_interactor8b') + KEYS:
         run = (old if key not in KEYS else root) / 'runs' / key
         locations[key] = run
@@ -36,7 +66,12 @@ def main():
             if key in KEYS:
                 analysis.preserve_case(root, key, result.parent)
         rows.extend(cases)
+        by_model[key] = cases
         metrics[key] = analysis.summary(cases)
+        metrics[key]['successful_scenes'] = [r['scene'] for r in cases if r['arrived']]
+        metrics[key]['reobserved_without_arrival_scenes'] = [r['scene'] for r in cases if r['reobserved'] and not r['arrived']]
+        metrics[key]['invalid_output_scenes'] = [r['scene'] for r in cases if r['termination']=='invalid_model_output']
+        metrics[key]['visibility_accuracy_on_valid_decisions'] = (metrics[key]['current_visibility_correct_decisions']/metrics[key]['valid_decisions']) if metrics[key]['valid_decisions'] else None
         metrics[key]['state'] = 'complete' if len(cases) == 22 else 'partial' if cases else 'not_evaluated'
         if key in KEYS:
             smoke = root/'smoke'/key
@@ -59,8 +94,17 @@ def main():
                 audits[key]['initial_rgb_loss_rgb_qpos_mismatches'] = [
                     p['scene'] for p in audits[key]['paired_initial_states'] if not all(p[k] for k in
                     ('same_initial_rgb','same_lost_rgb','same_loss_qpos'))]
-    analysis.write(root / 'metrics.json', {'comparison_scope':'cross-backbone transfer, not a causal spatial-pretraining ablation',
-        'models':metrics, 'smoke_diagnostics_not_formal_SR':smoke_metrics, 'missing_episodes_imputed_as_failures':False})
+    comparisons = {key:paired_comparison(by_model['qwen3vl8b'],by_model[key]) for key in KEYS}
+    for key,value in comparisons.items():
+        audit = audits[key]
+        value['input_audit_passed_for_comparison'] = bool(
+            metrics[key]['completed']==22 and len(audit.get('paired_initial_states',[]))==22
+            and not audit.get('forbidden_field_or_role_violations')
+            and not audit.get('common_semantic_protocol_mismatches')
+            and not audit.get('initial_rgb_loss_rgb_qpos_mismatches'))
+    analysis.write(root / 'metrics.json', {'status':'all_formal_runs_completed' if all(metrics[k]['completed']==22 for k in KEYS) else 'in_progress',
+        'comparison_scope':'cross-backbone transfer, not a causal spatial-pretraining ablation',
+        'models':metrics,'paired_vs_qwen3vl8b':comparisons, 'smoke_diagnostics_not_formal_SR':smoke_metrics, 'missing_episodes_imputed_as_failures':False})
     analysis.write(root / 'INPUT_AUDIT.json', {'formal_runs':audits,'smoke_runs':smoke_audits})
     if rows:
         with (root/'episodes.csv').open('w') as f:
@@ -71,6 +115,25 @@ def main():
         '| 模型 | 正式完成 | 确认到达 | 恢复可见 | 终止类型 |', '| --- | --- | --- | --- | --- |']
     for key, value in metrics.items():
         report.append(f"| {key} | {value['completed']}/22 | {value['arrivals'] if value['completed'] else '未测'} | {value['reobserved'] if value['completed'] else '未测'} | {json.dumps(value['terminations'])} |")
+    report.extend(['','## 已完成回合的行为与失败分析',''])
+    for key,value in metrics.items():
+        if not value['completed']:
+            continue
+        valid = value['valid_decisions']
+        report.append(f"- **{key}**：成功场景 {', '.join(value['successful_scenes']) or '无'}；只执行前进/STOP即到达 {value['forward_only_arrivals']} 回合；恢复可见但未到达 {len(value['reobserved_without_arrival_scenes'])} 回合。")
+        report.append(f"  有效动作判断 {valid} 次，其中当前可见性一致 {value['current_visibility_correct_decisions']} 次；宣称 near {value['model_near_claims']} 次，其中 {value['model_near_claims_outside_1m_gate']} 次不满足当前可见且<1m。非法 STOP 路径屏蔽 {value['stop_paths_masked_during_generation']} 次，实际拒绝 STOP {value['rejected_stops']} 次。")
+        if value['terminations'].get('invalid_model_output',0) > value['completed']/2:
+            report.append('  当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。')
+        if value['arrivals'] and value['forward_only_arrivals']==value['arrivals']:
+            report.append('  当前所有成功都只含前进/STOP，尚不能证明学会了需要转向、侧移或绕行的遮挡恢复策略。')
+    report.extend(['','## 完整22场景配对比较',''])
+    for key,value in comparisons.items():
+        if not value['ready'] or not value['input_audit_passed_for_comparison']:
+            report.append(f'- {key}：等待全部22场景及输入配对审计通过，不给最终排序。')
+            continue
+        lo,hi=value['terrain_family_cluster_bootstrap_95_ci']
+        report.append(f"- {key} 相对 Qwen3 到达率差 {100*value['candidate_minus_qwen_arrival_rate']:+.1f} 个百分点；按地形族重采样95%区间 [{100*lo:.1f}, {100*hi:.1f}]；McNemar双侧 p={value['mcnemar_exact_two_sided_p']:.4g}。仅候选成功 {value['candidate_only_arrivals']}，仅Qwen成功 {value['qwen_only_arrivals']}。")
+    report.append('这些统计只描述冻结小样本套件，地形级别相关；跨骨干和原生视觉预处理差异仍在，不能单独归因于空间预训练。')
     report.extend(['', '## 两场景接口诊断（每场景最多2动作，不纳入正式成功率）', '',
         '| 模型 | 完成案例 | 有效动作总数 | 当前可见性判断正确/有效判断 | 终止 |', '| --- | --- | --- | --- | --- |'])
     for key,value in smoke_metrics.items():
@@ -83,6 +146,7 @@ def main():
         'RoboBrain 使用作者链接的官方 ModelScope NV 权重，分片与 HF 哈希一致。SpatialRGPT 首轮为无额外region的通用多图配置，不能代表其原生区域深度分支完整能力。',
         '未完成全场景且未通过输入审计前，不给出最终模型排序。即使到达率不同，也不能直接归因于空间训练数据。',
         '当前目标是红球；结果不能单独证明开放词汇语义理解或跨目标类别泛化。',
+        '请求已经包含由 RGB-D 计算的红像素数和距离；可见性字段与记录一致不等于独立验证视觉识别能力。',
         '原V4准入证明可重观测，不保证全部场景已经认证完整<1m到达路线。', '',
         '新方法及开源导航对照的取舍见 [RELATED_WORK.md](RELATED_WORK.md)。'])
     (root/'REPORT.md').write_text('\n'.join(report)+'\n')
