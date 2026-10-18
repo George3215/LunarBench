@@ -31,6 +31,7 @@ def main():
         from llava.conversation import conv_templates
         from llava.mm_utils import tokenizer_image_token
         from action_grammar import ActionGrammar, ActionVocabulary
+        from task3_action_only import ClosedSetActionGrammar
 
         torch.set_num_threads(1)
         torch.manual_seed(7)
@@ -84,7 +85,12 @@ def main():
                     if length + request['max_new_tokens'] > 8192 or length > 16384:
                         result.update(termination='context_limit', generation_skipped=True)
                     else:
-                        grammar = ActionGrammar(vocabulary, [request['stop_allowed']], 0) if request['stop_allowed'] is not None else None
+                        grammar = None
+                        if request['stop_allowed'] is not None:
+                            if request.get('action_interface') == 'action_only':
+                                grammar = ClosedSetActionGrammar(tokenizer, [request['stop_allowed']], 0, stop_ids)
+                            else:
+                                grammar = ActionGrammar(vocabulary, [request['stop_allowed']], 0)
                         kwargs = dict(logits_processor=LogitsProcessorList([grammar])) if grammar else {}
                         outputs = model.llm.generate(inputs_embeds=embeds, attention_mask=attention,
                             max_new_tokens=request['max_new_tokens'], do_sample=False, use_cache=True,

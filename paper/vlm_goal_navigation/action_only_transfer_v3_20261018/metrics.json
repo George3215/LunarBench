@@ -1,0 +1,422 @@
+{
+  "status": "in_progress",
+  "models": {
+    "qwen3vl8b": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "state": "not_evaluated"
+    },
+    "spatial_interactor8b": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "state": "not_evaluated"
+    },
+    "spatialreasoner": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "state": "not_evaluated"
+    },
+    "spatialrgpt": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "state": "not_evaluated"
+    },
+    "robobrain25_8b_nv": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "state": "not_evaluated"
+    }
+  },
+  "paired_vs_action_only_qwen": {
+    "spatial_interactor8b": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    },
+    "spatialreasoner": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    },
+    "spatialrgpt": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    },
+    "robobrain25_8b_nv": {
+      "ready": false,
+      "reason": "full 22-scene results required; no partial ranking",
+      "input_audit_passed_for_comparison": false
+    }
+  },
+  "within_model_protocol_changes": {
+    "qwen3vl8b": {
+      "original_schema": {
+        "completed": 22,
+        "arrivals": 5,
+        "reobserved": 13,
+        "successful_scenes": [
+          "basin_a1",
+          "slope_up_a2",
+          "stairs_up_a2",
+          "trench_a0",
+          "waves_a0"
+        ],
+        "recovered_not_arrived_scenes": [
+          "barrier_a0",
+          "basin_a2",
+          "perlin_a1",
+          "perlin_rough_a0",
+          "perlin_rough_a1",
+          "perlin_rough_a2",
+          "waves_a2",
+          "window_a0"
+        ],
+        "autonomous_actions": 1246,
+        "legal_vlm_stop": 1,
+        "rejected_stops": 0,
+        "valid_initial_plans": 22,
+        "forward_only_arrivals": 0,
+        "terminations": {
+          "budget_exhausted": 17,
+          "success_visible_near": 5
+        }
+      },
+      "action_only": {
+        "completed": 0,
+        "arrivals": 0,
+        "reobserved": 0,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [],
+        "autonomous_actions": 0,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 0,
+        "forward_only_arrivals": 0,
+        "terminations": {},
+        "state": "not_evaluated"
+      },
+      "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
+    },
+    "spatial_interactor8b": {
+      "original_schema": {
+        "completed": 22,
+        "arrivals": 0,
+        "reobserved": 10,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [
+          "barrier_a0",
+          "basin_a1",
+          "perlin_a1",
+          "perlin_a2",
+          "perlin_rough_a1",
+          "perlin_rough_a2",
+          "stairs_up_a2",
+          "trench_a0",
+          "waves_a0",
+          "waves_a1"
+        ],
+        "autonomous_actions": 193,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 22,
+        "forward_only_arrivals": 0,
+        "terminations": {
+          "budget_exhausted": 1,
+          "invalid_model_output": 21
+        }
+      },
+      "action_only": {
+        "completed": 0,
+        "arrivals": 0,
+        "reobserved": 0,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [],
+        "autonomous_actions": 0,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 0,
+        "forward_only_arrivals": 0,
+        "terminations": {},
+        "state": "not_evaluated"
+      },
+      "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
+    },
+    "spatialreasoner": {
+      "original_schema": {
+        "completed": 22,
+        "arrivals": 0,
+        "reobserved": 2,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [
+          "slope_up_a2",
+          "waves_a0"
+        ],
+        "autonomous_actions": 11,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 6,
+        "forward_only_arrivals": 0,
+        "terminations": {
+          "invalid_model_output": 22
+        }
+      },
+      "action_only": {
+        "completed": 0,
+        "arrivals": 0,
+        "reobserved": 0,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [],
+        "autonomous_actions": 0,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 0,
+        "forward_only_arrivals": 0,
+        "terminations": {},
+        "state": "not_evaluated"
+      },
+      "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
+    },
+    "spatialrgpt": {
+      "original_schema": {
+        "completed": 22,
+        "arrivals": 3,
+        "reobserved": 8,
+        "successful_scenes": [
+          "basin_a1",
+          "perlin_a2",
+          "trench_a0"
+        ],
+        "recovered_not_arrived_scenes": [
+          "perlin_a1",
+          "perlin_rough_a0",
+          "slope_up_a2",
+          "stairs_up_a2",
+          "waves_a0"
+        ],
+        "autonomous_actions": 131,
+        "legal_vlm_stop": 1,
+        "rejected_stops": 0,
+        "valid_initial_plans": 22,
+        "forward_only_arrivals": 3,
+        "terminations": {
+          "invalid_model_output": 19,
+          "success_visible_near": 3
+        }
+      },
+      "action_only": {
+        "completed": 0,
+        "arrivals": 0,
+        "reobserved": 0,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [],
+        "autonomous_actions": 0,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 0,
+        "forward_only_arrivals": 0,
+        "terminations": {},
+        "state": "not_evaluated"
+      },
+      "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
+    },
+    "robobrain25_8b_nv": {
+      "original_schema": {
+        "completed": 22,
+        "arrivals": 5,
+        "reobserved": 17,
+        "successful_scenes": [
+          "perlin_a1",
+          "perlin_rough_a1",
+          "slope_up_a2",
+          "waves_a0",
+          "window_a2"
+        ],
+        "recovered_not_arrived_scenes": [
+          "barrier_a0",
+          "barrier_a1",
+          "barrier_a2",
+          "basin_a1",
+          "basin_a2",
+          "perlin_rough_a0",
+          "perlin_rough_a2",
+          "pit_a1",
+          "stairs_up_a2",
+          "waves_a2",
+          "window_a0",
+          "window_a1"
+        ],
+        "autonomous_actions": 1149,
+        "legal_vlm_stop": 2,
+        "rejected_stops": 0,
+        "valid_initial_plans": 22,
+        "forward_only_arrivals": 0,
+        "terminations": {
+          "budget_exhausted": 13,
+          "out_of_bounds": 2,
+          "invalid_model_output": 1,
+          "success_visible_near": 5,
+          "fallen": 1
+        }
+      },
+      "action_only": {
+        "completed": 0,
+        "arrivals": 0,
+        "reobserved": 0,
+        "successful_scenes": [],
+        "recovered_not_arrived_scenes": [],
+        "autonomous_actions": 0,
+        "legal_vlm_stop": 0,
+        "rejected_stops": 0,
+        "valid_initial_plans": 0,
+        "forward_only_arrivals": 0,
+        "terminations": {},
+        "state": "not_evaluated"
+      },
+      "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
+    }
+  },
+  "smoke_not_formal_SR": {
+    "qwen3vl8b": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "input_audit": {
+        "requests_checked": 0,
+        "forbidden_field_or_role_violations": [],
+        "unsupported_model_evidence_claims": 0,
+        "scope": "actual text blocks and role allowlist; image paths are provenance, not model text; not a proof against all possible semantic leakage"
+      }
+    },
+    "spatial_interactor8b": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "input_audit": {
+        "requests_checked": 0,
+        "forbidden_field_or_role_violations": [],
+        "unsupported_model_evidence_claims": 0,
+        "scope": "actual text blocks and role allowlist; image paths are provenance, not model text; not a proof against all possible semantic leakage"
+      }
+    },
+    "spatialreasoner": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "input_audit": {
+        "requests_checked": 0,
+        "forbidden_field_or_role_violations": [],
+        "unsupported_model_evidence_claims": 0,
+        "scope": "actual text blocks and role allowlist; image paths are provenance, not model text; not a proof against all possible semantic leakage"
+      }
+    },
+    "spatialrgpt": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "input_audit": {
+        "requests_checked": 0,
+        "forbidden_field_or_role_violations": [],
+        "unsupported_model_evidence_claims": 0,
+        "scope": "actual text blocks and role allowlist; image paths are provenance, not model text; not a proof against all possible semantic leakage"
+      }
+    },
+    "robobrain25_8b_nv": {
+      "completed": 0,
+      "arrivals": 0,
+      "reobserved": 0,
+      "successful_scenes": [],
+      "recovered_not_arrived_scenes": [],
+      "autonomous_actions": 0,
+      "legal_vlm_stop": 0,
+      "rejected_stops": 0,
+      "valid_initial_plans": 0,
+      "forward_only_arrivals": 0,
+      "terminations": {},
+      "input_audit": {
+        "requests_checked": 0,
+        "forbidden_field_or_role_violations": [],
+        "unsupported_model_evidence_claims": 0,
+        "scope": "actual text blocks and role allowlist; image paths are provenance, not model text; not a proof against all possible semantic leakage"
+      }
+    }
+  },
+  "missing_episodes_imputed_as_failures": false
+}

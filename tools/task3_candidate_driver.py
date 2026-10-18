@@ -12,9 +12,25 @@ sys.path.insert(0, str(REPO / 'tasks/task3_reobservability'))
 import spatial_transfer_v4 as base
 from action_grammar import ActionVocabulary
 from model_output_adapter import initial_plan
+from task3_action_only import ClosedSetActionGrammar, parse_action
+
+ACTION_INTERFACE = 'full_schema'
 
 
 class NativeQwenPolicy(base.Policy):
+    def generation_options(self, group, inputs):
+        if ACTION_INTERFACE != 'action_only' or not all('stop_allowed' in r for r, _, _ in group):
+            return super().generation_options(group, inputs)
+        grammar = ClosedSetActionGrammar(self.processor.tokenizer,
+            [r['stop_allowed'] for r, _, _ in group], inputs['input_ids'].shape[1],
+            self.model.generation_config.eos_token_id)
+        for row, (_, folder, _) in enumerate(group):
+            self.action_grammars[str(folder)] = (grammar, row)
+        return {'logits_processor': base.LogitsProcessorList([grammar])}
+
+    def parse_output(self, raw):
+        return parse_action(raw) if ACTION_INTERFACE == 'action_only' else super().parse_output(raw)
+
     def __init__(self, model_path, processor_path, max_tokens):
         from transformers import AutoConfig, AutoProcessor, Qwen2_5_VLForConditionalGeneration
         import torch
@@ -49,6 +65,9 @@ class NativeQwenPolicy(base.Policy):
 
 
 class SpatialRGPTPolicy(base.Policy):
+    def parse_output(self, raw):
+        return parse_action(raw) if ACTION_INTERFACE == 'action_only' else super().parse_output(raw)
+
     def __init__(self, model_path, processor_path, max_tokens):
         self.actor_max_tokens = max_tokens
         self.generation_calls = 0
@@ -71,7 +90,8 @@ class SpatialRGPTPolicy(base.Policy):
                 'horizon': request['horizon'], 'policy_inputs': request['input_description']})
             payload = dict(system=base.cp.SYSTEM, text=messages[1]['content'][0]['text'],
                 images=[(label, str(path)) for label, path in request['images']],
-                stop_allowed=request.get('stop_allowed'), max_new_tokens=base.cp.OUTPUT_TOKEN_LIMIT)
+                stop_allowed=request.get('stop_allowed'), max_new_tokens=base.cp.OUTPUT_TOKEN_LIMIT,
+                action_interface=ACTION_INTERFACE)
             self.worker.stdin.write(json.dumps(payload) + '\n')
             self.worker.stdin.flush()
             line = self.worker.stdout.readline()
@@ -133,13 +153,23 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--backend', choices=['native_qwen', 'spatialrgpt'], required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--action-interface', choices=['full_schema','action_only'], default='full_schema')
     options, _ = parser.parse_known_args()
+    ACTION_INTERFACE = options.action_interface
+    if ACTION_INTERFACE == 'action_only':
+        # Keep sensor/motion instructions; replace the complex actor schema only.
+        common = base.SYSTEM.split('For each action,')[0]
+        spatial = 'You also receive' + base.SYSTEM.split('You also receive',1)[1].split('Optional JSON fields:',1)[0]
+        base.SYSTEM = common + '\n' + spatial + '\nReturn exactly ONE legal action name, with no other text: FORWARD, BACKWARD, STRAFE_LEFT, STRAFE_RIGHT, TURN_LEFT, TURN_RIGHT, or STOP. Use the images, measured motion and own initial plan to select the next action. No assessment JSON or explanation is requested.\n'
+        base.VERSION = 'v4-spatial-transfer-recovery/3-action-only'
     OUT = options.out.resolve()
     OUT.mkdir(parents=True, exist_ok=True)
     source = Path(__file__).read_bytes()
     manifest = dict(backend=options.backend, adapter_sha256=hashlib.sha256(source).hexdigest(),
         comparison_scope='cross-backbone transfer, not a single-factor spatial-training ablation',
-        prompt_content='frozen v2 SYSTEM and PLAN_SYSTEM; native architecture chat template',
+        prompt_content='frozen v2 SYSTEM and PLAN_SYSTEM; native architecture chat template' if ACTION_INTERFACE == 'full_schema' else 'v3 shared action-only SYSTEM; unchanged v2 PLAN_SYSTEM; native chat template',
+        action_interface=ACTION_INTERFACE,
+        auxiliary_actor_fields='model generated' if ACTION_INTERFACE == 'full_schema' else 'not requested; no visibility, proximity, evidence citation or plan-update assessments generated or fabricated',
         input_modalities='same event4 RGB-D images, ideal self-odometry and own plan',
         spatialrgpt_variant='general multimodal images; no region proposal or GT mask; depth grayscale is an ordinary image; native region/depth-token variant NOT evaluated',
         batch_execution='native_qwen batches as v2; SpatialRGPT sequential requests, same action budget',
@@ -152,11 +182,15 @@ if __name__ == '__main__':
                 frame_area_cap=65536 if options.backend == 'native_qwen' else None,
                 native_visual_preprocessing='Qwen checkpoint processor, area cap 65536' if options.backend == 'native_qwen' else 'official SigLIP 384x384 image resize',
                 adapter_protocol='ADAPTER_PROTOCOL.json')
+            if ACTION_INTERFACE == 'action_only':
+                value.update(action_constraint='whole-answer legal-action token trie; greedy legal logits unchanged; STOP absent when sensor gate false; no external planner',
+                    shared_output_adapter='exact complete action label only; empty evidence lists are internal logger compatibility, not model citations',
+                    plan_update='not requested in action-only actor', auxiliary_assessments='not requested; do not calculate model visibility/proximity accuracy')
         inherited_dump(path, value)
     base.dump = adapter_dump
     snapshots = OUT / 'adapter_source'
     snapshots.mkdir(exist_ok=True)
-    for name in ('task3_candidate_driver.py', 'task3_spatialrgpt_worker.py'):
+    for name in ('task3_candidate_driver.py', 'task3_spatialrgpt_worker.py', 'task3_action_only.py'):
         file = REPO / 'tools' / name
         if file.exists():
             dest = snapshots / name
@@ -165,6 +199,9 @@ if __name__ == '__main__':
             dest.write_bytes(file.read_bytes())
     index = sys.argv.index('--backend')
     del sys.argv[index:index+2]
+    if '--action-interface' in sys.argv:
+        index = sys.argv.index('--action-interface')
+        del sys.argv[index:index+2]
     base.Policy = NativeQwenPolicy if options.backend == 'native_qwen' else SpatialRGPTPolicy
     try:
         base.main()
