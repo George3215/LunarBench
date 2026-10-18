@@ -1,6 +1,6 @@
 {
   "pid": 183505,
-  "phase": "smoke_spatialrgpt",
+  "phase": "smoke_qwen3vl8b",
   "started_unix": 1792321029.1429737,
   "models": {
     "spatialreasoner": {
@@ -61,6 +61,25 @@
           "wall_s": 17.292396422999445
         }
       }
+    },
+    "qwen3vl8b": {
+      "state": "smoke_passed_queued",
+      "smoke": {
+        "exit_code": 0,
+        "status": {
+          "status": "complete_pending_analysis",
+          "completed": 2,
+          "expected": 2,
+          "arrivals": 0,
+          "legal_vlm_stop": 0,
+          "terminations": {
+            "budget_exhausted": 2
+          },
+          "active": {},
+          "generation_calls": 5,
+          "wall_s": 25.98518568000145
+        }
+      }
     }
   },
   "backups": [
@@ -81,22 +100,27 @@
       "commit": "b1091ec17fd6a41ac73173d7dcc2e13ddf61a99c",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "spatialrgpt action-only interface diagnostic",
+      "commit": "5d7b64a29eba605fd436296e0dabbfddc2f5d5b4",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "error_incomplete_not_navigation_result",
-    "completed": 0,
+    "status": "complete_pending_analysis",
+    "completed": 2,
     "expected": 2,
     "arrivals": 0,
     "legal_vlm_stop": 0,
-    "terminations": {},
-    "active": {
-      "barrier_a0": 0,
-      "pit_a0": 0
+    "terminations": {
+      "budget_exhausted": 2
     },
-    "generation_calls": 2,
-    "wall_s": 17.292396422999445
+    "active": {},
+    "generation_calls": 5,
+    "wall_s": 25.98518568000145
   },
-  "current_pid": 184432,
-  "updated_unix": 1792321090.6021364
+  "current_pid": 184930,
+  "updated_unix": 1792321130.4513383
 }
