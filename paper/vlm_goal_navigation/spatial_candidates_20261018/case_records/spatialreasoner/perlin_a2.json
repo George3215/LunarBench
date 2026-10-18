@@ -1,0 +1,237 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": null,
+  "result": {
+    "scene": "perlin_a2",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 3,
+    "controlled_approach_actions": 2,
+    "autonomous_actions": 1,
+    "inference_count": 3,
+    "total_inference_s": 11.798562182004389,
+    "amortized_inference_s": 5.899281091002194,
+    "wall_s_including_scheduler_wait": 22.364135369996802,
+    "simulated_s": 4.1999999999997595,
+    "path_m": 0.9825078644981499,
+    "state_samples": 43,
+    "min_upright": 0.9095156821737543,
+    "final_evaluator": {
+      "sim_time_s": 4.1999999999997595,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 3.42634784791914,
+      "base_xy_target_distance_m_diagnostic": 3.590023589113939,
+      "camera_xyz_evaluator": [
+        -0.28262329364595645,
+        2.0112179519770907,
+        -0.28037212907771025
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        2.0,
+        0.701523
+      ],
+      "upright": 0.9998970896366736,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "action_counts": {
+      "FORWARD": 3
+    },
+    "max_steps": 64,
+    "observation_frame_count": 4,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/perlin_a2",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": false,
+    "reappearance_predictions": [],
+    "policy_action_counts": {
+      "FORWARD": 1
+    },
+    "policy_action_sequence": [
+      "FORWARD"
+    ],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 3,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": false,
+        "target_location": "absent",
+        "proximity": "uncertain",
+        "confidence": 0.27,
+        "visual_assessment": "The target was visible in the first observation but is currently out of sight.",
+        "decision_rationale": "The target was visible in the first observation but is currently out of sight. The decision rationale is to move forward to recover sight of the target.",
+        "evidence_frames": [
+          0,
+          1
+        ],
+        "evidence_sources": [
+          "current_rgb",
+          "current_depth"
+        ],
+        "action": "FORWARD"
+      },
+      "current_frame_before": 2,
+      "actual_displacement_xy_m": 0.2896157104761968,
+      "self_odometry_after": {
+        "x_m": 0.8948,
+        "y_m": -0.0606,
+        "z_m": -0.4187,
+        "yaw_rad": 0.0688,
+        "roll_rad": -0.0132,
+        "pitch_rad": -0.0057
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9998970896366736,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "perlin_a2_32_34",
+        "hit_distance_m": 0.8171256802419679,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "a7e86f0ecbbbc5be78feaca207c5912bd46e899c06f8962c83cca73a7e8e02ac",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "3331e6b2db303311ef0e505f1e8d52904ddf2b7249d8a06a38594a44f99ef495",
+          "pixel_values_float32_sha256": "470dc319f37e0a1c6c4c72fcbfba9c23ba2bfd1a30ece5f8b5f1b4b777e4c203"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "544c65252522f492fb3706a8c5114ab953d19a83d8d99dedd9d05ec810fec85f",
+          "pixel_values_float32_sha256": "25fd3e01d0cea1de59912e7782172266ff4359a3f87786fa305d00cfb8ea3a7b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "8d091611a8846d4aec1719f49b09acea40a7c2a5a6f7a93ddfe3a29e6c04ee55",
+          "pixel_values_float32_sha256": "4f14a1e5735d9a881c12408c3fe5964d6df7a2badac10a41b1ef6c587fdcc53b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d29968d6629051ecb4722aedf0f2baba671a4ea947106f8c33772db40093858b",
+          "pixel_values_float32_sha256": "aa5f5d8610eaf0e3731189ea22a8de29865470b61e910e507e3356f6adc3d875"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s RGB",
+          "image_sha256": "2372f50fd4ceef937af5eefae543a67b10ca3c72ebf873d8913f0bc190e9e97b",
+          "pixel_values_float32_sha256": "514f1e49dfdb3973c97bee5c21f31559ede5ab520ca88efd895bbc4342933c97"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8bb9425525f6434f02621c52b5cd329ad92bddc3b74268f6aa9568f0ad259c07",
+          "pixel_values_float32_sha256": "69eab32bb1d00cf43235ecd1ae044257f242598c8bd0d1a7323f9167213b0e69"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": 0.8948,
+        "y_m": -0.0606,
+        "z_m": -0.4187,
+        "yaw_rad": 0.0688,
+        "roll_rad": -0.0132,
+        "pitch_rad": -0.0057
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9998970896366736,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "perlin_a2_32_34",
+        "hit_distance_m": 0.8171256802419679,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "12166528aefe2de54b10554f2b8f7c5da1b841edc90c205faab854b96ff4cd7f",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "3331e6b2db303311ef0e505f1e8d52904ddf2b7249d8a06a38594a44f99ef495",
+          "pixel_values_float32_sha256": "470dc319f37e0a1c6c4c72fcbfba9c23ba2bfd1a30ece5f8b5f1b4b777e4c203"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "544c65252522f492fb3706a8c5114ab953d19a83d8d99dedd9d05ec810fec85f",
+          "pixel_values_float32_sha256": "25fd3e01d0cea1de59912e7782172266ff4359a3f87786fa305d00cfb8ea3a7b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "8d091611a8846d4aec1719f49b09acea40a7c2a5a6f7a93ddfe3a29e6c04ee55",
+          "pixel_values_float32_sha256": "4f14a1e5735d9a881c12408c3fe5964d6df7a2badac10a41b1ef6c587fdcc53b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d29968d6629051ecb4722aedf0f2baba671a4ea947106f8c33772db40093858b",
+          "pixel_values_float32_sha256": "aa5f5d8610eaf0e3731189ea22a8de29865470b61e910e507e3356f6adc3d875"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s RGB",
+          "image_sha256": "2372f50fd4ceef937af5eefae543a67b10ca3c72ebf873d8913f0bc190e9e97b",
+          "pixel_values_float32_sha256": "514f1e49dfdb3973c97bee5c21f31559ede5ab520ca88efd895bbc4342933c97"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8bb9425525f6434f02621c52b5cd329ad92bddc3b74268f6aa9568f0ad259c07",
+          "pixel_values_float32_sha256": "69eab32bb1d00cf43235ecd1ae044257f242598c8bd0d1a7323f9167213b0e69"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s RGB",
+          "image_sha256": "98ab10354652cb0c034ef18e233fd7927f957e0db3edd839b8711f4234a7d886",
+          "pixel_values_float32_sha256": "fe67a663fb94d98e0d12ca29c0c2b87250e23544f4db132262852050ee48c170"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "00184b5018e1f5ae74019873843d677984c8250d677134456a42593c7f1f3153",
+          "pixel_values_float32_sha256": "90255a9694f8c4037ec0c19346fa18cc23b7126dc0e40ae2500b6f3d0317a0aa"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "The red region is currently absent. The visual assessment is that the red region is absent because the red pixels are low and the red region surface range is large. The decision rationale is that the red region is absent and the current plan should look for a new one. The evidence frames are [0]. The evidence sources are [\"current_rgb\", \"current_depth\"]. The action is \"TURN_LEFT\". The spatial belief is \"left\". The plan update is \"search for a new path\". The expected reappearance time is null.",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.1,\n\"visual_assessment\": \"no red region in current RGB or past 3 frames\",\n\"decision_rationale\": \"no red region in current or past frames; no reliable depth; no stopping\",\n\"evidence_frames\": [\n0,\n1,\n2,\n3\n],\n\"evidence_sources\": [\n\"current_rgb\",\n\"current_depth\",\n\"past_rgb\",\n\"past_depth\"\n]\n}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
