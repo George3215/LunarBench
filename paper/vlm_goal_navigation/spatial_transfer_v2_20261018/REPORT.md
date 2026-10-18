@@ -4,7 +4,7 @@
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| qwen3vl8b | 16/22 | 5 | 9 | 1 | 0 |
+| qwen3vl8b | 20/22 | 5 | 13 | 1 | 0 |
 | spatial_interactor8b | 0/22 | 0 | 0 | 0 | 0 |
 
 到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。
@@ -18,6 +18,9 @@
 | basin_a2 | 失败 / budget_exhausted | 待完成 |
 | perlin_a1 | 失败 / budget_exhausted | 待完成 |
 | perlin_a2 | 失败 / budget_exhausted | 待完成 |
+| perlin_rough_a0 | 失败 / budget_exhausted | 待完成 |
+| perlin_rough_a1 | 失败 / budget_exhausted | 待完成 |
+| perlin_rough_a2 | 失败 / budget_exhausted | 待完成 |
 | pit_a0 | 失败 / budget_exhausted | 待完成 |
 | pit_a1 | 失败 / budget_exhausted | 待完成 |
 | pit_a2 | 失败 / budget_exhausted | 待完成 |
@@ -27,6 +30,7 @@
 | waves_a0 | 成功 / success_visible_near | 待完成 |
 | waves_a1 | 失败 / budget_exhausted | 待完成 |
 | waves_a2 | 失败 / budget_exhausted | 待完成 |
+| window_a0 | 失败 / budget_exhausted | 待完成 |
 
 ## 解释边界
 
