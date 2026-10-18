@@ -15,4 +15,6 @@ SpatialReasoner 使用自己的 Qwen2.5-VL tokenizer/processor；不能强装 Qw
 
 先做两场景两动作接口烟测，记录解析成功、非法 STOP 屏蔽、资源错误；随后在单 GPU 队列接续正式场景。尚未完成的模型不填完整导航成功率。已有 Qwen/Spatial-Interactor 队列保持独立，先完成其冻结实验。
 
+三个新增模型均已完成实际 GPU 接口诊断。SpatialRGPT、RoboBrain 通过解析检查；SpatialReasoner 两例均未产生可执行的完整动作输出。为避免以两例代替全场景结论，SpatialReasoner 另外排入22场景正式接口迁移诊断，接在前两个模型之后；`REASONER_QUEUE_STATUS.json` 记录等待/执行状态。其格式失败保留为格式失败，不据此声称空间能力无效。测试不追加外部动作猜测或目标真值。
+
 权重、上游源码、完整原始图像/轨迹保留 `.local/` 或运行目录且不入 Git；协议、状态、摘要、参考文献和结论备份到当前 GitHub 实验分支。GitHub 摘要备份不等于原始数据异地备份。
