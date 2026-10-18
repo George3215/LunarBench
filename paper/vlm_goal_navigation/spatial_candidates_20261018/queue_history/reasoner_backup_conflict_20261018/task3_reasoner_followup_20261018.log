@@ -1,0 +1,14 @@
+{"qwen3vl8b": {"completed": 22, "arrivals": 5, "state": "complete"}, "spatial_interactor8b": {"completed": 22, "arrivals": 0, "state": "complete"}, "spatialreasoner": {"completed": 0, "arrivals": 0, "state": "not_evaluated"}, "spatialrgpt": {"completed": 22, "arrivals": 3, "state": "complete"}, "robobrain25_8b_nv": {"completed": 22, "arrivals": 5, "state": "complete"}}
+To https://github.com/George3215/LunarBench.git
+ ! [remote rejected] experiments/task3-spatial-transfer-20261018 -> experiments/task3-spatial-transfer-20261018 (cannot lock ref 'refs/heads/experiments/task3-spatial-transfer-20261018': is at 0d3e282c864b2c48c44e9ddb2c51b3b300edd9aa but expected 79e6042ef5ce6116315a527704506bc14b61afcb)
+error: 无法推送一些引用到 'https://github.com/George3215/LunarBench.git'
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/run_task3_candidates_queue.py", line 171, in <module>
+    main()
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/run_task3_candidates_queue.py", line 131, in main
+    backup(key+(' format failure retained; formal diagnostic queued' if format_failed else ' interface passed'))
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/run_task3_candidates_queue.py", line 67, in backup
+    subprocess.run(['git','-c','http.proxy=http://127.0.0.1:7890','push','origin',branch],cwd=REPO,check=True,timeout=120)
+  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', '-c', 'http.proxy=http://127.0.0.1:7890', 'push', 'origin', 'experiments/task3-spatial-transfer-20261018']' returned non-zero exit status 1.

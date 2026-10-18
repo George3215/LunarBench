@@ -23,6 +23,22 @@ def save(path, value):
     tmp.replace(path)
 
 
+def push_backup(branch, attempts=3):
+    """Retry remote backups without discarding or stopping local experiment work."""
+    error = None
+    for attempt in range(attempts):
+        try:
+            subprocess.run(['git','-c','http.proxy=http://127.0.0.1:7890',
+                            'push','origin',branch],cwd=REPO,check=True,timeout=120)
+            return True, None
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired, OSError) as exc:
+            error = repr(exc)
+            print(f'Remote backup attempt {attempt+1}/{attempts} failed: {error}',flush=True)
+            if attempt+1 < attempts:
+                time.sleep(5*(attempt+1))
+    return False, error
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root',type=Path,required=True)
@@ -63,9 +79,9 @@ def main():
         if subprocess.run(['git','diff','--cached','--quiet','--',*paths],cwd=REPO).returncode:
             subprocess.run(['git','commit','-m','Record TASK3 candidates: '+reason,'--only','--',*paths],cwd=REPO,check=True,stdout=subprocess.DEVNULL)
         commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
-        if args.push:
-            subprocess.run(['git','-c','http.proxy=http://127.0.0.1:7890','push','origin',branch],cwd=REPO,check=True,timeout=120)
-        state['backups'].append(dict(reason=reason,commit=commit,pushed=args.push))
+        pushed, push_error = push_backup(branch) if args.push else (False, None)
+        state['backups'].append(dict(reason=reason,commit=commit,pushed=pushed,
+                                     push_error=push_error))
         save(status_file,state)
 
     def wait_gpu():
