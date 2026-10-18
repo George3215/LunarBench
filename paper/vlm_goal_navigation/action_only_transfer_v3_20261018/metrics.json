@@ -41,9 +41,9 @@
       "state": "complete"
     },
     "spatial_interactor8b": {
-      "completed": 20,
+      "completed": 22,
       "arrivals": 7,
-      "reobserved": 17,
+      "reobserved": 19,
       "successful_scenes": [
         "basin_a1",
         "perlin_a2",
@@ -63,20 +63,22 @@
         "perlin_rough_a1",
         "perlin_rough_a2",
         "pit_a0",
-        "waves_a1"
+        "waves_a1",
+        "window_a1",
+        "window_a2"
       ],
-      "autonomous_actions": 782,
+      "autonomous_actions": 910,
       "legal_vlm_stop": 2,
       "rejected_stops": 0,
-      "valid_initial_plans": 20,
+      "valid_initial_plans": 22,
       "forward_only_arrivals": 7,
       "terminations": {
-        "budget_exhausted": 9,
+        "budget_exhausted": 11,
         "out_of_bounds": 3,
         "success_visible_near": 7,
         "fallen": 1
       },
-      "state": "partial"
+      "state": "complete"
     },
     "spatialreasoner": {
       "completed": 22,
@@ -151,9 +153,19 @@
   },
   "paired_vs_action_only_qwen": {
     "spatial_interactor8b": {
-      "ready": false,
-      "reason": "full 22-scene results required; no partial ranking",
-      "input_audit_passed_for_comparison": false
+      "ready": true,
+      "paired_scenes": 22,
+      "terrain_families": 10,
+      "candidate_minus_qwen_arrival_rate": -0.045454545454545456,
+      "terrain_family_cluster_bootstrap_95_ci": [
+        -0.13636363636363635,
+        0.0
+      ],
+      "candidate_only_arrivals": 0,
+      "qwen_only_arrivals": 1,
+      "mcnemar_exact_two_sided_p": 1.0,
+      "interpretation": "descriptive fixed-suite cross-backbone transfer; small correlated sample; no single-factor causal claim",
+      "input_audit_passed_for_comparison": true
     },
     "spatialreasoner": {
       "ready": true,
@@ -284,9 +296,9 @@
         }
       },
       "action_only": {
-        "completed": 20,
+        "completed": 22,
         "arrivals": 7,
-        "reobserved": 17,
+        "reobserved": 19,
         "successful_scenes": [
           "basin_a1",
           "perlin_a2",
@@ -306,20 +318,22 @@
           "perlin_rough_a1",
           "perlin_rough_a2",
           "pit_a0",
-          "waves_a1"
+          "waves_a1",
+          "window_a1",
+          "window_a2"
         ],
-        "autonomous_actions": 782,
+        "autonomous_actions": 910,
         "legal_vlm_stop": 2,
         "rejected_stops": 0,
-        "valid_initial_plans": 20,
+        "valid_initial_plans": 22,
         "forward_only_arrivals": 7,
         "terminations": {
-          "budget_exhausted": 9,
+          "budget_exhausted": 11,
           "out_of_bounds": 3,
           "success_visible_near": 7,
           "fallen": 1
         },
-        "state": "partial"
+        "state": "complete"
       },
       "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
     },
