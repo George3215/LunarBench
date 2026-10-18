@@ -123,18 +123,24 @@
       "state": "complete"
     },
     "spatialrgpt": {
-      "completed": 0,
+      "completed": 4,
       "arrivals": 0,
-      "reobserved": 0,
+      "reobserved": 3,
       "successful_scenes": [],
-      "recovered_not_arrived_scenes": [],
-      "autonomous_actions": 0,
+      "recovered_not_arrived_scenes": [
+        "barrier_a0",
+        "barrier_a1",
+        "barrier_a2"
+      ],
+      "autonomous_actions": 256,
       "legal_vlm_stop": 0,
       "rejected_stops": 0,
-      "valid_initial_plans": 0,
+      "valid_initial_plans": 4,
       "forward_only_arrivals": 0,
-      "terminations": {},
-      "state": "not_evaluated"
+      "terminations": {
+        "budget_exhausted": 4
+      },
+      "state": "partial"
     },
     "robobrain25_8b_nv": {
       "completed": 22,
@@ -454,18 +460,24 @@
         }
       },
       "action_only": {
-        "completed": 0,
+        "completed": 4,
         "arrivals": 0,
-        "reobserved": 0,
+        "reobserved": 3,
         "successful_scenes": [],
-        "recovered_not_arrived_scenes": [],
-        "autonomous_actions": 0,
+        "recovered_not_arrived_scenes": [
+          "barrier_a0",
+          "barrier_a1",
+          "barrier_a2"
+        ],
+        "autonomous_actions": 256,
         "legal_vlm_stop": 0,
         "rejected_stops": 0,
-        "valid_initial_plans": 0,
+        "valid_initial_plans": 4,
         "forward_only_arrivals": 0,
-        "terminations": {},
-        "state": "not_evaluated"
+        "terminations": {
+          "budget_exhausted": 4
+        },
+        "state": "partial"
       },
       "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
     },
