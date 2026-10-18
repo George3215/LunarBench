@@ -6,7 +6,7 @@
 
 | 模型 | 完成 | 到达 | 恢复可见 | 原复杂JSON到达 | 当前终止类型 |
 | --- | --- | --- | --- | --- | --- |
-| qwen3vl8b | 0/22 | 待测 | 待测 | 5/22 | {} |
+| qwen3vl8b | 4/22 | 2 | 3 | 5/22 | {"out_of_bounds": 1, "budget_exhausted": 1, "success_visible_near": 2} |
 | spatial_interactor8b | 0/22 | 待测 | 待测 | 0/22 | {} |
 | spatialreasoner | 0/22 | 待测 | 待测 | 0/22 | {} |
 | spatialrgpt | 0/22 | 待测 | 待测 | 3/22 | {} |
@@ -14,7 +14,7 @@
 
 ## 成功场景与剩余失败
 
-- qwen3vl8b: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
+- qwen3vl8b: 成功 stairs_up_a2, trench_a0；恢复可见但未到达 1；有效首帧计划 4/4；仅前进/STOP成功 2。
 - spatial_interactor8b: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
 - spatialreasoner: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
 - spatialrgpt: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。

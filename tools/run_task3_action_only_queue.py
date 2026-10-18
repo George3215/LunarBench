@@ -19,12 +19,30 @@ def main():
     parser.add_argument('--root',type=Path,required=True)
     parser.add_argument('--push',action='store_true')
     parser.add_argument('--resume',action='store_true')
+    parser.add_argument('--only',nargs='+',choices=KEYS)
+    parser.add_argument('--retry-incomplete-smoke',action='store_true')
+    parser.add_argument('--after-queue-pid',type=int)
     args=parser.parse_args()
     root=args.root.resolve();root.mkdir(parents=True,exist_ok=True)
     status_file=root/'QUEUE_STATUS.json'
+    if args.after_queue_pid:
+        pending=root/'FOLLOWUP_STATUS.json'
+        while Path(f'/proc/{args.after_queue_pid}').exists():
+            try:
+                if Path(f'/proc/{args.after_queue_pid}/stat').read_text().split()[2]=='Z':break
+            except FileNotFoundError:
+                break
+            if (root/'STOP').exists():
+                save(pending,dict(pid=os.getpid(),phase='cancelled_by_queue_STOP'));return
+            save(pending,dict(pid=os.getpid(),phase='waiting_for_previous_queue',previous_pid=args.after_queue_pid,only=args.only,updated_unix=time.time()))
+            time.sleep(5)
+        if read(status_file).get('phase')!='all_scheduled_models_processed':
+            save(pending,dict(pid=os.getpid(),phase='preceding_queue_requires_review'));return
+        save(pending,dict(pid=os.getpid(),phase='starting_followup',only=args.only))
+    previous={}
     if status_file.exists():
         previous=read(status_file)
-        if not args.resume or previous.get('phase') not in ('stopped_with_error','paused_at_action_boundary'):
+        if not args.resume or previous.get('phase') not in ('stopped_with_error','paused_at_action_boundary','all_scheduled_models_processed'):
             raise RuntimeError('Existing queue is not explicitly resumable')
         try:
             os.kill(previous['pid'],0)
@@ -34,7 +52,8 @@ def main():
             raise RuntimeError('Previous queue process is still alive')
         history=root/'queue_history';history.mkdir(exist_ok=True)
         save(history/f"status_before_resume_{time.time_ns()}.json",previous)
-    state=dict(pid=os.getpid(),phase='preflight',started_unix=time.time(),models={},backups=[])
+    state=dict(pid=os.getpid(),phase='preflight',started_unix=time.time(),
+        models=previous.get('models',{}),backups=previous.get('backups',[]),only=args.only)
     save(status_file,state)
     env=dict(os.environ,MUJOCO_GL='egl',MPLCONFIGDIR='/tmp/task3_mpl_cache',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
 
@@ -77,7 +96,13 @@ def main():
             expected=2 if smoke else 22
             if args.resume and completed.get('status')=='complete_pending_analysis' and completed.get('completed')==expected:
                 return dict(exit_code=0,status=completed,reused_completed_run=True)
-            raise RuntimeError(f'Existing incomplete output must be reviewed: {out}')
+            if smoke and args.retry_incomplete_smoke and args.resume:
+                history=root/'interface_failures';history.mkdir(exist_ok=True)
+                out.rename(history/f'{key}_before_retry_{time.time_ns()}')
+                log=root/(key+'_smoke.log')
+                if log.exists():log.rename(history/f'{key}_before_retry_{time.time_ns()}.log')
+            else:
+                raise RuntimeError(f'Existing incomplete output must be reviewed: {out}')
         backend='spatialrgpt' if key=='spatialrgpt' else 'native_qwen'
         processor='qwen3vl8b' if key=='spatial_interactor8b' else key
         cmd=[sys.executable,str(REPO/'tools/task3_candidate_driver.py'),'--backend',backend,
@@ -106,6 +131,7 @@ def main():
         backup('predeclared protocol and interface checks')
         eligible=[]
         for key in KEYS:
+            if args.only and key not in args.only:continue
             response=run(key,True)
             if response is None:break
             results=[read(p) for p in (root/'smoke'/key).glob('rgbd/*/trials/*/result.json')]

@@ -2,18 +2,27 @@
   "status": "in_progress",
   "models": {
     "qwen3vl8b": {
-      "completed": 0,
-      "arrivals": 0,
-      "reobserved": 0,
-      "successful_scenes": [],
-      "recovered_not_arrived_scenes": [],
-      "autonomous_actions": 0,
-      "legal_vlm_stop": 0,
+      "completed": 4,
+      "arrivals": 2,
+      "reobserved": 3,
+      "successful_scenes": [
+        "stairs_up_a2",
+        "trench_a0"
+      ],
+      "recovered_not_arrived_scenes": [
+        "barrier_a0"
+      ],
+      "autonomous_actions": 128,
+      "legal_vlm_stop": 1,
       "rejected_stops": 0,
-      "valid_initial_plans": 0,
-      "forward_only_arrivals": 0,
-      "terminations": {},
-      "state": "not_evaluated"
+      "valid_initial_plans": 4,
+      "forward_only_arrivals": 2,
+      "terminations": {
+        "out_of_bounds": 1,
+        "budget_exhausted": 1,
+        "success_visible_near": 2
+      },
+      "state": "partial"
     },
     "spatial_interactor8b": {
       "completed": 0,
@@ -128,18 +137,27 @@
         }
       },
       "action_only": {
-        "completed": 0,
-        "arrivals": 0,
-        "reobserved": 0,
-        "successful_scenes": [],
-        "recovered_not_arrived_scenes": [],
-        "autonomous_actions": 0,
-        "legal_vlm_stop": 0,
+        "completed": 4,
+        "arrivals": 2,
+        "reobserved": 3,
+        "successful_scenes": [
+          "stairs_up_a2",
+          "trench_a0"
+        ],
+        "recovered_not_arrived_scenes": [
+          "barrier_a0"
+        ],
+        "autonomous_actions": 128,
+        "legal_vlm_stop": 1,
         "rejected_stops": 0,
-        "valid_initial_plans": 0,
-        "forward_only_arrivals": 0,
-        "terminations": {},
-        "state": "not_evaluated"
+        "valid_initial_plans": 4,
+        "forward_only_arrivals": 2,
+        "terminations": {
+          "out_of_bounds": 1,
+          "budget_exhausted": 1,
+          "success_visible_near": 2
+        },
+        "state": "partial"
       },
       "interpretation": "protocol change: actor prompt, constrained answer space, token budget and optional plan updates differ; not isolated evidence of improved spatial capability"
     },

@@ -1,6 +1,6 @@
 {
   "pid": 183505,
-  "phase": "smoke_robobrain25_8b_nv",
+  "phase": "running_qwen3vl8b",
   "started_unix": 1792321029.1429737,
   "models": {
     "spatialreasoner": {
@@ -63,23 +63,7 @@
       }
     },
     "qwen3vl8b": {
-      "state": "smoke_passed_queued",
-      "smoke": {
-        "exit_code": 0,
-        "status": {
-          "status": "complete_pending_analysis",
-          "completed": 2,
-          "expected": 2,
-          "arrivals": 0,
-          "legal_vlm_stop": 0,
-          "terminations": {
-            "budget_exhausted": 2
-          },
-          "active": {},
-          "generation_calls": 5,
-          "wall_s": 25.98518568000145
-        }
-      }
+      "state": "running"
     },
     "robobrain25_8b_nv": {
       "state": "smoke_passed_queued",
@@ -131,21 +115,31 @@
       "commit": "3ca5479fc5bd48f3acce53ea1c2dccf0f048ce30",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "robobrain25_8b_nv action-only interface diagnostic",
+      "commit": "7223906b90c0dee42bd0b7d0d2ba46cc0f3848c4",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "complete_pending_analysis",
-    "completed": 2,
-    "expected": 2,
-    "arrivals": 0,
-    "legal_vlm_stop": 0,
+    "status": "running",
+    "completed": 4,
+    "expected": 22,
+    "arrivals": 2,
+    "legal_vlm_stop": 1,
     "terminations": {
-      "budget_exhausted": 2
+      "success_visible_near": 2,
+      "out_of_bounds": 1,
+      "budget_exhausted": 1
     },
-    "active": {},
-    "generation_calls": 5,
-    "wall_s": 23.23745807799787
+    "active": {
+      "barrier_a2": 32
+    },
+    "generation_calls": 84,
+    "wall_s": 127.9623275390004
   },
-  "current_pid": 185518,
-  "updated_unix": 1792321164.5671039
+  "current_pid": 186017,
+  "updated_unix": 1792321314.1134148
 }
