@@ -18,11 +18,22 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--root',type=Path,required=True)
     parser.add_argument('--push',action='store_true')
+    parser.add_argument('--resume',action='store_true')
     args=parser.parse_args()
     root=args.root.resolve();root.mkdir(parents=True,exist_ok=True)
     status_file=root/'QUEUE_STATUS.json'
     if status_file.exists():
-        raise RuntimeError('Queue evidence exists; use a fresh root or review exact resume')
+        previous=read(status_file)
+        if not args.resume or previous.get('phase') not in ('stopped_with_error','paused_at_action_boundary'):
+            raise RuntimeError('Existing queue is not explicitly resumable')
+        try:
+            os.kill(previous['pid'],0)
+        except ProcessLookupError:
+            pass
+        else:
+            raise RuntimeError('Previous queue process is still alive')
+        history=root/'queue_history';history.mkdir(exist_ok=True)
+        save(history/f"status_before_resume_{time.time_ns()}.json",previous)
     state=dict(pid=os.getpid(),phase='preflight',started_unix=time.time(),models={},backups=[])
     save(status_file,state)
     env=dict(os.environ,MUJOCO_GL='egl',MPLCONFIGDIR='/tmp/task3_mpl_cache',HF_HUB_OFFLINE='1',TRANSFORMERS_OFFLINE='1')
@@ -38,7 +49,10 @@ def main():
             'tools/task3_candidate_driver.py','tools/task3_spatialrgpt_worker.py',
             'tools/analyse_task3_action_only.py','tools/run_task3_action_only_queue.py']
         subprocess.run(['git','add','--',*paths],cwd=REPO,check=True)
-        subprocess.run(['git','diff','--cached','--check','--',*paths],cwd=REPO,check=True)
+        # Preserve inherited source snapshots byte-for-byte, including upstream
+        # whitespace; check our maintained code/docs and derived records normally.
+        exclude=':(exclude)'+str(root.relative_to(REPO))+'/**/source_snapshot/**'
+        subprocess.run(['git','diff','--cached','--check','--',*paths,exclude],cwd=REPO,check=True)
         if subprocess.run(['git','diff','--cached','--quiet','--',*paths],cwd=REPO).returncode:
             subprocess.run(['git','commit','-m','TASK3 action-only: '+reason,'--only','--',*paths],cwd=REPO,check=True,stdout=subprocess.DEVNULL)
         commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=REPO,text=True).strip()
@@ -58,7 +72,12 @@ def main():
     def run(key,smoke):
         if not wait_gpu():return None
         out=root/('smoke' if smoke else 'runs')/key
-        if out.exists():raise RuntimeError(f'Existing output must be reviewed: {out}')
+        if out.exists():
+            completed=read(out/'RUN_STATUS.json')
+            expected=2 if smoke else 22
+            if args.resume and completed.get('status')=='complete_pending_analysis' and completed.get('completed')==expected:
+                return dict(exit_code=0,status=completed,reused_completed_run=True)
+            raise RuntimeError(f'Existing incomplete output must be reviewed: {out}')
         backend='spatialrgpt' if key=='spatialrgpt' else 'native_qwen'
         processor='qwen3vl8b' if key=='spatial_interactor8b' else key
         cmd=[sys.executable,str(REPO/'tools/task3_candidate_driver.py'),'--backend',backend,
