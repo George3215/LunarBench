@@ -21,6 +21,8 @@ def main():
     old = REPO / 'paper/vlm_goal_navigation/spatial_transfer_v2_20261018'
     rows = []
     metrics = {}
+    smoke_metrics = {}
+    smoke_audits = {}
     audits = {}
     locations = {}
     for key in ('qwen3vl8b', 'spatial_interactor8b') + KEYS:
@@ -37,6 +39,13 @@ def main():
         metrics[key] = analysis.summary(cases)
         metrics[key]['state'] = 'complete' if len(cases) == 22 else 'partial' if cases else 'not_evaluated'
         if key in KEYS:
+            smoke = root/'smoke'/key
+            smoke_rows = []
+            for result in sorted(smoke.glob('rgbd/*/trials/*/result.json')):
+                smoke_rows.append(analysis.episode(result.parent))
+                analysis.preserve_case(root/'smoke_evidence',key,result.parent)
+            smoke_metrics[key] = analysis.summary(smoke_rows)
+            smoke_audits[key] = analysis.audit_run(smoke)
             audits[key] = analysis.audit_run(run)
             protocol = run / 'protocol.json'
             ref = old / 'runs/qwen3vl8b/protocol.json'
@@ -51,8 +60,8 @@ def main():
                     p['scene'] for p in audits[key]['paired_initial_states'] if not all(p[k] for k in
                     ('same_initial_rgb','same_lost_rgb','same_loss_qpos'))]
     analysis.write(root / 'metrics.json', {'comparison_scope':'cross-backbone transfer, not a causal spatial-pretraining ablation',
-        'models':metrics, 'missing_episodes_imputed_as_failures':False})
-    analysis.write(root / 'INPUT_AUDIT.json', audits)
+        'models':metrics, 'smoke_diagnostics_not_formal_SR':smoke_metrics, 'missing_episodes_imputed_as_failures':False})
+    analysis.write(root / 'INPUT_AUDIT.json', {'formal_runs':audits,'smoke_runs':smoke_audits})
     if rows:
         with (root/'episodes.csv').open('w') as f:
             writer = csv.DictWriter(f, fieldnames=['model']+[k for k in rows[0] if k != 'model'], lineterminator='\n')
@@ -62,6 +71,13 @@ def main():
         '| 模型 | 正式完成 | 确认到达 | 恢复可见 | 终止类型 |', '| --- | --- | --- | --- | --- |']
     for key, value in metrics.items():
         report.append(f"| {key} | {value['completed']}/22 | {value['arrivals'] if value['completed'] else '未测'} | {value['reobserved'] if value['completed'] else '未测'} | {json.dumps(value['terminations'])} |")
+    report.extend(['', '## 两场景接口诊断（每场景最多2动作，不纳入正式成功率）', '',
+        '| 模型 | 完成案例 | 有效动作总数 | 终止 |', '| --- | --- | --- | --- |'])
+    for key,value in smoke_metrics.items():
+        report.append(f"| {key} | {value['completed']}/2 | {value['valid_decisions']} | {json.dumps(value['terminations'])} |")
+    report.extend(['', 'SpatialReasoner 的前两例没有执行自主动作：首次输出为不完整自然语言字段；纠正后仍缺 action，或 evidence_frames 类型错误。',
+        '这属于当前复杂结构化接口的直接迁移失败，不能推出它没有空间能力；两个接口样例不能代替22场景正式评测。',
+        'SpatialRGPT、RoboBrain 通过接口诊断后接续正式场景。SpatialRGPT 的通用多图配置与原生区域深度输入不同。'])
     report.extend(['', 'Qwen/Spatial-Interactor 是前轮冻结协议记录；新增模型有原生 tokenizer/vision/chat template 差异。',
         'RoboBrain 使用作者链接的官方 ModelScope NV 权重，分片与 HF 哈希一致。SpatialRGPT 首轮为无额外region的通用多图配置，不能代表其原生区域深度分支完整能力。',
         '未完成全场景且未通过输入审计前，不给出最终模型排序。即使到达率不同，也不能直接归因于空间训练数据。',

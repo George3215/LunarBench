@@ -59,21 +59,23 @@
       "state": "not_evaluated"
     },
     "spatialrgpt": {
-      "completed": 0,
+      "completed": 2,
       "arrivals": 0,
       "reobserved": 0,
       "legal_vlm_stop": 0,
       "forward_only_arrivals": 0,
       "rejected_stops": 0,
       "stop_paths_masked_during_generation": 0,
-      "valid_initial_plans": 0,
-      "valid_decisions": 0,
+      "valid_initial_plans": 2,
+      "valid_decisions": 8,
       "current_visibility_correct_decisions": 0,
-      "model_near_claims": 0,
-      "model_near_claims_outside_1m_gate": 0,
-      "mean_autonomous_actions": null,
-      "terminations": {},
-      "state": "not_evaluated"
+      "model_near_claims": 8,
+      "model_near_claims_outside_1m_gate": 8,
+      "mean_autonomous_actions": 4.0,
+      "terminations": {
+        "invalid_model_output": 2
+      },
+      "state": "partial"
     },
     "robobrain25_8b_nv": {
       "completed": 0,
@@ -91,6 +93,62 @@
       "mean_autonomous_actions": null,
       "terminations": {},
       "state": "not_evaluated"
+    }
+  },
+  "smoke_diagnostics_not_formal_SR": {
+    "spatialreasoner": {
+      "completed": 2,
+      "arrivals": 0,
+      "reobserved": 0,
+      "legal_vlm_stop": 0,
+      "forward_only_arrivals": 0,
+      "rejected_stops": 0,
+      "stop_paths_masked_during_generation": 0,
+      "valid_initial_plans": 0,
+      "valid_decisions": 0,
+      "current_visibility_correct_decisions": 0,
+      "model_near_claims": 0,
+      "model_near_claims_outside_1m_gate": 0,
+      "mean_autonomous_actions": 0.0,
+      "terminations": {
+        "invalid_model_output": 2
+      }
+    },
+    "spatialrgpt": {
+      "completed": 2,
+      "arrivals": 0,
+      "reobserved": 0,
+      "legal_vlm_stop": 0,
+      "forward_only_arrivals": 0,
+      "rejected_stops": 0,
+      "stop_paths_masked_during_generation": 2,
+      "valid_initial_plans": 2,
+      "valid_decisions": 4,
+      "current_visibility_correct_decisions": 0,
+      "model_near_claims": 4,
+      "model_near_claims_outside_1m_gate": 4,
+      "mean_autonomous_actions": 2.0,
+      "terminations": {
+        "budget_exhausted": 2
+      }
+    },
+    "robobrain25_8b_nv": {
+      "completed": 2,
+      "arrivals": 0,
+      "reobserved": 0,
+      "legal_vlm_stop": 0,
+      "forward_only_arrivals": 0,
+      "rejected_stops": 0,
+      "stop_paths_masked_during_generation": 0,
+      "valid_initial_plans": 2,
+      "valid_decisions": 4,
+      "current_visibility_correct_decisions": 4,
+      "model_near_claims": 0,
+      "model_near_claims_outside_1m_gate": 0,
+      "mean_autonomous_actions": 2.0,
+      "terminations": {
+        "budget_exhausted": 2
+      }
     }
   },
   "missing_episodes_imputed_as_failures": false

@@ -1,6 +1,6 @@
 {
   "pid": 107851,
-  "phase": "smoke_robobrain25_8b_nv",
+  "phase": "running_spatialrgpt",
   "models": {
     "spatialreasoner": {
       "state": "smoke_requires_review",
@@ -8,8 +8,7 @@
       "exit_code": 0
     },
     "spatialrgpt": {
-      "state": "smoke_passed_queued",
-      "completed_smoke_cases": 2
+      "state": "running"
     },
     "robobrain25_8b_nv": {
       "state": "smoke_passed_queued",
@@ -26,7 +25,27 @@
       "reason": "spatialrgpt interface passed",
       "commit": "34205d6486bc8dff32a94076b73e52b3212d618e",
       "pushed": true
+    },
+    {
+      "reason": "robobrain25_8b_nv interface passed",
+      "commit": "7094c367027ef73a8d79d2dbd34324ff68e0bd62",
+      "pushed": true
     }
   ],
-  "robobrain_source": "official ModelScope; same NV weight SHA256 as HF"
+  "robobrain_source": "official ModelScope; same NV weight SHA256 as HF",
+  "current_pid": 110135,
+  "current": {
+    "status": "running",
+    "completed": 2,
+    "expected": 22,
+    "arrivals": 0,
+    "legal_vlm_stop": 0,
+    "terminations": {
+      "invalid_model_output": 2
+    },
+    "active": {},
+    "generation_calls": 16,
+    "wall_s": 119.78397138800028
+  },
+  "updated_unix": 1792309866.724455
 }
