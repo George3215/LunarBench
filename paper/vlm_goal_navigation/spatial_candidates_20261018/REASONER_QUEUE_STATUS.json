@@ -3,7 +3,21 @@
   "phase": "running_spatialreasoner",
   "models": {
     "spatialreasoner": {
-      "state": "running"
+      "state": "complete",
+      "exit_code": 0,
+      "status": {
+        "status": "complete_pending_analysis",
+        "completed": 22,
+        "expected": 22,
+        "arrivals": 0,
+        "legal_vlm_stop": 0,
+        "terminations": {
+          "invalid_model_output": 22
+        },
+        "active": {},
+        "generation_calls": 48,
+        "wall_s": 240.78291302899743
+      }
     }
   },
   "backups": [
@@ -42,6 +56,12 @@
       "commit": "ac214d99f25fc4c14758ff418cdc62f3e4d46c78",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "spatialreasoner 20 of 22",
+      "commit": "669d8397cc2d90ea050ab61a47bbec6dd09e5521",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "robobrain_source": "official ModelScope; same NV weight SHA256 as HF",
@@ -52,19 +72,18 @@
   "current_pid": 154349,
   "current": {
     "status": "running",
-    "completed": 20,
+    "completed": 21,
     "expected": 22,
     "arrivals": 0,
     "legal_vlm_stop": 0,
     "terminations": {
-      "invalid_model_output": 20
+      "invalid_model_output": 21
     },
     "active": {
-      "window_a1": 1,
-      "window_a2": 0
+      "window_a2": 1
     },
-    "generation_calls": 44,
-    "wall_s": 218.19738215399775
+    "generation_calls": 46,
+    "wall_s": 233.8622934749983
   },
-  "updated_unix": 1792316831.057537
+  "updated_unix": 1792316845.0937164
 }

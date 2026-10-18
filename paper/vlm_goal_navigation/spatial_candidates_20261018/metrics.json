@@ -1,5 +1,5 @@
 {
-  "status": "in_progress",
+  "status": "all_formal_runs_completed",
   "comparison_scope": "cross-backbone transfer, not a causal spatial-pretraining ablation",
   "models": {
     "qwen3vl8b": {
@@ -99,21 +99,21 @@
       "state": "complete"
     },
     "spatialreasoner": {
-      "completed": 20,
+      "completed": 22,
       "arrivals": 0,
       "reobserved": 2,
       "legal_vlm_stop": 0,
       "forward_only_arrivals": 0,
       "rejected_stops": 0,
-      "stop_paths_masked_during_generation": 3,
+      "stop_paths_masked_during_generation": 5,
       "valid_initial_plans": 6,
-      "valid_decisions": 9,
-      "current_visibility_correct_decisions": 8,
+      "valid_decisions": 11,
+      "current_visibility_correct_decisions": 10,
       "model_near_claims": 0,
       "model_near_claims_outside_1m_gate": 0,
-      "mean_autonomous_actions": 0.45,
+      "mean_autonomous_actions": 0.5,
       "terminations": {
-        "invalid_model_output": 20
+        "invalid_model_output": 22
       },
       "successful_scenes": [],
       "reobserved_without_arrival_scenes": [
@@ -140,10 +140,12 @@
         "waves_a0",
         "waves_a1",
         "waves_a2",
-        "window_a0"
+        "window_a0",
+        "window_a1",
+        "window_a2"
       ],
-      "visibility_accuracy_on_valid_decisions": 0.8888888888888888,
-      "state": "partial"
+      "visibility_accuracy_on_valid_decisions": 0.9090909090909091,
+      "state": "complete"
     },
     "spatialrgpt": {
       "completed": 22,
@@ -250,9 +252,19 @@
   },
   "paired_vs_qwen3vl8b": {
     "spatialreasoner": {
-      "ready": false,
-      "reason": "full 22-scene results required; no partial ranking",
-      "input_audit_passed_for_comparison": false
+      "ready": true,
+      "paired_scenes": 22,
+      "terrain_families": 10,
+      "candidate_minus_qwen_arrival_rate": -0.22727272727272727,
+      "terrain_family_cluster_bootstrap_95_ci": [
+        -0.47058823529411764,
+        -0.07692307692307693
+      ],
+      "candidate_only_arrivals": 0,
+      "qwen_only_arrivals": 5,
+      "mcnemar_exact_two_sided_p": 0.0625,
+      "interpretation": "descriptive fixed-suite cross-backbone transfer; small correlated sample; no single-factor causal claim",
+      "input_audit_passed_for_comparison": true
     },
     "spatialrgpt": {
       "ready": true,
