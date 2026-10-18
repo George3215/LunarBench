@@ -35,3 +35,9 @@
 ## 局限
 
 红球目标、理想模拟RGB-D/里程计、单次greedy和相关的22场景，不代表开放词汇、真机或噪声传感器效果。准入只证明目标可恢复可见，不保证所有场景都有已认证的<1m到达路线。SpatialRGPT仍使用通用多图输入，不代表其原生区域/深度分支完整能力。
+
+## 执行附记：SpatialRGPT 接口修复
+
+首轮SpatialRGPT短测试在执行自主动作前触发 `Invalid action trie prefix: [128000]`。原生Transformers 4.37.2在inputs_embeds生成时自动加入BOS，动作约束需从该起始token之后开始。已用同版本、真实tokenizer和随机微型Llama CPU生成检查确认修复；这只是兼容性检查，不是该模型GPU/导航测试。
+
+其余四个模型已通过两场短测试，先按原预算继续正式评测。SpatialRGPT安排在当前队列退出后单独重试，失败目录和日志归入interface_failures，保留不覆盖；通过短测试才执行正式22场景。调度顺序改变不改变模型prompt、场景或动作预算。等待状态见FOLLOWUP_STATUS.json。
