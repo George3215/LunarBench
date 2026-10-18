@@ -6,7 +6,7 @@
 | --- | --- | --- | --- | --- |
 | qwen3vl8b | 22/22 | 5 | 13 | {"budget_exhausted": 17, "success_visible_near": 5} |
 | spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
-| spatialreasoner | 17/22 | 0 | 2 | {"invalid_model_output": 17} |
+| spatialreasoner | 20/22 | 0 | 2 | {"invalid_model_output": 20} |
 | spatialrgpt | 22/22 | 3 | 8 | {"invalid_model_output": 19, "success_visible_near": 3} |
 | robobrain25_8b_nv | 22/22 | 5 | 17 | {"budget_exhausted": 13, "out_of_bounds": 2, "invalid_model_output": 1, "success_visible_near": 5, "fallen": 1} |
 

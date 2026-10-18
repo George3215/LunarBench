@@ -1,0 +1,157 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": null,
+  "result": {
+    "scene": "window_a0",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 5,
+    "controlled_approach_actions": 5,
+    "autonomous_actions": 0,
+    "inference_count": 2,
+    "total_inference_s": 5.790163982004742,
+    "amortized_inference_s": 4.004154556503636,
+    "wall_s_including_scheduler_wait": 10.79460494599698,
+    "simulated_s": 5.999999999999561,
+    "path_m": 1.6954685981000437,
+    "state_samples": 61,
+    "min_upright": 0.9971884384408308,
+    "final_evaluator": {
+      "sim_time_s": 5.999999999999561,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 6.109752745431461,
+      "base_xy_target_distance_m_diagnostic": 6.402241687166841,
+      "camera_xyz_evaluator": [
+        -3.06864018115024,
+        1.1976861144965698,
+        0.5179790137047298
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        0.5,
+        0.4
+      ],
+      "upright": 0.9996014246914762,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT"
+    ],
+    "action_counts": {
+      "STRAFE_LEFT": 5
+    },
+    "max_steps": 64,
+    "observation_frame_count": 6,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/window_a0",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": false,
+    "reappearance_predictions": [],
+    "policy_action_counts": {},
+    "policy_action_sequence": [],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 6,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 5,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": -0.0923,
+        "y_m": 1.6803,
+        "z_m": 0.0004,
+        "yaw_rad": 0.0133,
+        "roll_rad": -0.0175,
+        "pitch_rad": -0.0222
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9996014246914762,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "window_a0_jamb_1",
+        "hit_distance_m": 2.913569112160108,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "946af483261a8a9112a83742ddc6c1fdb6a3ddcc37ded6ce6456b91b4c8ba51a",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "40d3a797f76c2805d0c74fc938c6f13b8dca343c3cb582a00652a2d2bd5ff7d7",
+          "pixel_values_float32_sha256": "38fe57e6b52670bfcd5c66faa3c5e32cea15022d566cd9761d3c22e5bdc99bbf"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e8bb460b7d67f1cf4ec8d9df5772f6d379ecc1e56eab593d0772592bae77f5d3",
+          "pixel_values_float32_sha256": "633e83d25d1516d537d6826f356222893f1f545ccdc97d21e321515f4d0fedc5"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.800s RGB",
+          "image_sha256": "24b6ff39172107d0c2e43a91f09d12a6f929b6cc7c853599e5fd637ee25fc800",
+          "pixel_values_float32_sha256": "ac20a2acbe1e3a1d6057b7f46d3a96912460494b5e291cef1398f710838bf462"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "f9fc8ad35bf6000fee8729154664124e613edab1590074cf2bd32736836055d3",
+          "pixel_values_float32_sha256": "9d96ec6c00499558e377621ae200efb5038c9627de1d295f67123590087e589e"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.800s RGB",
+          "image_sha256": "c953b9372382df11448a64ccb4033caf82e0b7aae71004ee762ef482f8cf9ae7",
+          "pixel_values_float32_sha256": "edeb17074f7585f539ae0dfbcc346f658e5268bdc89fcf3aba5a9bd99b85f071"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d4add19e2e5827ae62c3a7e3b7a8db6a9de47fe7a4439fc20d4dcba8a97f2735",
+          "pixel_values_float32_sha256": "8a57d6872ac7989673f3e6fb7b3013a52a41a45e1dd0497760a359c253160b10"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.000s RGB",
+          "image_sha256": "ee2fa0018a68c443f0ddc387cdbcc4e662bad4e7ea8f905643c8f93dfef297fa",
+          "pixel_values_float32_sha256": "13bc1bb15dca9de7389a4833fc826e204083cf74343f06f8890321d691f65691"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.000s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "635cfcbbfa1df717f6796d7f1a31ef515cf05aafc379a8932f80481113c5edb2",
+          "pixel_values_float32_sha256": "dadcb336f9a027cb8e82a979d81356209941eb95ae6f84b581c75f90fa8712fd"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "The target is currently absent. I will attempt to move towards the region where the target was last seen and try to recover its view.\n\n**Action:** STRAFE_LEFT\n\n**Strategy and Reason:** Since the target's location is uncertain, I will attempt to move to a position where it might be visible again. STRAFE_LEFT will help me explore the area to the left of my current position, potentially bringing the target into view.\n\n**Evidence Frames:** [0, 3]",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.9,\n\"visual_assessment\": \"no red pixels in current RGB; red pixels disappeared in past\",\n\"decision_rationale\": \"no reliable red region; give up searching\",\n\"evidence_frames\": [\n\"0\",\n\"3\",\n\"4\",\n\"5\"\n],\n\"evidence_sources\": [\n\"current_rgb\",\n\"past_rgb\",\n\"current_depth\",\n\"past_depth\"\n]\n}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
