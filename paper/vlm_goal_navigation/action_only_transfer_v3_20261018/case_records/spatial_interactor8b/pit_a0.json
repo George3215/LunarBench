@@ -1,0 +1,1719 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": {
+    "goal_evidence": "The target red sphere is visible in the distance, with a clear visual path forward. The depth estimate suggests it is about 5 meters away.",
+    "tentative_route": "Move forward along the central path, avoiding the nearby terrain undulations. The target remains visible, so no need to turn.",
+    "occlusion_hypothesis": "No nearby objects are expected to occlude the target, as the view is clear and the target is far away.",
+    "uncertainty": "The target distance and terrain slope are estimated from a single frame; the actual path may be longer or shorter depending on the terrain. The target remains visible, so the route is likely correct.",
+    "revision_trigger": "If the target becomes occluded or the terrain changes, the route should be revised. Also, if the target moves or the target area becomes less visible, the route should be revised."
+  },
+  "result": {
+    "scene": "pit_a0",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "out_of_bounds",
+    "action_steps": 24,
+    "controlled_approach_actions": 2,
+    "autonomous_actions": 22,
+    "inference_count": 22,
+    "total_inference_s": 15.924045616997319,
+    "amortized_inference_s": 7.962022808498659,
+    "wall_s_including_scheduler_wait": 33.421188914002414,
+    "simulated_s": 24.98999999999703,
+    "path_m": 9.310154505547168,
+    "state_samples": 251,
+    "min_upright": 0.8145580334163282,
+    "final_evaluator": {
+      "sim_time_s": 24.98999999999703,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 3.9244969069385207,
+      "base_xy_target_distance_m_diagnostic": 3.6277388615488286,
+      "camera_xyz_evaluator": [
+        7.9619539145510325,
+        2.572388075452222,
+        0.5064169625437747
+      ],
+      "target_centre_xyz_evaluator": [
+        5.0,
+        0.0,
+        0.4
+      ],
+      "upright": 0.9986742628080625,
+      "in_bounds": false,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "action_counts": {
+      "FORWARD": 24
+    },
+    "max_steps": 64,
+    "observation_frame_count": 25,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/3-action-only",
+    "terrain_id": "terrain_design_v4/pit_a0",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": true,
+    "reappearance_predictions": [],
+    "policy_action_counts": {
+      "FORWARD": 22
+    },
+    "policy_action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "low_translation_actions": 2,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 3,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 2,
+      "actual_displacement_xy_m": 0.4497818506844672,
+      "self_odometry_after": {
+        "x_m": 1.0638,
+        "y_m": 0.0761,
+        "z_m": -0.5761,
+        "yaw_rad": 0.1393,
+        "roll_rad": 0.0114,
+        "pitch_rad": 0.3099
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9522938628090895,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a0_24_42",
+        "hit_distance_m": 2.1056823608093063,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "bc629acb44bf1d32e551aaf5190be83dac6e47b1f9841fdce652c09fc7407356",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "7b20450b3fd7f5757eb14c24fedfdf5f5ea127492bbe14b813b2889f35368b54",
+          "pixel_values_float32_sha256": "057f36839cf9a4c7b65a455e42e665d00e9d639345223dd89e40e05785cdd98b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e330bcf16ad3b0cb41654e74bf7d1cb08dc19b4d7532ae1c3ebc1244cfc1c18f",
+          "pixel_values_float32_sha256": "4ff7e86f5d89c116323acc7e1941b0874d22874d714ae56bed6b8ab58f04d783"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.4919095335601005,
+      "self_odometry_after": {
+        "x_m": 1.5531,
+        "y_m": 0.1267,
+        "z_m": -0.6279,
+        "yaw_rad": 0.1513,
+        "roll_rad": -0.0354,
+        "pitch_rad": 0.0386
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.998627439786345,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a0_24_41",
+        "hit_distance_m": 1.3818208881144625,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "94013e6da8a1c4ca02d5286c677a682fa420399c844cb1e652ee737edbd12bb5",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "7b20450b3fd7f5757eb14c24fedfdf5f5ea127492bbe14b813b2889f35368b54",
+          "pixel_values_float32_sha256": "057f36839cf9a4c7b65a455e42e665d00e9d639345223dd89e40e05785cdd98b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e330bcf16ad3b0cb41654e74bf7d1cb08dc19b4d7532ae1c3ebc1244cfc1c18f",
+          "pixel_values_float32_sha256": "4ff7e86f5d89c116323acc7e1941b0874d22874d714ae56bed6b8ab58f04d783"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s RGB",
+          "image_sha256": "f6d06578ff1a73c6d2f4d9e5a52f406cbf352c0f3903a8366997de833222e9d2",
+          "pixel_values_float32_sha256": "e1f91eab08f0355cd064dc1c328642da65831877e5ceaf0d0257ccf5d7909679"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "b2e989b00302e8d2cb050ed4cc14e6e8b75b0a464030cb71b75b3ebb9495ecd0",
+          "pixel_values_float32_sha256": "4a2619bc128fb9eb8b52b66d0e9ce4c79276e7d6b5c894e3dac3994bf1f5164a"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 4,
+      "actual_displacement_xy_m": 0.45395301505986024,
+      "self_odometry_after": {
+        "x_m": 2.0022,
+        "y_m": 0.1931,
+        "z_m": -0.5241,
+        "yaw_rad": 0.1837,
+        "roll_rad": -0.0173,
+        "pitch_rad": -0.363
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9347096008027695,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a0_24_42",
+        "hit_distance_m": 1.2527032943306797,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "027844a76ddbe08cbeab66ad376fcf95c2b0f4a1990bfdfa9601723dab0953d6",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "7b20450b3fd7f5757eb14c24fedfdf5f5ea127492bbe14b813b2889f35368b54",
+          "pixel_values_float32_sha256": "057f36839cf9a4c7b65a455e42e665d00e9d639345223dd89e40e05785cdd98b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e330bcf16ad3b0cb41654e74bf7d1cb08dc19b4d7532ae1c3ebc1244cfc1c18f",
+          "pixel_values_float32_sha256": "4ff7e86f5d89c116323acc7e1941b0874d22874d714ae56bed6b8ab58f04d783"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.300s RGB",
+          "image_sha256": "c8c95bdb7a5b62e054ad0dd60dae598daf5c4119e87aa48119eb27a18d342146",
+          "pixel_values_float32_sha256": "c5e82b91549bdeedf1e44e57f3cb5135e26a38935870b770c6ce3fcd744a0e6a"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "c0c7e99c0f8a02675f27d945931da74e8327d9377cd06b08a1e557b1cfb304b2",
+          "pixel_values_float32_sha256": "2919555f70e31082092a136bcd0dd7d3260b0f76ebeda0197be7529c68cca1f4"
+        }
+      ]
+    },
+    {
+      "step": 6,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 5,
+      "actual_displacement_xy_m": 0.395760803377893,
+      "self_odometry_after": {
+        "x_m": 2.3969,
+        "y_m": 0.2215,
+        "z_m": -0.3607,
+        "yaw_rad": 0.2125,
+        "roll_rad": -0.0664,
+        "pitch_rad": -0.4341
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9052633200617556,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a0_24_43",
+        "hit_distance_m": 1.1202696775071723,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "918a4bb4426a0bc76e740a8305efc879741a6b5a406f7463239e1507f14be0ab",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "7b20450b3fd7f5757eb14c24fedfdf5f5ea127492bbe14b813b2889f35368b54",
+          "pixel_values_float32_sha256": "057f36839cf9a4c7b65a455e42e665d00e9d639345223dd89e40e05785cdd98b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e330bcf16ad3b0cb41654e74bf7d1cb08dc19b4d7532ae1c3ebc1244cfc1c18f",
+          "pixel_values_float32_sha256": "4ff7e86f5d89c116323acc7e1941b0874d22874d714ae56bed6b8ab58f04d783"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.300s RGB",
+          "image_sha256": "8c3e1267784f3065bfc533cacc0feb7db5c5c5433198e619c2223d47380cdf42",
+          "pixel_values_float32_sha256": "28940bd184acda4176748dff3cde41ff4894dbb335d86444413753b05f39d06b"
+        },
+        {
+          "label": "Observation frame 5, simulation time 6.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d2c829f04145880b36fff1b0a3c719344d956d1fbbc1de8a05432cef9d81f9d9",
+          "pixel_values_float32_sha256": "f22e961b1d55e33e60042625f0f47e63ef6be0bbf935b01218d7755b0b0fb95a"
+        }
+      ]
+    },
+    {
+      "step": 7,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 6,
+      "actual_displacement_xy_m": 0.3884848319105106,
+      "self_odometry_after": {
+        "x_m": 2.78,
+        "y_m": 0.2859,
+        "z_m": -0.1205,
+        "yaw_rad": 0.1458,
+        "roll_rad": 0.0152,
+        "pitch_rad": -0.4389
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 188,
+        "median_target_surface_range_m": 2.899084229554155,
+        "upright": 0.905102168125135,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "pit_a0_24_44",
+        "hit_distance_m": 0.9732119596886921,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "6a97f8115d731eef884829a48c1202fb9fc311fb8387743cc1cd87a524ac5564",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "7b20450b3fd7f5757eb14c24fedfdf5f5ea127492bbe14b813b2889f35368b54",
+          "pixel_values_float32_sha256": "057f36839cf9a4c7b65a455e42e665d00e9d639345223dd89e40e05785cdd98b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e330bcf16ad3b0cb41654e74bf7d1cb08dc19b4d7532ae1c3ebc1244cfc1c18f",
+          "pixel_values_float32_sha256": "4ff7e86f5d89c116323acc7e1941b0874d22874d714ae56bed6b8ab58f04d783"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 6, simulation time 7.300s RGB",
+          "image_sha256": "e7333c213d6d9e2acb90cbfd3d253c1cd347cdc6b786c6a46c99f6762c989925",
+          "pixel_values_float32_sha256": "40db1a6f3647dc33ed8cee755fe6e36b50d9e46dfb05c4399cbb725672f3b523"
+        },
+        {
+          "label": "Observation frame 6, simulation time 7.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "770502ac443a60fcee2691b97118b4963b88fba83927516b953729f986701e91",
+          "pixel_values_float32_sha256": "0b7adb74ec284566abd40807d9e84c0d7bca2b0b3b393a46aa1d4fbff961b178"
+        }
+      ]
+    },
+    {
+      "step": 8,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 7,
+      "actual_displacement_xy_m": 0.3092486762533967,
+      "self_odometry_after": {
+        "x_m": 3.087,
+        "y_m": 0.3233,
+        "z_m": 0.0732,
+        "yaw_rad": 0.0705,
+        "roll_rad": -0.1189,
+        "pitch_rad": -0.584
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 989,
+        "median_target_surface_range_m": 2.6073474415174553,
+        "upright": 0.8283980526600162,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.5647781884385177,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "bfbd1bf101483beed2513b94a93bc12738681d653716ddf31be50e7265369c6c",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 7, simulation time 8.300s RGB",
+          "image_sha256": "ff528c0b435d6acc1bc60c637d811055a8eed3845f2a0fcdec62839b3d743991",
+          "pixel_values_float32_sha256": "2ad883b8900577457a57fa3ae7bc0b85b55613da4d8eb387d39541b2eddde241"
+        },
+        {
+          "label": "Observation frame 7, simulation time 8.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "4ff447c377edad468207fdee21d76afcb3f9f5e8eeb373583296b5e7383dad65",
+          "pixel_values_float32_sha256": "9c46b81ccbeff96984c2199e348ab4c43efd1fb6a182b3ed944403fbe121322c"
+        }
+      ]
+    },
+    {
+      "step": 9,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 8,
+      "actual_displacement_xy_m": 0.38430578641377416,
+      "self_odometry_after": {
+        "x_m": 3.4673,
+        "y_m": 0.379,
+        "z_m": 0.32,
+        "yaw_rad": 0.0907,
+        "roll_rad": 0.0812,
+        "pitch_rad": -0.4059
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 1224,
+        "median_target_surface_range_m": 2.175996688373279,
+        "upright": 0.915702555195978,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.1342571269797013,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "d6c64456ec2cf5abd832645eade37c43488b4cd61981ae8a57332eccfd75d70a",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 8, simulation time 9.300s RGB",
+          "image_sha256": "2c039bff2ccd84045f8e688516cdfd2b368edd27d7417ced89dc21a651aebb2a",
+          "pixel_values_float32_sha256": "02c489996b1d536fd694eb12b8cfb7d63a4582b1fcc59b7172d8611a710ad2b1"
+        },
+        {
+          "label": "Observation frame 8, simulation time 9.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "3a56b86ebc9454380c9ca83376ea32104be150c180fdd0bfca5c5f5db08264ab",
+          "pixel_values_float32_sha256": "bc3fd13832af1c43da64328b255c711ed29cc9c5889a49b6144171186b30f69b"
+        }
+      ]
+    },
+    {
+      "step": 10,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 9,
+      "actual_displacement_xy_m": 0.3655426144766209,
+      "self_odometry_after": {
+        "x_m": 3.8316,
+        "y_m": 0.4092,
+        "z_m": 0.4968,
+        "yaw_rad": 0.0703,
+        "roll_rad": 0.0564,
+        "pitch_rad": -0.5024
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 2421,
+        "median_target_surface_range_m": 1.8624902442910827,
+        "upright": 0.8750589708297405,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.8206330811082534,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "fd060bf630562147c49bd5b5cc9e5572468babab3c9be46c65e8c47cae0b6ce0",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 9, simulation time 10.300s RGB",
+          "image_sha256": "014ae948ac2eb5d22f69b7ba532480ac67d97784afc301cb939081d54e3fbf93",
+          "pixel_values_float32_sha256": "1003982c51670f09b7f4c75e2ed3f19dfde7ab62a0bcb1c481df2f5d47760054"
+        },
+        {
+          "label": "Observation frame 9, simulation time 10.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "f1362ac3161ed35919e55cd0946c2fd0e7549a3e2ab136c0340bd6c03239fc83",
+          "pixel_values_float32_sha256": "d331b65a86cb4b6f4489cd0922c5ef8ced5337052b6f2f9de341eaea56c0fdda"
+        }
+      ]
+    },
+    {
+      "step": 11,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 10,
+      "actual_displacement_xy_m": 0.10232596898106355,
+      "self_odometry_after": {
+        "x_m": 3.9317,
+        "y_m": 0.4302,
+        "z_m": 0.4979,
+        "yaw_rad": 0.146,
+        "roll_rad": -0.1017,
+        "pitch_rad": -0.2433
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 1969,
+        "median_target_surface_range_m": 1.706758606246379,
+        "upright": 0.9655479655974534,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.665750498572532,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "509180e0b00f2aae21a4b2de2ffc57b92e4a81878602059094fe5f3278fbf6d5",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 10, simulation time 11.300s RGB",
+          "image_sha256": "c66aa700855c1b37003d62a25ab1ace5bda249502e0f36ed24ac2fd4aca20b94",
+          "pixel_values_float32_sha256": "516b37d0ab663a672d760c593c2947393728d3e038e87920f3940ec5dd4473cc"
+        },
+        {
+          "label": "Observation frame 10, simulation time 11.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ec7346317214daebe3fbf15105a806903ee4be1b13065324abae2a622f2b4141",
+          "pixel_values_float32_sha256": "a9c40e6f36ec858b908b9188566077bd29ac3ebd915e3b5e540ec53533539d2c"
+        }
+      ]
+    },
+    {
+      "step": 12,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 11,
+      "actual_displacement_xy_m": 0.03936666975885389,
+      "self_odometry_after": {
+        "x_m": 3.9633,
+        "y_m": 0.4537,
+        "z_m": 0.4977,
+        "yaw_rad": 0.1937,
+        "roll_rad": -0.1499,
+        "pitch_rad": -0.2412
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 2186,
+        "median_target_surface_range_m": 1.688002582015793,
+        "upright": 0.960161835261165,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.6472267071254374,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "ffe9d52279b66e90b60fa1e364083bd1b3d2f5506ba10c4c4c4d306892f33dbb",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 11, simulation time 12.300s RGB",
+          "image_sha256": "2c6a2a3b28041aee4ffc0f7af32e05fa9c9dcf1313a27b1bd6f652963a8cb0f9",
+          "pixel_values_float32_sha256": "fcd068a035865f72681256e6e1b629c11520e337b3d228fc37dc6da9b166eb27"
+        },
+        {
+          "label": "Observation frame 11, simulation time 12.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "03d64553d385d335c6979b166cb53d316d3499fd5d55109c43d367e1f0ef18b8",
+          "pixel_values_float32_sha256": "76276b6356162f3d1c513df7e69f259346936906799de0c98469b56d6fb30d0d"
+        }
+      ]
+    },
+    {
+      "step": 13,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 12,
+      "actual_displacement_xy_m": 0.046668750908762574,
+      "self_odometry_after": {
+        "x_m": 4.0009,
+        "y_m": 0.4814,
+        "z_m": 0.5188,
+        "yaw_rad": 0.3163,
+        "roll_rad": -0.2097,
+        "pitch_rad": -0.1863
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 2720,
+        "median_target_surface_range_m": 1.669814057116545,
+        "upright": 0.961173126408122,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.6301835767573942,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "1e848c6d2c9dd2aaf2795cdefb1adcb755dfed43946db3621dd1a7ef107997c2",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 12, simulation time 13.300s RGB",
+          "image_sha256": "e72d913ac8a05d9a5c0df654ade49228b15b080a73cb70f735e94dacbe232b86",
+          "pixel_values_float32_sha256": "af70d42c328c54f5d0523dab82ea694410b664598425f1ef017738b3ad5daa3c"
+        },
+        {
+          "label": "Observation frame 12, simulation time 13.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "90b605540f2921ee5dc855fad78c7acf52aba2e36bc8a5bf1657a46b4d2b825c",
+          "pixel_values_float32_sha256": "321a46b06a987ac56e758ef8f67bb67d59145fc962cc23c138af910df039ff6e"
+        }
+      ]
+    },
+    {
+      "step": 14,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 13,
+      "actual_displacement_xy_m": 0.36072619408443235,
+      "self_odometry_after": {
+        "x_m": 4.3305,
+        "y_m": 0.628,
+        "z_m": 0.5601,
+        "yaw_rad": 0.3527,
+        "roll_rad": -0.0149,
+        "pitch_rad": 0.1004
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 5232,
+        "median_target_surface_range_m": 1.3522637848020702,
+        "upright": 0.9948558617846444,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.314884459210708,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "787e3c1404d8ce3ff51cff1e35ed48628272beeaf822277a541cee7282396133",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 13, simulation time 14.300s RGB",
+          "image_sha256": "78c2d045a2a82f2ece1e97e901164f5a19fa4b6ce2e8ef9418ee675833428e2d",
+          "pixel_values_float32_sha256": "2a0b6a27b88b735aab2cace87249efe6b1257e6196d683429fc4a1d31e1bef5e"
+        },
+        {
+          "label": "Observation frame 13, simulation time 14.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "41357e32c005b5ff65c0e422f716b99514296393261f6e01caa7a09acc9b03f4",
+          "pixel_values_float32_sha256": "3907df04a5123aed6f5a27db843d43e6b269be19de16a6592c6b4ed743115ab1"
+        }
+      ]
+    },
+    {
+      "step": 15,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 14,
+      "actual_displacement_xy_m": 0.4635214650624775,
+      "self_odometry_after": {
+        "x_m": 4.769,
+        "y_m": 0.7782,
+        "z_m": 0.4548,
+        "yaw_rad": 0.3376,
+        "roll_rad": 0.0161,
+        "pitch_rad": 0.1615
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9868559661441173,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.0000563692940887,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "ee25c48739a1074001d69809e2aea1a4b68ead94926d63e86d8f3eff753a5bb6",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s RGB",
+          "image_sha256": "1fa31247f6c79f7c921e1be9ed84a4e5d951dfadaf919755f3b2f310a09dd610",
+          "pixel_values_float32_sha256": "1034ee9d6a4afd03defc876338fe423371aa170deececb8bf7b71d6432a00c87"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1473681a054d41a768de8175806d0d562187844bec3a879a0ed20de6cdd81093",
+          "pixel_values_float32_sha256": "fa9b54919fb0acbe0ae16c83cb4a1c85c9626a21dba236762f8fb59d225a09fc"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        }
+      ]
+    },
+    {
+      "step": 16,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 15,
+      "actual_displacement_xy_m": 0.4964795945799201,
+      "self_odometry_after": {
+        "x_m": 5.2349,
+        "y_m": 0.9498,
+        "z_m": 0.4501,
+        "yaw_rad": 0.3662,
+        "roll_rad": -0.0027,
+        "pitch_rad": -0.0424
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9990957429620906,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 0.8730456289393889,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "743bf5c4bb563f94f5ef4dbb9aa6f30edb6dc2a49b9e6b33e020aed939badbd2",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        }
+      ]
+    },
+    {
+      "step": 17,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 16,
+      "actual_displacement_xy_m": 0.4912015496315584,
+      "self_odometry_after": {
+        "x_m": 5.6884,
+        "y_m": 1.1385,
+        "z_m": 0.4459,
+        "yaw_rad": 0.3813,
+        "roll_rad": -0.0272,
+        "pitch_rad": -0.0411
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9987860274708116,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 0.9677752016503562,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "b94308e16881798bc4feadf25b577487c696909f32d8d82cbf37af11dca0d0fe",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 16, simulation time 17.300s RGB",
+          "image_sha256": "3fb63be3d7f5a64cea6f3640b31fd2420bb2438dff3dfdbe91c6d8ad2d2a298a",
+          "pixel_values_float32_sha256": "187db1c830e268e7ba6cf35ccb1e2035d516a1299cce05716ae24d68d4c7e1f8"
+        },
+        {
+          "label": "Observation frame 16, simulation time 17.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "a0b7e543883ae1914bd280e9a679087611f94f682494452d42756f0d42c7d602",
+          "pixel_values_float32_sha256": "40a92db226bf4790aba296db3e94670daddc93b5c1413337067fed6cfb8767cc"
+        }
+      ]
+    },
+    {
+      "step": 18,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 17,
+      "actual_displacement_xy_m": 0.4869200801484039,
+      "self_odometry_after": {
+        "x_m": 6.1336,
+        "y_m": 1.3356,
+        "z_m": 0.44,
+        "yaw_rad": 0.4042,
+        "roll_rad": -0.0345,
+        "pitch_rad": -0.036
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9987605666850219,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.246378524796864,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "770706bd1fa390b85b0fd2de184e6259ced5d400b08b93291650f1c50ee931e0",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 17, simulation time 18.300s RGB",
+          "image_sha256": "1e8804e17e98c9ba580f213ae08a10943211841544c5c27506f775bbe8cfaa22",
+          "pixel_values_float32_sha256": "7cd395c4cd002c2538886203d45f2abbdf657526592152aff03b0c6de3ab267c"
+        },
+        {
+          "label": "Observation frame 17, simulation time 18.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "c4d1593133761de9714f39c0fe029ef79db5aff658340fa7736ac99f240abd9f",
+          "pixel_values_float32_sha256": "3c9e1c24b84d3cfdcf25e5d3640637c698ca0b0fadcf5248c263cc748e77b5fb"
+        }
+      ]
+    },
+    {
+      "step": 19,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 18,
+      "actual_displacement_xy_m": 0.49160625295552596,
+      "self_odometry_after": {
+        "x_m": 6.5818,
+        "y_m": 1.5376,
+        "z_m": 0.4427,
+        "yaw_rad": 0.4341,
+        "roll_rad": -0.0072,
+        "pitch_rad": -0.0346
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9993738462390516,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 1.621812874579869,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "6c99844d8262ff185bba68748117181671d0de98d0257b22f3051e17e4c8072d",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 18, simulation time 19.300s RGB",
+          "image_sha256": "430ff302eb231320755f248015d3cb88569c906b190b4631df41b1042020008a",
+          "pixel_values_float32_sha256": "db54f7fc354fb297f76418a4290ca93136d479f6462d7eb66ec1419d5d7bf7c1"
+        },
+        {
+          "label": "Observation frame 18, simulation time 19.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "966f981a1b96cd569fee343d04687dc4f83fd908d321e9b97670a24de8d0c538",
+          "pixel_values_float32_sha256": "bbb4bc555daa449a6b81c396299e2ba330cd7ef450e058d6fbdf8b56468bb138"
+        }
+      ]
+    },
+    {
+      "step": 20,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 19,
+      "actual_displacement_xy_m": 0.491436705399417,
+      "self_odometry_after": {
+        "x_m": 7.0202,
+        "y_m": 1.7597,
+        "z_m": 0.4454,
+        "yaw_rad": 0.4488,
+        "roll_rad": -0.0315,
+        "pitch_rad": -0.039
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.998742930755588,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.0544015899350443,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "3d868c8851e7fa0edfffa172aac1d0b3f9f98229b920122f94326e753e169e44",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 19, simulation time 20.300s RGB",
+          "image_sha256": "68bf15d216f110a43d93b7818c208f1e78e9d644732a6fc266e870252cbf2119",
+          "pixel_values_float32_sha256": "58bd240fa3173de71852f0596910edcebd10c46002c3ef1bd2fd1e5791cede19"
+        },
+        {
+          "label": "Observation frame 19, simulation time 20.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "01cf68821f5efa4ea81ceba3a5fa44a59dd6333249cc6b40abf8e46e8303ff4f",
+          "pixel_values_float32_sha256": "8a77f8b598bc3ab7c0eeed458561fff324e143432d01a5da6226217cf85d5f34"
+        }
+      ]
+    },
+    {
+      "step": 21,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 20,
+      "actual_displacement_xy_m": 0.4861103881433288,
+      "self_odometry_after": {
+        "x_m": 7.4513,
+        "y_m": 1.9842,
+        "z_m": 0.4381,
+        "yaw_rad": 0.4731,
+        "roll_rad": -0.0293,
+        "pitch_rad": -0.0369
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.998888637256849,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.504331569769064,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "45e14d9b565be7e0700e7bc239c500e911610fef89d4421c92b0d26d0441d8a7",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 20, simulation time 21.300s RGB",
+          "image_sha256": "1b58e0eb22b2c71ee30005518b91baa22d8a8dc3c21574b59098b083656a134f",
+          "pixel_values_float32_sha256": "655d1790a3ac9b30b13cb0acfcc6477f7c5bf42a68c98582928da4ca5e4925b8"
+        },
+        {
+          "label": "Observation frame 20, simulation time 21.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "25c8819eb71d1af6452c78b8a5ba7ec8daf9bf9f9ff454dc744e004dc31f138d",
+          "pixel_values_float32_sha256": "a10d08a29211cb32e5ef67c428ace914802d6a1f8e7d666b91ffd51fa5814cb1"
+        }
+      ]
+    },
+    {
+      "step": 22,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 21,
+      "actual_displacement_xy_m": 0.48904372495762793,
+      "self_odometry_after": {
+        "x_m": 7.8822,
+        "y_m": 2.2155,
+        "z_m": 0.4434,
+        "yaw_rad": 0.502,
+        "roll_rad": -0.0065,
+        "pitch_rad": -0.0409
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9991427866140711,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 2.968709169867716,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "d26a5aec7ffc697dda47183a3e44604ad7e211f80aadd1ab381fb1276762686f",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 21, simulation time 22.300s RGB",
+          "image_sha256": "2659109514f4eef7ebace78381f5bbf261e019b9c7ef4288b4ba2105708cbb3b",
+          "pixel_values_float32_sha256": "e59ee88e0e2208562cd8de721568fb610e320247cce205300dc8034b9544058a"
+        },
+        {
+          "label": "Observation frame 21, simulation time 22.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "2a946173de9c791a956d24d51322c4a3c6c7b7393985041a6975513fd97b180f",
+          "pixel_values_float32_sha256": "46a2bed2ebe420b8f0dfdd9c1c163476766bb593e03af1359926b57332992bca"
+        }
+      ]
+    },
+    {
+      "step": 23,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 22,
+      "actual_displacement_xy_m": 0.4924663355472514,
+      "self_odometry_after": {
+        "x_m": 8.3056,
+        "y_m": 2.4671,
+        "z_m": 0.4476,
+        "yaw_rad": 0.5167,
+        "roll_rad": -0.0353,
+        "pitch_rad": -0.0352
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9987596348267406,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 3.450121463465174,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "988068c9d73fb93185a2d5c527fe32da312c8fcc41c54b65d820d61054de17f3",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 22, simulation time 23.300s RGB",
+          "image_sha256": "c390c00ef6dac8c37900f61b0838fc41423e9dca771a90d121dfb2820358796a",
+          "pixel_values_float32_sha256": "40462e0e82f5b49ce8f400b6e8305db816dac4c573547d7a33a1853e42696569"
+        },
+        {
+          "label": "Observation frame 22, simulation time 23.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "3d71caea040decd08fd5f4d7fbb8e2b013e0d51024796b4beb76a541d4ebf31c",
+          "pixel_values_float32_sha256": "60bce7c13eeca4a01cc3a9d55d85c29d7788dd794396a71445c5885082ce51d6"
+        }
+      ]
+    },
+    {
+      "step": 24,
+      "action": "FORWARD",
+      "decision": {
+        "action": "FORWARD",
+        "evidence_frames": [],
+        "evidence_sources": [],
+        "auxiliary_assessments_not_requested": true
+      },
+      "current_frame_before": 23,
+      "actual_displacement_xy_m": 0.33427887116049276,
+      "self_odometry_after": {
+        "x_m": 8.5933,
+        "y_m": 2.6372,
+        "z_m": 0.4433,
+        "yaw_rad": 0.533,
+        "roll_rad": -0.0243,
+        "pitch_rad": -0.0454
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9986742628080625,
+        "in_bounds": false
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": false,
+        "blocking_geom": "task3_target_geom",
+        "hit_distance_m": 3.77529941814023,
+        "entity_occlusion": false
+      },
+      "rejected_stop_count": 0,
+      "termination": "out_of_bounds",
+      "prompt_token_ids_sha256": "bda1d484624cf3a6e7aad27c7c1f0a4282e312ddd3ababf37409a99ca25c8466",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "b1e9933144b2b1a0b6e78ee1b1c69619a433535024e22dfc3053abc36e416d42",
+          "pixel_values_float32_sha256": "da0a9ec7881378743c9ad5a0193b7cf4d564b7904d288bf29cfb86c62a35dcd5"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "d5cfbce8a2b9d10f7bd590662c92e0a846e4dcef51962d6501c5d614b9d4082d",
+          "pixel_values_float32_sha256": "cd1e2c7203094f63321cdc050e0cf2c4564a6376db130b6be2f656ec0ba0e046"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s RGB",
+          "image_sha256": "f0e07cc3e9c02be0240ca2861911e72f20c654d25d6fb7e07f60664c96ed4fbb",
+          "pixel_values_float32_sha256": "51a96e1aaf0c6b46be1076b096411b5f2371be3c1b9628e13f7c2af44bbfd399"
+        },
+        {
+          "label": "Observation frame 14, simulation time 15.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "37861d6449faac24dbcaf368a8d6ab92379016f16b7d89c48171caa4f61095a4",
+          "pixel_values_float32_sha256": "342abc56a2f6ce2dfe1553791ebd89d5cc4ee7006c412259866e74ec4ddd1f25"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s RGB",
+          "image_sha256": "5d68f202bf298d26eeffbd331c025f44b3f1dbe1af22735d4e33cbf80a36f19e",
+          "pixel_values_float32_sha256": "10e60fba979551e3f8009e2265b27f3e490211a2094c95e17d674351154ad2a6"
+        },
+        {
+          "label": "Observation frame 15, simulation time 16.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "61c9c6414fec6a5b68f97944ddf68926662ee7368bb8d16f0b945981bbe3e9f5",
+          "pixel_values_float32_sha256": "40ca9e0716bbc5dc1f625380b70a476db80c21336e76d3485c6c401348befba9"
+        },
+        {
+          "label": "Observation frame 23, simulation time 24.300s RGB",
+          "image_sha256": "1674eea7564e29bc607fca41d6dc4d058b6fe38ec68e37ecfc8014c580ea9a30",
+          "pixel_values_float32_sha256": "2b594e5c6dc60a2782be96642938258b320772434a4b37ab61b98603c52df087"
+        },
+        {
+          "label": "Observation frame 23, simulation time 24.300s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "e81fcfc39cd4637cf4de7196481bd4bb6d51e86b18788ce3132e1c16158f32d1",
+          "pixel_values_float32_sha256": "110741021ff6f29643e6ab1ac2e72347da107597f0dda4f53591df653b888335"
+        }
+      ]
+    }
+  ]
+}
