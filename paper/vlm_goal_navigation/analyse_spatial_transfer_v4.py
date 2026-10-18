@@ -56,7 +56,18 @@ def episode(path):
     turns = ("TURN_LEFT", "TURN_RIGHT")
     alternating = sum(x in turns and y in turns and x != y for x, y in zip(actions, actions[1:]))
     loss_types = collections.Counter()
+    visibility_correct = near_claims = false_near_claims = 0
+    valid_decisions = 0
     for t in transitions:
+        decision = t.get("decision")
+        if decision:
+            valid_decisions += 1
+            observed = t["before_evaluator"]
+            visibility_correct += decision["target_visible"] == (observed["target_visible_rgb_pixels"] >= 20)
+            if decision["proximity"] == "near":
+                near_claims += 1
+                distance = observed["median_target_surface_range_m"]
+                false_near_claims += not (observed["target_visible_rgb_pixels"] >= 20 and distance is not None and 0 < distance < 1)
         if t["after_evaluator"]["target_visible_rgb_pixels"] >= 20:
             continue
         ray = t["evaluator_ray"]
@@ -75,6 +86,10 @@ def episode(path):
            "model_plan_updates": sum(isinstance((t.get("decision") or {}).get("plan_update"), str) and bool(t["decision"]["plan_update"].strip()) for t in transitions),
            "fov_exit_boundaries": loss_types["fov_exit"],
            "terrain_occlusion_boundaries": loss_types["terrain_occlusion"],
+           "valid_decisions": valid_decisions,
+           "current_visibility_correct_decisions": visibility_correct,
+           "model_near_claims": near_claims,
+           "model_near_claims_outside_1m_gate": false_near_claims,
            "rejected_stops": result["rejected_stop_count"], "initial_plan_valid": result["initial_plan_valid"],
            "inference_count": result["inference_count"],
            "amortized_actor_inference_s": result["amortized_inference_s"],
@@ -140,6 +155,10 @@ def summary(rows):
             "forward_only_arrivals": sum(r["arrived"] and r["policy_forward_only"] for r in rows),
             "rejected_stops": sum(r["rejected_stops"] for r in rows),
             "valid_initial_plans": sum(r["initial_plan_valid"] for r in rows),
+            "valid_decisions": sum(r["valid_decisions"] for r in rows),
+            "current_visibility_correct_decisions": sum(r["current_visibility_correct_decisions"] for r in rows),
+            "model_near_claims": sum(r["model_near_claims"] for r in rows),
+            "model_near_claims_outside_1m_gate": sum(r["model_near_claims_outside_1m_gate"] for r in rows),
             "mean_autonomous_actions": float(np.mean([r["autonomous_actions"] for r in rows])) if rows else None,
             "terminations": dict(collections.Counter(r["termination"] for r in rows))}
 
@@ -215,6 +234,8 @@ def trajectories(root, by_model):
     fig.suptitle("V4 checkpoint comparison: blue=Qwen; orange=Spatial; *=arrived; x=failed; red+=target; black diamond=loss\nEvaluator trajectories only; target coordinates never supplied to policy", fontsize=11)
     fig.tight_layout(rect=(0, 0, 1, .96))
     fig.savefig(root / "trajectories.svg")
+    svg = root / "trajectories.svg"
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
     fig.savefig(root / "trajectories.png", dpi=150)
     plt.close(fig)
 
@@ -255,9 +276,20 @@ def main():
                  for _ in range(20000)]
         paired.update(terrain_families=len(groups), family_cluster_bootstrap_95_ci=np.quantile(draws, [.025, .975]).tolist())
     complete = all(v["completed"] == 22 for v in metrics.values())
+    common_settings = ("version", "scenes", "admission_manifest_sha256", "system_prompt", "plan_system_prompt",
+                       "action_budget", "max_new_tokens", "plan_max_new_tokens", "batch_size", "frame_area_cap",
+                       "event_selection", "sensors", "stop_gate", "arrival_endpoint", "seed", "decoding")
+    protocols = [root / "runs" / key / "protocol.json" for key in MODELS]
+    mismatches = []
+    if all(p.exists() for p in protocols):
+        x, y = map(read, protocols)
+        mismatches = [k for k in common_settings if x[k] != y[k]]
+    input_pairs_ok = len(pairs) == 22 and all(all(v for k, v in pair.items() if k != "scene") for pair in pairs)
+    audit_ok = complete and input_pairs_ok and not mismatches and all(not r["forbidden_field_or_role_violations"] for r in audit.values())
     write(root / "metrics.json", {"status": "complete" if complete else "partial", "models": metrics, "paired": paired,
                                    "uncertainty_scope": "scene bootstrap, not repeated-seed or checkpoint-training uncertainty"})
     write(root / "INPUT_AUDIT.json", {"models": audit, "paired_initial_inputs": pairs,
+          "shared_protocol_setting_mismatches": mismatches, "complete_comparison_inputs_pass": audit_ok,
           "identical_dynamic_requests_claimed": False,
           "reason": "self-generated plans and observations diverge after checkpoint decisions"})
     flat = [{"model": key, **row} for key, rows in by_model.items() for row in rows]
@@ -271,7 +303,7 @@ def main():
     for key in MODELS:
         r = metrics[key]
         text.append(f"| {key} | {r['completed']}/22 | {r['arrivals']} | {r['reobserved']} | {r['legal_vlm_stop']} | {r['forward_only_arrivals']} |")
-    text += ["", "到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。参考动作准入不计入模型结果。", "",
+    text += ["", "到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。", "",
              "| 场景 | Qwen 到达 / 终止 | Spatial 到达 / 终止 |", "| --- | --- | --- |"]
     for scene in sorted(set(index[MODELS[0]]) | set(index[MODELS[1]])):
         cells = []
@@ -284,9 +316,35 @@ def main():
                  f"配对场景 bootstrap 95% 区间 [{paired['bootstrap_95_ci'][0]*100:.1f}, {paired['bootstrap_95_ci'][1]*100:.1f}] 个百分点；精确 McNemar p={paired['mcnemar_exact_two_sided_p']:.4f}。",
                  f"考虑同一地形族 a0/a1/a2 的相关性：{paired['terrain_families']} 个族的 cluster bootstrap 区间 [{paired['family_cluster_bootstrap_95_ci'][0]*100:.1f}, {paired['family_cluster_bootstrap_95_ci'][1]*100:.1f}] 个百分点。McNemar 的独立场景假设在此不完全成立，仅作描述。",
                  "单回合/固定种子的场景级小样本区间，不覆盖多次训练或生成随机性的方差。"]
+    if complete:
+        text += ["", "## 本轮结论", ""]
+        if not audit_ok:
+            text += ["回合已完成，但配对输入或协议审计未全部通过。暂不据此得出模型优劣结论，先检查 INPUT_AUDIT.json。"]
+        else:
+            delta = paired["arrival_difference"]
+            low, high = paired["family_cluster_bootstrap_95_ci"]
+            if delta > 0 and low > 0:
+                statement = "本轮相同适配协议下，Spatial 检查点的到达率较高，地形族 bootstrap 区间也保持为正；这是本批场景的迁移证据，仍需独立场景和重复实验验证。"
+            elif delta > 0:
+                statement = "Spatial 检查点的到达率有数值提升，但地形族 bootstrap 区间未排除零；本轮不足以确认可靠的端到端提升。"
+            elif delta == 0:
+                statement = "两检查点到达数相同，本轮没有观察到端到端到达率提升；不能由此证明所有空间能力均无用。"
+            else:
+                statement = "Spatial 检查点在本轮到达率较低，当前适配下未获得正向迁移；不能据此概括其原生空间 QA 能力。"
+            text.append(statement)
+            q, s = (metrics[k] for k in MODELS)
+            text += [f"重观测分别为 Qwen {q['reobserved']}/22、Spatial {s['reobserved']}/22；到达分别为 {q['arrivals']}/22、{s['arrivals']}/22。重观测提升和最终到达提升须分别判断。",
+                     "", "| 诊断 | Qwen | Spatial |", "| --- | ---: | ---: |",
+                     f"| 有效初始计划 | {q['valid_initial_plans']} | {s['valid_initial_plans']} |",
+                     f"| 被拒绝的提前 STOP 请求 | {q['rejected_stops']} | {s['rejected_stops']} |",
+                     f"| 当前可见性判断正确 / 有效动作输出 | {q['current_visibility_correct_decisions']}/{q['valid_decisions']} | {s['current_visibility_correct_decisions']}/{s['valid_decisions']} |",
+                     f"| near 判断未满足 1m 门槛 / near 判断数 | {q['model_near_claims_outside_1m_gate']}/{q['model_near_claims']} | {s['model_near_claims_outside_1m_gate']}/{s['model_near_claims']} |", "",
+                     "near 的诊断采用任务明确的 1m 到达门槛；可见性诊断采用原始图像目标像素≥20。视觉输入被共同缩放，细小目标识别亦可能影响该指标。",
+                     "后续只针对已有证据选择改进：若主要是提前 STOP，先验证距离与动作终止校准；若恢复可见失败，使用动作条件的重现概率/距离预测；若已经重观测但无法接近，分别检查路径可达性、运动执行和接近策略。不能以单一到达数决定所有训练方向。"]
     text += ["", "## 解释边界", "",
              "本轮检验相同适配协议下两个完整检查点的零样本迁移，不单独隔离空间训练数据、训练目标或其他检查点变化的因果作用。",
              "初见—遮挡物理状态重新冻结；目标真值只用于 evaluator 和轨迹图。里程计为理想仿真自身运动，尚未验证真实 RGB-D/视觉里程计噪声。",
+             "V4 原准入认证重观测，不代表所有场景均已验证完整 <1m 导航参考路线；连续控制参考检查的未验证场景保留在 continuous_reference_scope.json，未据模型结果删除场景。到达失败不能全部归于模型能力。",
              "未进行 RSI、微调、新任务头或世界模型训练。本轮不能作为新方法收益或论文创新性的证据。",
              "完整逐回合动作数、失败类型、重观测、低位移、STOP 拒绝及资源错误见 episodes.csv 和 metrics.json；输入检查见 INPUT_AUDIT.json。",
              "模型指令相同；模型自己产生的初始计划和后续画面可以不同。初始计划输入 token、图像及丢失位姿需逐场景一致。",

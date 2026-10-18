@@ -4,15 +4,20 @@
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| qwen3vl8b | 4/22 | 0 | 4 | 0 | 0 |
+| qwen3vl8b | 9/22 | 0 | 7 | 0 | 0 |
 | spatial_interactor8b | 0/22 | 0 | 0 | 0 | 0 |
 
-到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。参考动作准入不计入模型结果。
+到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。
 
 | 场景 | Qwen 到达 / 终止 | Spatial 到达 / 终止 |
 | --- | --- | --- |
 | barrier_a0 | 失败 / repeated_forbidden_stop | 待完成 |
 | barrier_a1 | 失败 / budget_exhausted | 待完成 |
+| barrier_a2 | 失败 / budget_exhausted | 待完成 |
+| basin_a1 | 失败 / repeated_forbidden_stop | 待完成 |
+| pit_a0 | 失败 / budget_exhausted | 待完成 |
+| pit_a1 | 失败 / budget_exhausted | 待完成 |
+| slope_up_a2 | 失败 / repeated_forbidden_stop | 待完成 |
 | stairs_up_a2 | 失败 / repeated_forbidden_stop | 待完成 |
 | trench_a0 | 失败 / repeated_forbidden_stop | 待完成 |
 
@@ -20,6 +25,7 @@
 
 本轮检验相同适配协议下两个完整检查点的零样本迁移，不单独隔离空间训练数据、训练目标或其他检查点变化的因果作用。
 初见—遮挡物理状态重新冻结；目标真值只用于 evaluator 和轨迹图。里程计为理想仿真自身运动，尚未验证真实 RGB-D/视觉里程计噪声。
+V4 原准入认证重观测，不代表所有场景均已验证完整 <1m 导航参考路线；连续控制参考检查的未验证场景保留在 continuous_reference_scope.json，未据模型结果删除场景。到达失败不能全部归于模型能力。
 未进行 RSI、微调、新任务头或世界模型训练。本轮不能作为新方法收益或论文创新性的证据。
 完整逐回合动作数、失败类型、重观测、低位移、STOP 拒绝及资源错误见 episodes.csv 和 metrics.json；输入检查见 INPUT_AUDIT.json。
 模型指令相同；模型自己产生的初始计划和后续画面可以不同。初始计划输入 token、图像及丢失位姿需逐场景一致。

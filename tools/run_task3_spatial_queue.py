@@ -60,9 +60,9 @@ def main():
                  "tasks/task3_reobservability/test_spatial_transfer_v4.py",
                  "tasks/task3_reobservability/validate_spatial_transfer_v4.py"]
         subprocess.run(["git", "add", "--", *paths], cwd=repo, check=True)
-        if subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=repo).returncode:
-            subprocess.run(["git", "diff", "--cached", "--check"], cwd=repo, check=True)
-            subprocess.run(["git", "commit", "-m", f"Record TASK3 spatial transfer: {reason}"], cwd=repo, check=True,
+        if subprocess.run(["git", "diff", "--cached", "--quiet", "--", *paths], cwd=repo).returncode:
+            subprocess.run(["git", "diff", "--cached", "--check", "--", *paths], cwd=repo, check=True)
+            subprocess.run(["git", "commit", "-m", f"Record TASK3 spatial transfer: {reason}", "--only", "--", *paths], cwd=repo, check=True,
                            stdout=subprocess.DEVNULL)
         head = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repo, text=True).strip()
         if a.push:

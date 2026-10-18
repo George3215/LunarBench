@@ -16,10 +16,13 @@ from spatial_transfer_v4 import Trial, actions, sha, dump, build_setups, DEFAULT
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--terrains", nargs="*")
+    parser.add_argument("--continuous-controller", action="store_true")
+    parser.add_argument("--extend-reference-actions", type=int, default=0)
     a = parser.parse_args()
     torch.set_num_threads(1)
     actions()
-    setups, terrains = build_setups(DEFAULT_ADMISSION, None)
+    setups, terrains = build_setups(DEFAULT_ADMISSION, a.terrains)
     manifest = {r["terrain_id"]: r for r in json.loads((DEFAULT_ADMISSION / "formal_manifest.json").read_text())}
     rows = []
     for setup in setups:
@@ -30,8 +33,12 @@ def main():
             # Historical admission resets low-level recurrent action memory at
             # each oracle branch. Reproduce that evaluator-only detail exactly.
             # Autonomous VLM trials do NOT reset the walking controller at loss.
-            trial.env.controller.reset()
-            for step, action in enumerate(reference["actions"], start=trial.prefix+1):
+            if not a.continuous_controller:
+                trial.env.controller.reset()
+            sequence = reference["actions"] + [reference["actions"][-1]] * a.extend_reference_actions
+            executed = []
+            for step, action in enumerate(sequence, start=trial.prefix+1):
+                executed.append(action)
                 terminal = trial.physics.execute(action, step)
                 if terminal:
                     break
@@ -48,7 +55,9 @@ def main():
                 run = run+1 if visible else 0
                 maximum = max(maximum, run)
             row = {"terrain_id": setup["terrain_id"], "initial_and_loss_pass": True,
-                   "reference_controller_reset_at_loss": True,
+                   "reference_controller_reset_at_loss": not a.continuous_controller,
+                   "extension_budget": a.extend_reference_actions,
+                   "executed_actions": executed,
                    "reference_recovery_pass": maximum >= 3,
                    "consecutive_recovered_samples": maximum,
                    "privileged_reference_actions": reference["actions"],
