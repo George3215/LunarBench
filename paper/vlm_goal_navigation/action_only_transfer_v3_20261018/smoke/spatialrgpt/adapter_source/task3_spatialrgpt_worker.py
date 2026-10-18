@@ -88,7 +88,9 @@ def main():
                         grammar = None
                         if request['stop_allowed'] is not None:
                             if request.get('action_interface') == 'action_only':
-                                grammar = ClosedSetActionGrammar(tokenizer, [request['stop_allowed']], 0, stop_ids)
+                                # Transformers 4.37 inputs_embeds decoding starts
+                                # input_ids with one BOS; it is not an action token.
+                                grammar = ClosedSetActionGrammar(tokenizer, [request['stop_allowed']], 1, stop_ids)
                             else:
                                 grammar = ActionGrammar(vocabulary, [request['stop_allowed']], 0)
                         kwargs = dict(logits_processor=LogitsProcessorList([grammar])) if grammar else {}

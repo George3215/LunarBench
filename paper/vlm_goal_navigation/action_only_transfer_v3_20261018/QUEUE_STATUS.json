@@ -1,6 +1,6 @@
 {
   "pid": 186898,
-  "phase": "preflight",
+  "phase": "smoke_spatialrgpt",
   "started_unix": 1792324107.0820239,
   "models": {
     "spatialreasoner": {
@@ -48,22 +48,21 @@
       }
     },
     "spatialrgpt": {
-      "state": "smoke_requires_review",
+      "state": "smoke_passed_queued",
       "smoke": {
-        "exit_code": 1,
+        "exit_code": 0,
         "status": {
-          "status": "error_incomplete_not_navigation_result",
-          "completed": 0,
+          "status": "complete_pending_analysis",
+          "completed": 2,
           "expected": 2,
           "arrivals": 0,
           "legal_vlm_stop": 0,
-          "terminations": {},
-          "active": {
-            "barrier_a0": 0,
-            "pit_a0": 0
+          "terminations": {
+            "budget_exhausted": 2
           },
-          "generation_calls": 2,
-          "wall_s": 17.292396422999445
+          "active": {},
+          "generation_calls": 10,
+          "wall_s": 25.374043608997454
         }
       }
     },
@@ -295,9 +294,30 @@
       "commit": "46f8b9ccea4a9be1b7c5d4593c0967beb237484e",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "predeclared protocol and interface checks",
+      "commit": "c6cf5ef90e53bb0824419e2d6310b7ec043f2a42",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "only": [
     "spatialrgpt"
-  ]
+  ],
+  "current": {
+    "status": "complete_pending_analysis",
+    "completed": 2,
+    "expected": 2,
+    "arrivals": 0,
+    "legal_vlm_stop": 0,
+    "terminations": {
+      "budget_exhausted": 2
+    },
+    "active": {},
+    "generation_calls": 10,
+    "wall_s": 25.374043608997454
+  },
+  "current_pid": 208896,
+  "updated_unix": 1792324137.2750506
 }

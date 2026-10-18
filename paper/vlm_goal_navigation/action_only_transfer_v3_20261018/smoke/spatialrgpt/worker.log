@@ -1,31 +1,10 @@
 /home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/utils/hub.py:124: FutureWarning: Using `TRANSFORMERS_CACHE` is deprecated and will be removed in v5 of Transformers. Use `HF_HOME` instead.
   warnings.warn(
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 16.03it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 17.31it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 17.09it/s]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:00<00:00, 12.37it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.45it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:00<00:00, 14.08it/s]
 Special tokens have been added in the vocabulary, make sure the associated word embeddings are fine-tuned or trained.
 Resuming region extractor from:  /home/lry/MoonUnrealEnv/LunarBench/.local/models/spatialrgpt/region_extractor
 /home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:392: UserWarning: `do_sample` is set to `False`. However, `temperature` is set to `0.6` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `temperature`.
   warnings.warn(
 /home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:397: UserWarning: `do_sample` is set to `False`. However, `top_p` is set to `0.9` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_p`.
   warnings.warn(
-Traceback (most recent call last):
-  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_spatialrgpt_worker.py", line 95, in main
-    outputs = model.llm.generate(inputs_embeds=embeds, attention_mask=attention,
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/miniconda3/envs/moonunreal-mujoco/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/generation/utils.py", line 1479, in generate
-    return self.greedy_search(
-           ^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/generation/utils.py", line 2353, in greedy_search
-    next_tokens_scores = logits_processor(input_ids, next_token_logits)
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/MoonUnrealEnv/LunarBench/.local/envs/spatialrgpt/lib/python3.11/site-packages/transformers/generation/logits_process.py", line 97, in __call__
-    scores = processor(input_ids, scores)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_action_only.py", line 55, in __call__
-    allowed = self.allowed(generated, stop)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_action_only.py", line 47, in allowed
-    raise RuntimeError(f'Invalid action trie prefix: {generated}')
-RuntimeError: Invalid action trie prefix: [128000]
+[W1018 19:48:56.575501727 CUDACachingAllocator.cpp:3933] memory allocation failed with OOM on device 0 while trying to allocate 1530920960 bytes (free: 100859904, total: 25241190400).

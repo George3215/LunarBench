@@ -32,7 +32,7 @@
 - qwen3vl8b: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatial_interactor8b: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatialreasoner: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
-- spatialrgpt: 0/2，执行 0 个自主动作；终止 {}。
+- spatialrgpt: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - robobrain25_8b_nv: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 
 原始RGB-D、序列化请求、token、输出、逐步动作及评估轨迹保留在本机；GitHub备份协议、脚本、回合结果、精简逐步证据和分析。
