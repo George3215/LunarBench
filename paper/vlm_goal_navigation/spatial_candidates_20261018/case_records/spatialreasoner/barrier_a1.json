@@ -1,0 +1,145 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": null,
+  "result": {
+    "scene": "barrier_a1",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 3,
+    "controlled_approach_actions": 3,
+    "autonomous_actions": 0,
+    "inference_count": 2,
+    "total_inference_s": 6.910768828998698,
+    "amortized_inference_s": 3.455384414499349,
+    "wall_s_including_scheduler_wait": 12.223897607000254,
+    "simulated_s": 4.3999999999997375,
+    "path_m": 1.0421503116733715,
+    "state_samples": 45,
+    "min_upright": 0.9971884384408226,
+    "final_evaluator": {
+      "sim_time_s": 4.3999999999997375,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 7.265222855272469,
+      "base_xy_target_distance_m_diagnostic": 7.563370732467071,
+      "camera_xyz_evaluator": [
+        -3.995364671745734,
+        -1.9577058547173236,
+        0.5253955041884034
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        0.0,
+        0.4
+      ],
+      "upright": 0.9989318951611688,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT"
+    ],
+    "action_counts": {
+      "STRAFE_LEFT": 3
+    },
+    "max_steps": 64,
+    "observation_frame_count": 4,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/barrier_a1",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": false,
+    "reappearance_predictions": [],
+    "policy_action_counts": {},
+    "policy_action_sequence": [],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 4,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": -0.0564,
+        "y_m": 1.0281,
+        "z_m": 0.0011,
+        "yaw_rad": 0.011,
+        "roll_rad": -0.0151,
+        "pitch_rad": -0.0437
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9989318951611688,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "barrier_a1_cube",
+        "hit_distance_m": 4.481035937811955,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "4d38670fe68fed934930e7164f0372c67c66baf93069996453601a22cc4738cd",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "79111dc48ec947fe4f7eaa206e3aad87cf7b92d2035d6813957679e8dd41e5ab",
+          "pixel_values_float32_sha256": "893d31752c58c8fd97c3a0b2bda6ed72e80c60b5b962e7c8559d17d59b029f48"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "38c7ea0409c347f591a5fa1640f7dd724cf9c5bb58420eeefeaea2b27d01546a",
+          "pixel_values_float32_sha256": "575f8be9191b71631736cfaa7bc0335eda4cbab606eff3aea5ee01cf3480ee7b"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s RGB",
+          "image_sha256": "468e44bff0dad14ec0735a8246ce1f3432d3d4694f9b796e0ae7df63ba9590ed",
+          "pixel_values_float32_sha256": "b12029fffb1da6bad09dc5261877d83212187de42a59aabb69501b4d9a420284"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "10de913551037932fb928342316a234e3ef7c12353d68230ea6d8259954367db",
+          "pixel_values_float32_sha256": "788fcd8691f4e938b46a4814ee1afab1bd860882e496e799d1d3b2a4670148ab"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.400s RGB",
+          "image_sha256": "67cffd152382c7014501b396077fad4077470e7e414872046b0bbc781551a594",
+          "pixel_values_float32_sha256": "2e5e83fb2d240943a0e612e9dd71715fd2ca6416ce8a84dc0f9afa7befc5084f"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.400s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "5b281e97897b8c5a0a8f7eb7ca7ab55a0964061172b6a4903013e329c5f31e3e",
+          "pixel_values_float32_sha256": "f63a0cf40e126cbf833909cd98ad3f0a134fd0a93d47d8f16877db0eac8f3f96"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.1,\n\"visual_assessment\": \"no red pixels in current RGB; no reliable depth in current depth\",\n\"decision_rationale\": \"no red pixels in current RGB; no reliable depth in current depth\",\n\"evidence_frames\": [\n0,\n2,\n3\n],\n\"evidence_sources\": [\n\"current_rgb\",\n\"current_depth\"\n]\n}",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.1,\n\"visual_assessment\": \"no red pixels in current RGB; no reliable depth\",\n\"decision_rationale\": \"no red pixels in current RGB; no reliable depth\",\n\"evidence_frames\": [\n0,\n2,\n3\n],\n\"evidence_sources\": [\n\"current_rgb\",\n\"current_depth\"\n]\n}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}

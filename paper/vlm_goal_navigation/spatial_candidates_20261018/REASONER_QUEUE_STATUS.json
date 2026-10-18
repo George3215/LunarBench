@@ -1,16 +1,40 @@
 {
   "pid": 154183,
-  "phase": "smoke_spatialreasoner",
+  "phase": "running_spatialreasoner",
   "models": {
     "spatialreasoner": {
-      "state": "format_failed_formal_diagnostic_queued",
-      "completed_smoke_cases": 2
+      "state": "running"
     }
   },
-  "backups": [],
+  "backups": [
+    {
+      "reason": "spatialreasoner format failure retained; formal diagnostic queued",
+      "commit": "457ed40d83154932c50a1ecfef13c6702d7120b8",
+      "pushed": true,
+      "push_error": null
+    }
+  ],
   "robobrain_source": "official ModelScope; same NV weight SHA256 as HF",
   "only": [
     "spatialreasoner"
   ],
-  "continue_format_failed_smoke": true
+  "continue_format_failed_smoke": true,
+  "current_pid": 154349,
+  "current": {
+    "status": "running",
+    "completed": 2,
+    "expected": 22,
+    "arrivals": 0,
+    "legal_vlm_stop": 0,
+    "terminations": {
+      "invalid_model_output": 2
+    },
+    "active": {
+      "barrier_a2": 0,
+      "trench_a0": 0
+    },
+    "generation_calls": 4,
+    "wall_s": 29.508083597000223
+  },
+  "updated_unix": 1792316639.3129957
 }

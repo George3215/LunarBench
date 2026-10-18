@@ -1,0 +1,155 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": null,
+  "result": {
+    "scene": "barrier_a0",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 3,
+    "controlled_approach_actions": 3,
+    "autonomous_actions": 0,
+    "inference_count": 2,
+    "total_inference_s": 6.910768828998698,
+    "amortized_inference_s": 3.455384414499349,
+    "wall_s_including_scheduler_wait": 13.412612961998093,
+    "simulated_s": 4.1999999999997595,
+    "path_m": 0.9578571162145658,
+    "state_samples": 43,
+    "min_upright": 0.9971884395687004,
+    "final_evaluator": {
+      "sim_time_s": 4.1999999999997595,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 6.903159188104305,
+      "base_xy_target_distance_m_diagnostic": 7.207524863066688,
+      "camera_xyz_evaluator": [
+        -3.826726570672876,
+        -1.0188169023563058,
+        0.5068794884481778
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        0.0,
+        0.4
+      ],
+      "upright": 0.9998705720390865,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT"
+    ],
+    "action_counts": {
+      "STRAFE_LEFT": 3
+    },
+    "max_steps": 64,
+    "observation_frame_count": 4,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/barrier_a0",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": false,
+    "reappearance_predictions": [],
+    "policy_action_counts": {},
+    "policy_action_sequence": [],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 4,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": -0.0528,
+        "y_m": 0.9439,
+        "z_m": -0.0065,
+        "yaw_rad": 0.0139,
+        "roll_rad": -0.0136,
+        "pitch_rad": -0.0085
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9998705720390865,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "barrier_a0_cube",
+        "hit_distance_m": 3.512781952599851,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "f52e2a7c02b5a2624ddd781745291d976bbb2e594c429fa42b9e1b6094eaddf0",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "db91a073509b4694b6a947a81245b190678258f302cb974de39f301161c0458a",
+          "pixel_values_float32_sha256": "0dd5207fa2aff696123e5900453fc910ebdf80df8f0f118812f97033c71cc952"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "769b544f6cfa4cc402e42fabe6aa2f1195508d59e6210c0baf3f7f044b89621b",
+          "pixel_values_float32_sha256": "a56e33cff64cfa99226a2fa92036bc2591eaae8bb1fb5789a7daa05e2324c3c1"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "63c3402c33009d7b075fc2c249fdf82c329f9d4c9988ae696595055f3689cb38",
+          "pixel_values_float32_sha256": "a5f4dabf9c65fb0038de72df2e427e89c3b739d11a192a3d875649dcd412006b"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8b8e84aa2879f64a98c6eef0cab29f8dcaac49fc4db58b15934df51a17f3b4b6",
+          "pixel_values_float32_sha256": "8b550aea7839f234d1b2c8e1c7c62cb11a8e46496b473eeaa0781f92298d2979"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s RGB",
+          "image_sha256": "ee7234b745a5506e6bf488784f376d39fc1c528bb766a3c378da55146ac2adaa",
+          "pixel_values_float32_sha256": "31fb7b85d438fe6075dc216b8189ac611cb3034865241d01b142a50d33d8e058"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "642a1d85619818d7929f0b984b65120085b1e58d8d1e5805bd29bee224fc27d5",
+          "pixel_values_float32_sha256": "cfe499c7508e3e779e4a3e5d2967e9a07b8f5a9686b0754eb14187dc0704b68d"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s RGB",
+          "image_sha256": "28c9e509fdd7455a795095e1db359bacc2ecbb2a62e534568f3c60744dfb64ac",
+          "pixel_values_float32_sha256": "e77580728e65ca3dcb8c6fe6c694772b69074398737344e95f8c5a5392fe4a8f"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.200s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "a1616db16779622037663f079d319d3bfc9b23d1efdf5694213f3ed6d2f1ea5b",
+          "pixel_values_float32_sha256": "233d4f5a4c3084c15bc22c43ab979d3b02dd57fbdedd48a7b8fec6a666e877e9"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "The visual assessment is \"no red pixels in current RGB\".\nThe decision rationale is \"no red pixels in current RGB, cannot see the target, must turn around to recover sight of the target\".\nThe evidence_frames is [0, 1, 2, 3].\nThe evidence_sources is [\"current_rgb\", \"current_rgb\", \"current_rgb\", \"current_rgb\"].\nThe action is \"TURN_RIGHT\".",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\n\"target_visible\": false,\n\"target_location\": \"absent\",\n\"proximity\": \"far\",\n\"confidence\": 0.9,\n\"visual_assessment\": \"no red region in current RGB or past 3D\",\n\"decision_rationale\": \"no red region in current RGB or past 3D; cannot see the target; no reliable plan update; no STOP allowed\",\n\"evidence_frames\": [\n\"current_rgb\",\n\"current_depth\",\n\"past_rgb\",\n\"past_depth\"\n],\n\"evidence_sources\": [\n\"current_rgb\",\n\"current_depth\",\n\"own_initial_or_revised_plan\"\n]\n}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
