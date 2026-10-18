@@ -9,7 +9,7 @@
 | qwen3vl8b | 22/22 | 8 | 18 | 5/22 | {"out_of_bounds": 5, "budget_exhausted": 7, "success_visible_near": 8, "fallen": 2} |
 | spatial_interactor8b | 22/22 | 7 | 19 | 0/22 | {"budget_exhausted": 11, "out_of_bounds": 3, "success_visible_near": 7, "fallen": 1} |
 | spatialreasoner | 22/22 | 7 | 21 | 0/22 | {"budget_exhausted": 6, "out_of_bounds": 8, "success_visible_near": 7, "fallen": 1} |
-| spatialrgpt | 20/22 | 0 | 13 | 3/22 | {"budget_exhausted": 20} |
+| spatialrgpt | 22/22 | 0 | 15 | 3/22 | {"budget_exhausted": 22} |
 | robobrain25_8b_nv | 22/22 | 0 | 13 | 5/22 | {"budget_exhausted": 22} |
 
 ## 成功场景与剩余失败
@@ -17,14 +17,14 @@
 - qwen3vl8b: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0, window_a0；恢复可见但未到达 10；有效首帧计划 22/22；仅前进/STOP成功 7。
 - spatial_interactor8b: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 12；有效首帧计划 22/22；仅前进/STOP成功 7。
 - spatialreasoner: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 14；有效首帧计划 4/22；仅前进/STOP成功 7。
-- spatialrgpt: 成功 暂无；恢复可见但未到达 13；有效首帧计划 20/20；仅前进/STOP成功 0。
+- spatialrgpt: 成功 暂无；恢复可见但未到达 15；有效首帧计划 22/22；仅前进/STOP成功 0。
 - robobrain25_8b_nv: 成功 暂无；恢复可见但未到达 13；有效首帧计划 22/22；仅前进/STOP成功 0。
 
 ## 完整场景比较
 
 - spatial_interactor8b: 相对本组Qwen到达率差 -4.5pp；地形族重采样95%区间 [-13.6, 0.0]pp；配对McNemar p=1。
 - spatialreasoner: 相对本组Qwen到达率差 -4.5pp；地形族重采样95%区间 [-13.6, 0.0]pp；配对McNemar p=1。
-- spatialrgpt: 等待22场景完成及配对审计，不给最终排序。
+- spatialrgpt: 相对本组Qwen到达率差 -36.4pp；地形族重采样95%区间 [-56.2, -20.8]pp；配对McNemar p=0.007812。
 - robobrain25_8b_nv: 相对本组Qwen到达率差 -36.4pp；地形族重采样95%区间 [-56.2, -20.8]pp；配对McNemar p=0.007812。
 
 ## 两场景短测试（不计正式成功率）
