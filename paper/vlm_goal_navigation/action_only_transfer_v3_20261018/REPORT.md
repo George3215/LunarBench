@@ -30,7 +30,7 @@
 ## 两场景短测试（不计正式成功率）
 
 - qwen3vl8b: 0/2，执行 0 个自主动作；终止 {}。
-- spatial_interactor8b: 0/2，执行 0 个自主动作；终止 {}。
+- spatial_interactor8b: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatialreasoner: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatialrgpt: 0/2，执行 0 个自主动作；终止 {}。
 - robobrain25_8b_nv: 0/2，执行 0 个自主动作；终止 {}。
