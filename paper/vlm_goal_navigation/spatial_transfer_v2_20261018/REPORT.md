@@ -1,11 +1,11 @@
 # V4 空间检查点迁移实验
 
-状态：进行中，以下为阶段记录，不能作完整模型比较。
+状态：44/44 回合完成。
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
 | qwen3vl8b | 22/22 | 5 | 13 | 1 | 0 |
-| spatial_interactor8b | 20/22 | 0 | 9 | 0 | 0 |
+| spatial_interactor8b | 22/22 | 0 | 10 | 0 | 0 |
 
 到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。
 
@@ -20,7 +20,7 @@
 | perlin_a2 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | perlin_rough_a0 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | perlin_rough_a1 | 失败 / budget_exhausted | 失败 / invalid_model_output |
-| perlin_rough_a2 | 失败 / budget_exhausted | 待完成 |
+| perlin_rough_a2 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | pit_a0 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | pit_a1 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | pit_a2 | 失败 / budget_exhausted | 失败 / invalid_model_output |
@@ -32,12 +32,27 @@
 | waves_a2 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | window_a0 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 | window_a1 | 失败 / budget_exhausted | 失败 / invalid_model_output |
-| window_a2 | 失败 / budget_exhausted | 待完成 |
+| window_a2 | 失败 / budget_exhausted | 失败 / invalid_model_output |
 
-已完成配对数 20；Spatial−Qwen 到达率差 -25.0 个百分点。
-配对场景 bootstrap 95% 区间 [-45.0, -5.0] 个百分点；精确 McNemar p=0.0625。
-考虑同一地形族 a0/a1/a2 的相关性：10 个族的 cluster bootstrap 区间 [-50.0, -8.7] 个百分点。McNemar 的独立场景假设在此不完全成立，仅作描述。
+已完成配对数 22；Spatial−Qwen 到达率差 -22.7 个百分点。
+配对场景 bootstrap 95% 区间 [-40.9, -4.5] 个百分点；精确 McNemar p=0.0625。
+考虑同一地形族 a0/a1/a2 的相关性：10 个族的 cluster bootstrap 区间 [-47.1, -7.7] 个百分点。McNemar 的独立场景假设在此不完全成立，仅作描述。
 单回合/固定种子的场景级小样本区间，不覆盖多次训练或生成随机性的方差。
+
+## 本轮结论
+
+Spatial 检查点在本轮到达率较低，当前适配下未获得正向迁移；不能据此概括其原生空间 QA 能力。
+重观测分别为 Qwen 13/22、Spatial 10/22；到达分别为 5/22、0/22。重观测提升和最终到达提升须分别判断。
+
+| 诊断 | Qwen | Spatial |
+| --- | ---: | ---: |
+| 有效初始计划 | 22 | 22 |
+| 被拒绝的提前 STOP 请求 | 0 | 0 |
+| 当前可见性判断正确 / 有效动作输出 | 1183/1246 | 95/193 |
+| near 判断未满足 1m 门槛 / near 判断数 | 178/179 | 46/46 |
+
+near 的诊断采用任务明确的 1m 到达门槛；可见性诊断采用原始图像目标像素≥20。视觉输入被共同缩放，细小目标识别亦可能影响该指标。
+后续只针对已有证据选择改进：若主要是提前 STOP，先验证距离与动作终止校准；若恢复可见失败，使用动作条件的重现概率/距离预测；若已经重观测但无法接近，分别检查路径可达性、运动执行和接近策略。不能以单一到达数决定所有训练方向。
 
 ## 解释边界
 

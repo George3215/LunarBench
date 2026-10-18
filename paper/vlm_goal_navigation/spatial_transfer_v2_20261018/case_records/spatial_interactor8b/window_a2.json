@@ -1,0 +1,151 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": {
+    "goal_evidence": "The target red sphere is visible and its depth is estimated, so it is a valid target. The target is on a nearby surface, not too far away.",
+    "tentative_route": "Move forward toward the target area. The target is on a nearby surface, so forward motion should bring the robot closer to the target.",
+    "occlusion_hypothesis": "The target is visible, so occlusion is not a concern. The target is on a nearby surface, so it should remain visible as the robot moves forward.",
+    "uncertainty": "The target is visible, but the target area is small and the target is not clearly distinguishable from the target area. The target depth is estimated, but the target area is not clearly defined. The target is on a nearby surface, so the target should become larger and more distinct as the robot moves forward.",
+    "revision_trigger": "If the target becomes less visible or the target area becomes less clear, or if the target depth changes significantly, then the route should be reconsidered."
+  },
+  "result": {
+    "scene": "window_a2",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 3,
+    "controlled_approach_actions": 3,
+    "autonomous_actions": 0,
+    "inference_count": 2,
+    "total_inference_s": 11.521710650999012,
+    "amortized_inference_s": 5.760855325499506,
+    "wall_s_including_scheduler_wait": 17.883320807999553,
+    "simulated_s": 4.799999999999693,
+    "path_m": 1.2046035221319527,
+    "state_samples": 49,
+    "min_upright": 0.9971884384408198,
+    "final_evaluator": {
+      "sim_time_s": 4.799999999999693,
+      "target_segment_pixels": 0,
+      "target_visible_rgb_pixels": 0,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": null,
+      "median_target_axial_depth_m": null,
+      "median_target_surface_range_m": null,
+      "camera_to_target_centre_m": 5.966808781704922,
+      "base_xy_target_distance_m_diagnostic": 6.266954301294482,
+      "camera_xyz_evaluator": [
+        -2.961805001899434,
+        1.2179753655990975,
+        0.5103399145812693
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        1.0,
+        0.4
+      ],
+      "upright": 0.9998268391555118,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "STRAFE_LEFT"
+    ],
+    "action_counts": {
+      "STRAFE_LEFT": 3
+    },
+    "max_steps": 64,
+    "observation_frame_count": 4,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/window_a2",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": true,
+    "reappearance_predictions": [],
+    "policy_action_counts": {},
+    "policy_action_sequence": [],
+    "low_translation_actions": 0,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 4,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": -0.0661,
+        "y_m": 1.1903,
+        "z_m": -0.0042,
+        "yaw_rad": 0.0134,
+        "roll_rad": -0.0138,
+        "pitch_rad": -0.0124
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9998268391555118,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "window_a2_jamb_1",
+        "hit_distance_m": 2.7893667865616143,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "c0ff317f390127bd7fa548343ff46f19f264afd1d035d1ebab503e9a97a505d0",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "56e3f26d285524e1707404b80aaa9dc89c172f01fd7cfe4cb2049212e3200e0a",
+          "pixel_values_float32_sha256": "335dd6e329ac4132d551ccdcd51083fcdb5254b52448bfa8e7708fe661fdfa49"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1c2dcc949a69173b0bcbcad0792f064bbf809b84bc0b2dda635ac6c219b2e715",
+          "pixel_values_float32_sha256": "36139203074a9c3d4b915ec427dfc24c8d44e15d04ce67bb8209e073f1c04d54"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s RGB",
+          "image_sha256": "9400edc886a74cb88a4b90035efc361d663476e622378c046970997b75d802f7",
+          "pixel_values_float32_sha256": "c048ff3b734534677bcc221ea5a35d59a087ff5bc621f3347124e6a945d5faa3"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "6a8b1c2cfb7c093310d0c7ee70b7cc0d3adaa7bbbfe06e5a37ac7e7a72b26caa",
+          "pixel_values_float32_sha256": "428422d47855597cb6300c33ef595212b36b8d5b11d4c351186926ba06ea187b"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.800s RGB",
+          "image_sha256": "aa2ec5cdc32b316f9a7e7d343e8e8c1ed2c41a0c9649ad76333977db23f4273b",
+          "pixel_values_float32_sha256": "cd61ea7823be01622ef21f727502d3e19145897ce22256e06fc21783cd074a8e"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1ff05a85978675a7c7ec7428c8c3ec68d590dcafe7faaa7d4471f45bdf28825f",
+          "pixel_values_float32_sha256": "3b6256a24171beb24760de66a316b23a8b63f2538fc0fd91ee8eec7b0650511d"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "<think>\n\n</think>\n\nThe target remains visible and the target area is small and nearby, so forward motion should bring the robot closer to the target. The target depth estimate indicates the target is on a nearby surface, and the target should become larger and more distinct as the robot moves forward. Therefore the best action is to move forward toward the target area.\nAnswer: FORWARD",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "<think>\n\n</think>\n\nI observe that the target remains visible and the target area becomes larger and closer, which confirms the forward route. The target depth estimate remains consistent with the target becoming closer. No occlusion or route failure is evident. Therefore the plan should continue forward toward the target area.\nAnswer: {\"target_visible\":true,\"target_location\":\"centre\",\"proximity\":\"far\",\"confidence\":0.95,\"visual_assessment\":\"The target remains visible and the target area becomes larger and closer, which confirms the forward route. The target depth estimate remains consistent with the target becoming closer. No occlusion or route failure is evident.\",\"decision_rationale\":\"Continue forward toward the target area, as the target remains visible and the target area becomes larger and closer. The target depth estimate remains consistent with the target becoming closer, and no occlusion or route failure is evident.\",\"evidence_frames\":[0,2,3],\"evidence_sources\":[\"current_rgb\",\"current_depth\",\"past_rgb\",\"past_depth\",\"self_odometry\",\"recent_executed_motion\",\"own_initial_or_revised_plan\"]}",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
