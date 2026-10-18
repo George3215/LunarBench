@@ -8,7 +8,7 @@
 | spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
 | spatialreasoner | 0/22 | 未测 | 未测 | {} |
 | spatialrgpt | 22/22 | 3 | 8 | {"invalid_model_output": 19, "success_visible_near": 3} |
-| robobrain25_8b_nv | 8/22 | 1 | 6 | {"budget_exhausted": 5, "out_of_bounds": 2, "success_visible_near": 1} |
+| robobrain25_8b_nv | 12/22 | 2 | 9 | {"budget_exhausted": 7, "out_of_bounds": 2, "invalid_model_output": 1, "success_visible_near": 2} |
 
 ## 已完成回合的行为与失败分析
 
@@ -21,8 +21,8 @@
   有效动作判断 131 次，其中当前可见性一致 64 次；宣称 near 126 次，其中 125 次不满足当前可见且<1m。非法 STOP 路径屏蔽 102 次，实际拒绝 STOP 0 次。
   当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。
   当前所有成功都只含前进/STOP，尚不能证明学会了需要转向、侧移或绕行的遮挡恢复策略。
-- **robobrain25_8b_nv**：成功场景 slope_up_a2；只执行前进/STOP即到达 0 回合；恢复可见但未到达 5 回合。
-  有效动作判断 419 次，其中当前可见性一致 368 次；宣称 near 10 次，其中 9 次不满足当前可见且<1m。非法 STOP 路径屏蔽 7 次，实际拒绝 STOP 0 次。
+- **robobrain25_8b_nv**：成功场景 slope_up_a2, waves_a0；只执行前进/STOP即到达 0 回合；恢复可见但未到达 7 回合。
+  有效动作判断 612 次，其中当前可见性一致 533 次；宣称 near 20 次，其中 19 次不满足当前可见且<1m。非法 STOP 路径屏蔽 13 次，实际拒绝 STOP 0 次。
 
 ## 完整22场景配对比较
 
