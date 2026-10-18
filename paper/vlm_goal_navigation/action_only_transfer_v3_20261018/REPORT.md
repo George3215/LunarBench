@@ -33,7 +33,7 @@
 - spatial_interactor8b: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatialreasoner: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 - spatialrgpt: 0/2，执行 0 个自主动作；终止 {}。
-- robobrain25_8b_nv: 0/2，执行 0 个自主动作；终止 {}。
+- robobrain25_8b_nv: 2/2，执行 8 个自主动作；终止 {"budget_exhausted": 2}。
 
 原始RGB-D、序列化请求、token、输出、逐步动作及评估轨迹保留在本机；GitHub备份协议、脚本、回合结果、精简逐步证据和分析。
 目标仍为红球；理想模拟里程计/RGB-D，不代表真实传感器、开放词汇导航或真机结果。SpatialRGPT仍为通用多图配置，不代表其原生区域深度分支。
