@@ -1,0 +1,31 @@
+diff --git a/llava/model/__init__.py b/llava/model/__init__.py
+index b87c5d4..b67ed17 100755
+--- a/llava/model/__init__.py
++++ b/llava/model/__init__.py
+@@ -2,2 +2,2 @@ from .language_model.llava_llama import LlavaLlamaConfig, LlavaLlamaModel
+-from .language_model.llava_mistral import LlavaMistralConfig, LlavaMistralForCausalLM
+-from .language_model.llava_mixtral import LlavaMixtralConfig, LlavaMixtralForCausalLM
++# This isolated inference installation loads only the published Llama checkpoint.
++# Mistral/Mixtral eager imports require unrelated flash-attention training code.
+diff --git a/llava/model/multimodal_encoder/builder.py b/llava/model/multimodal_encoder/builder.py
+index ab676b9..0da7489 100755
+--- a/llava/model/multimodal_encoder/builder.py
++++ b/llava/model/multimodal_encoder/builder.py
+@@ -8,2 +7,0 @@ from .clip_encoder import CLIPVisionTower, CLIPVisionTowerS2
+-from .intern_encoder import InternVisionTower
+-from .radio_encoder import RADIOVisionTower
+@@ -27,0 +26 @@ def build_vision_tower(model_name_or_path: str, config: PretrainedConfig) -> Pre
++        from .intern_encoder import InternVisionTower
+@@ -32,0 +32 @@ def build_vision_tower(model_name_or_path: str, config: PretrainedConfig) -> Pre
++        from .radio_encoder import RADIOVisionTower
+diff --git a/llava/train/sequence_parallel/globals.py b/llava/train/sequence_parallel/globals.py
+index 47c1643..db11fb8 100755
+--- a/llava/train/sequence_parallel/globals.py
++++ b/llava/train/sequence_parallel/globals.py
+@@ -3 +3,5 @@ import os
+-import deepspeed.comm as dist
++try:
++    import deepspeed.comm as dist
++except ModuleNotFoundError:
++    # Single-GPU inference never creates sequence-parallel groups.
++    import torch.distributed as dist

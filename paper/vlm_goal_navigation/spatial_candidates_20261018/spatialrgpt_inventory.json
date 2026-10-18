@@ -1,0 +1,461 @@
+{
+  "repo_id": "a8cheng/SpatialRGPT-VILA1.5-8B",
+  "revision": "64df7902f82b5053f5a53455095805e6de3a1f87",
+  "gated": false,
+  "files": [
+    {
+      "name": ".gitattributes",
+      "bytes": 1519,
+      "lfs": null
+    },
+    {
+      "name": "config.json",
+      "bytes": 9013,
+      "lfs": null
+    },
+    {
+      "name": "llm/config.json",
+      "bytes": 840,
+      "lfs": null
+    },
+    {
+      "name": "llm/generation_config.json",
+      "bytes": 194,
+      "lfs": null
+    },
+    {
+      "name": "llm/model-00001-of-00004.safetensors",
+      "bytes": 4976723248,
+      "lfs": {
+        "size": 4976723248,
+        "sha256": "78f96786a661e0f3e1c83ab90f8e2ec0ce9e9c7ee0734ab4885b1f17f52128e4",
+        "pointer_size": 135
+      }
+    },
+    {
+      "name": "llm/model-00002-of-00004.safetensors",
+      "bytes": 4999802720,
+      "lfs": {
+        "size": 4999802720,
+        "sha256": "0512776610335f1c309d39980ceba1033a79ee0b14bb16ce6a53bf60c1273308",
+        "pointer_size": 135
+      }
+    },
+    {
+      "name": "llm/model-00003-of-00004.safetensors",
+      "bytes": 4915916176,
+      "lfs": {
+        "size": 4915916176,
+        "sha256": "7703b2b240d998538002610f8ba01ca8855ea0bf624059dd4019a1dbd2d7ca41",
+        "pointer_size": 135
+      }
+    },
+    {
+      "name": "llm/model-00004-of-00004.safetensors",
+      "bytes": 1168163384,
+      "lfs": {
+        "size": 1168163384,
+        "sha256": "04cd6d849f00ae7c2f88754c031bbb909035caed6571f9a194794a3c17573a21",
+        "pointer_size": 135
+      }
+    },
+    {
+      "name": "llm/model.safetensors.index.json",
+      "bytes": 23950,
+      "lfs": null
+    },
+    {
+      "name": "llm/special_tokens_map.json",
+      "bytes": 434,
+      "lfs": null
+    },
+    {
+      "name": "llm/tokenizer.json",
+      "bytes": 9086220,
+      "lfs": null
+    },
+    {
+      "name": "llm/tokenizer_config.json",
+      "bytes": 51539,
+      "lfs": null
+    },
+    {
+      "name": "mm_projector/config.json",
+      "bytes": 291,
+      "lfs": null
+    },
+    {
+      "name": "mm_projector/model.safetensors",
+      "bytes": 71338512,
+      "lfs": {
+        "size": 71338512,
+        "sha256": "6c02d34c071d1b0f472c080e122755f7d8b5179e93c65df42cb88018d6a93694",
+        "pointer_size": 133
+      }
+    },
+    {
+      "name": "region_extractor/config.json",
+      "bytes": 293,
+      "lfs": null
+    },
+    {
+      "name": "region_extractor/model.safetensors",
+      "bytes": 40134664,
+      "lfs": {
+        "size": 40134664,
+        "sha256": "697fae42932773af4bafbb5d639329f386707e2f02dccca5029b999c712890d3",
+        "pointer_size": 133
+      }
+    },
+    {
+      "name": "trainer_state.json",
+      "bytes": 730833,
+      "lfs": null
+    },
+    {
+      "name": "vision_tower/config.json",
+      "bytes": 579,
+      "lfs": null
+    },
+    {
+      "name": "vision_tower/model.safetensors",
+      "bytes": 856506120,
+      "lfs": {
+        "size": 856506120,
+        "sha256": "72c9e8f40f0441c138fd8bc08ab3cddde88f813f8bab6483ceddcd47b0ca94bd",
+        "pointer_size": 134
+      }
+    },
+    {
+      "name": "vision_tower/preprocessor_config.json",
+      "bytes": 368,
+      "lfs": null
+    }
+  ],
+  "access": "config_downloaded",
+  "config": {
+    "_name_or_path": "./checkpoints/SpatialRGPT-VILA1.5-8B",
+    "architectures": [
+      "LlavaLlamaModel"
+    ],
+    "drop_path_rate": 0.0,
+    "enable_depth": true,
+    "enable_region": true,
+    "fps": 0.0,
+    "hidden_size": 4096,
+    "image_aspect_ratio": "resize",
+    "interpolate_mode": "linear",
+    "llm_cfg": {
+      "_name_or_path": "./checkpoints/SpatialRGPT-VILA1.5-8B/llm",
+      "add_cross_attention": false,
+      "architectures": [
+        "LlamaForCausalLM"
+      ],
+      "attention_bias": false,
+      "attention_dropout": 0.0,
+      "bad_words_ids": null,
+      "begin_suppress_tokens": null,
+      "bos_token_id": 128000,
+      "chunk_size_feed_forward": 0,
+      "cross_attention_hidden_size": null,
+      "decoder_start_token_id": null,
+      "diversity_penalty": 0.0,
+      "do_sample": false,
+      "early_stopping": false,
+      "encoder_no_repeat_ngram_size": 0,
+      "eos_token_id": 128009,
+      "exponential_decay_length_penalty": null,
+      "finetuning_task": null,
+      "forced_bos_token_id": null,
+      "forced_eos_token_id": null,
+      "hidden_act": "silu",
+      "hidden_size": 4096,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "initializer_range": 0.02,
+      "intermediate_size": 14336,
+      "is_decoder": false,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "length_penalty": 1.0,
+      "max_length": 20,
+      "max_position_embeddings": 8192,
+      "min_length": 0,
+      "model_max_length": 4096,
+      "model_type": "llama",
+      "no_repeat_ngram_size": 0,
+      "num_attention_heads": 32,
+      "num_beam_groups": 1,
+      "num_beams": 1,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 8,
+      "num_return_sequences": 1,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "output_scores": false,
+      "pad_token_id": null,
+      "prefix": null,
+      "pretraining_tp": 1,
+      "problem_type": null,
+      "pruned_heads": {},
+      "remove_invalid_values": false,
+      "repetition_penalty": 1.0,
+      "return_dict": true,
+      "return_dict_in_generate": false,
+      "rms_norm_eps": 1e-05,
+      "rope_scaling": null,
+      "rope_theta": 500000.0,
+      "sep_token_id": null,
+      "suppress_tokens": null,
+      "task_specific_params": null,
+      "temperature": 1.0,
+      "tf_legacy_loss": false,
+      "tie_encoder_decoder": false,
+      "tie_word_embeddings": false,
+      "tokenizer_class": null,
+      "tokenizer_model_max_length": 4096,
+      "tokenizer_padding_side": "right",
+      "top_k": 50,
+      "top_p": 1.0,
+      "torch_dtype": "bfloat16",
+      "torchscript": false,
+      "typical_p": 1.0,
+      "use_bfloat16": false,
+      "use_cache": true,
+      "vocab_size": 128259
+    },
+    "mm_hidden_size": 1152,
+    "mm_projector_cfg": {
+      "_name_or_path": "./checkpoints/SpatialRGPT-VILA1.5-8B/mm_projector",
+      "add_cross_attention": false,
+      "architectures": [
+        "MultimodalProjector"
+      ],
+      "bad_words_ids": null,
+      "begin_suppress_tokens": null,
+      "bos_token_id": null,
+      "chunk_size_feed_forward": 0,
+      "cross_attention_hidden_size": null,
+      "decoder_start_token_id": null,
+      "diversity_penalty": 0.0,
+      "do_sample": false,
+      "early_stopping": false,
+      "encoder_no_repeat_ngram_size": 0,
+      "eos_token_id": null,
+      "exponential_decay_length_penalty": null,
+      "finetuning_task": null,
+      "forced_bos_token_id": null,
+      "forced_eos_token_id": null,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "is_decoder": false,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "length_penalty": 1.0,
+      "max_length": 20,
+      "min_length": 0,
+      "mm_projector_type": "mlp_downsample",
+      "model_type": "v2l_projector",
+      "no_repeat_ngram_size": 0,
+      "num_beam_groups": 1,
+      "num_beams": 1,
+      "num_return_sequences": 1,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "output_scores": false,
+      "pad_token_id": null,
+      "prefix": null,
+      "problem_type": null,
+      "pruned_heads": {},
+      "remove_invalid_values": false,
+      "repetition_penalty": 1.0,
+      "return_dict": true,
+      "return_dict_in_generate": false,
+      "sep_token_id": null,
+      "suppress_tokens": null,
+      "task_specific_params": null,
+      "temperature": 1.0,
+      "tf_legacy_loss": false,
+      "tie_encoder_decoder": false,
+      "tie_word_embeddings": true,
+      "tokenizer_class": null,
+      "top_k": 50,
+      "top_p": 1.0,
+      "torch_dtype": "bfloat16",
+      "torchscript": false,
+      "typical_p": 1.0,
+      "use_bfloat16": false
+    },
+    "mm_projector_lr": null,
+    "mm_use_im_patch_token": false,
+    "mm_use_im_start_end": false,
+    "mm_vision_select_feature": "cls_patch",
+    "mm_vision_select_layer": -2,
+    "model_dtype": "torch.bfloat16",
+    "model_type": "llava_llama",
+    "num_video_frames": 8,
+    "region_extractor_cfg": {
+      "_name_or_path": "./checkpoints/SpatialRGPT-VILA1.5-8B/region_extractor",
+      "add_cross_attention": false,
+      "architectures": [
+        "RegionExtractor"
+      ],
+      "bad_words_ids": null,
+      "begin_suppress_tokens": null,
+      "bos_token_id": null,
+      "chunk_size_feed_forward": 0,
+      "cross_attention_hidden_size": null,
+      "decoder_start_token_id": null,
+      "diversity_penalty": 0.0,
+      "do_sample": false,
+      "early_stopping": false,
+      "encoder_no_repeat_ngram_size": 0,
+      "eos_token_id": null,
+      "exponential_decay_length_penalty": null,
+      "finetuning_task": null,
+      "forced_bos_token_id": null,
+      "forced_eos_token_id": null,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "is_decoder": false,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "length_penalty": 1.0,
+      "max_length": 20,
+      "min_length": 0,
+      "model_type": "region_extractor",
+      "no_repeat_ngram_size": 0,
+      "num_beam_groups": 1,
+      "num_beams": 1,
+      "num_return_sequences": 1,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "output_scores": false,
+      "pad_token_id": null,
+      "prefix": null,
+      "problem_type": null,
+      "pruned_heads": {},
+      "region_extractor_type": "regiongpt",
+      "remove_invalid_values": false,
+      "repetition_penalty": 1.0,
+      "return_dict": true,
+      "return_dict_in_generate": false,
+      "sep_token_id": null,
+      "suppress_tokens": null,
+      "task_specific_params": null,
+      "temperature": 1.0,
+      "tf_legacy_loss": false,
+      "tie_encoder_decoder": false,
+      "tie_word_embeddings": true,
+      "tokenizer_class": null,
+      "top_k": 50,
+      "top_p": 1.0,
+      "torch_dtype": "bfloat16",
+      "torchscript": false,
+      "typical_p": 1.0,
+      "use_bfloat16": false
+    },
+    "resume_path": "./checkpoints/SpatialRGPT-VILA1.5-8B",
+    "s2": false,
+    "s2_max_split_size": 336,
+    "s2_scales": "336,672,1008",
+    "transformers_version": "4.37.2",
+    "tune_language_model": true,
+    "tune_mm_projector": true,
+    "tune_region_extractor": true,
+    "tune_vision_tower": true,
+    "vision_resolution": -1,
+    "vision_tower_cfg": {
+      "_name_or_path": "./checkpoints/SpatialRGPT-VILA1.5-8B/vision_tower",
+      "add_cross_attention": false,
+      "architectures": [
+        "SiglipVisionModel"
+      ],
+      "attention_dropout": 0.0,
+      "bad_words_ids": null,
+      "begin_suppress_tokens": null,
+      "bos_token_id": null,
+      "chunk_size_feed_forward": 0,
+      "cross_attention_hidden_size": null,
+      "decoder_start_token_id": null,
+      "diversity_penalty": 0.0,
+      "do_sample": false,
+      "early_stopping": false,
+      "encoder_no_repeat_ngram_size": 0,
+      "eos_token_id": null,
+      "exponential_decay_length_penalty": null,
+      "finetuning_task": null,
+      "forced_bos_token_id": null,
+      "forced_eos_token_id": null,
+      "hidden_act": "gelu_pytorch_tanh",
+      "hidden_size": 1152,
+      "id2label": {
+        "0": "LABEL_0",
+        "1": "LABEL_1"
+      },
+      "image_size": 384,
+      "intermediate_size": 4304,
+      "is_decoder": false,
+      "is_encoder_decoder": false,
+      "label2id": {
+        "LABEL_0": 0,
+        "LABEL_1": 1
+      },
+      "layer_norm_eps": 1e-06,
+      "length_penalty": 1.0,
+      "llm_depth_token_id": 128258,
+      "llm_mask_token_id": 128257,
+      "max_length": 20,
+      "min_length": 0,
+      "model_type": "siglip_vision_model",
+      "no_repeat_ngram_size": 0,
+      "num_attention_heads": 16,
+      "num_beam_groups": 1,
+      "num_beams": 1,
+      "num_channels": 3,
+      "num_hidden_layers": 27,
+      "num_return_sequences": 1,
+      "output_attentions": false,
+      "output_hidden_states": false,
+      "output_scores": false,
+      "pad_token_id": null,
+      "patch_size": 14,
+      "prefix": null,
+      "problem_type": null,
+      "pruned_heads": {},
+      "remove_invalid_values": false,
+      "repetition_penalty": 1.0,
+      "return_dict": true,
+      "return_dict_in_generate": false,
+      "sep_token_id": null,
+      "suppress_tokens": null,
+      "task_specific_params": null,
+      "temperature": 1.0,
+      "tf_legacy_loss": false,
+      "tie_encoder_decoder": false,
+      "tie_word_embeddings": true,
+      "tokenizer_class": null,
+      "top_k": 50,
+      "top_p": 1.0,
+      "torch_dtype": "bfloat16",
+      "torchscript": false,
+      "typical_p": 1.0,
+      "use_bfloat16": false
+    }
+  }
+}
