@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from transformers import AutoProcessor, GenerationConfig, Qwen3VLForConditionalGeneration
+from transformers import AutoProcessor, GenerationConfig, LogitsProcessorList, Qwen3VLForConditionalGeneration
 
 import all_terrain_context_trial as act
 import context_navigation_policy as cp
@@ -26,8 +26,10 @@ import navigation_trial as nt
 from v4_qwen3vl_trial import DEFAULT_ADMISSION, build_setups, ray_check
 from visible_start_trial import actions
 from vlm_benchmark import dump, sha
+from action_grammar import ActionGrammar, ActionVocabulary
+from model_output_adapter import decision_json, initial_plan
 
-VERSION = "v4-spatial-transfer-recovery/1"
+VERSION = "v4-spatial-transfer-recovery/2-action-grammar"
 SYSTEM = cp.SYSTEM + '''
 You also receive ideal simulated SELF odometry relative to the initial robot frame,
 recent measured action effects, and up to four event-selected RGB-D observations.
@@ -44,6 +46,8 @@ never permits STOP. If STOP is unavailable, choose one of the six motion actions
 Optional JSON fields: "spatial_belief" (brief uncertain bearing/distance/occlusion
 assessment), "plan_update" (brief revised route), "expected_reappearance_m"
 (a nonnegative number or null; an uncertain prediction, never a known fact).
+Additional permitted evidence_sources: "self_odometry", "recent_executed_motion",
+"own_initial_or_revised_plan", matching the measurements and own plan provided.
 '''
 PLAN_SYSTEM = '''You are the visual route planner for a simulated quadruped.
 From ONLY its initial forward RGB-D observation, propose a tentative route toward
@@ -111,18 +115,38 @@ class Policy(cp.Policy):
         self.generation_calls = 0
         self.model_context_limit = int(self.model.config.text_config.max_position_embeddings)
         self.actor_max_tokens = max_tokens
+        self.action_vocabulary = ActionVocabulary(self.processor.tokenizer)
+        self.action_grammars = {}
+
+    def generation_options(self, group, inputs):
+        if not all('stop_allowed' in request for request, _, _ in group):
+            return {}  # initial plan has its own non-action JSON schema
+        grammar = ActionGrammar(self.action_vocabulary, [r['stop_allowed'] for r, _, _ in group], inputs['input_ids'].shape[1])
+        for row, (_, folder, _) in enumerate(group):
+            self.action_grammars[str(folder)] = (grammar, row)
+        return {"logits_processor": LogitsProcessorList([grammar])}
+
+    def parse_output(self, raw):
+        return cp.parse(decision_json(raw), allowed_sources=('current_rgb', 'past_rgb',
+            'current_depth', 'past_depth', 'self_odometry', 'recent_executed_motion',
+            'own_initial_or_revised_plan'))
 
     def decide_batch(self, requests):
         cp.SYSTEM = SYSTEM
         cp.OUTPUT_TOKEN_LIMIT = self.actor_max_tokens
+        self.action_grammars = {}
         records = super().decide_batch(requests)
         for (request, folder, attempt), record in zip(requests, records):
+            if str(folder) in self.action_grammars:
+                grammar, row = self.action_grammars[str(folder)]
+                record['action_grammar'] = {'masked_argmax_tokens': grammar.masked_argmax[row],
+                    'forbidden_stop_path_interceptions': grammar.stop_path_interceptions[row]}
             parsed = record.get("parsed")
             if parsed and parsed["action"] == "STOP" and not request["stop_allowed"]:
                 record["rejected_stop"] = True
                 record["parsed_before_stop_gate"] = parsed
                 record["parsed"] = None
-                dump(folder / "output.json", record)
+            dump(folder / "output.json", record)
         return records
 
     def plan_batch(self, trials, max_tokens):
@@ -136,16 +160,11 @@ class Policy(cp.Policy):
         # The generic parser rejects this different schema; parse and log below.
         records = cp.Policy.decide_batch(self, requests)
         for trial, (_, folder, _), record in zip(trials, requests, records):
-            try:
-                plan = json.loads(record["raw_output"])
-                if not isinstance(plan, dict) or not all(isinstance(plan.get(k), str) for k in
-                        ("goal_evidence", "tentative_route", "occlusion_hypothesis", "uncertainty", "revision_trigger")):
-                    raise ValueError("invalid initial plan schema")
-            except (ValueError, TypeError):
-                plan = None
+            plan, plan_format = initial_plan(record["raw_output"])
             trial.plan = plan
             trial.plan_valid = plan is not None
             record["plan_parsed"] = plan
+            record["plan_format"] = plan_format
             dump(folder / "output.json", record)
         cp.SYSTEM = SYSTEM
         cp.OUTPUT_TOKEN_LIMIT = self.actor_max_tokens
@@ -321,6 +340,8 @@ def main():
                 "event_selection": "first, last RGB-visible (>=20 px), latest visible-to-hidden transition, current; deduplicated sorted",
                 "sensors": "ideal RGB-D and ideal simulated relative base odometry, not estimated SLAM",
                 "stop_gate": "CURRENT RGB red >=20 pixels; finite 0<red-region surface range<1m",
+                "action_constraint": "token-level JSON action-value legal-set mask; original relative legal-action logits preserved; no external action selection",
+                "shared_output_adapter": "remove complete think block; parse final complete JSON or explicit canonical labeled fields; never infer action from prose; preserve raw output",
                 "arrival_endpoint": "exact target RGB identity >=20 px, range<1m, upright/inbounds for 3 10Hz samples; automatic",
                 "fixed_approach_included_in_autonomous_budget": False,
                 "initial_plan": "one shared VLM call from initial frame only, before first autonomous action",

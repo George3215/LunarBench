@@ -57,6 +57,9 @@ def main():
         paths = [str(root.relative_to(repo)), str(analysis.relative_to(repo)),
                  "tools/fetch_task3_spatial_models.py", "tools/run_task3_spatial_queue.py",
                  "tasks/task3_reobservability/spatial_transfer_v4.py",
+                 "tasks/task3_reobservability/action_grammar.py",
+                 "tasks/task3_reobservability/model_output_adapter.py",
+                 "tasks/task3_reobservability/context_navigation_policy.py",
                  "tasks/task3_reobservability/test_spatial_transfer_v4.py",
                  "tasks/task3_reobservability/validate_spatial_transfer_v4.py"]
         subprocess.run(["git", "add", "--", *paths], cwd=repo, check=True)
@@ -111,17 +114,22 @@ def main():
         save(status_file, state)
         command = [sys.executable, str(driver), "--model", str(repo / ".local/models/spatial_interactor8b"),
                    "--processor", str(repo / ".local/models/qwen3vl8b")]
-        smoke = root / "smoke/spatial_interactor8b"
-        with (root / "spatial_smoke.log").open("w") as log:
-            subprocess.run(command + ["--terrains", "terrain_design_v4/barrier_a0", "terrain_design_v4/pit_a0",
-                           "--action-budget", "2", "--out", str(smoke)], cwd=repo, env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
+        smoke = root / "smoke/spatial_interactor8b_final"
+        if read(smoke / "RUN_STATUS.json").get("completed") != 2:
+            with (root / "spatial_smoke.log").open("w") as log:
+                subprocess.run(command + ["--terrains", "terrain_design_v4/barrier_a0", "terrain_design_v4/pit_a0",
+                               "--action-budget", "2", "--out", str(smoke)], cwd=repo, env=env, stdout=log, stderr=subprocess.STDOUT, check=True)
         smoke_status = read(smoke / "RUN_STATUS.json")
         if smoke_status.get("completed") != 2:
             raise RuntimeError("spatial smoke incomplete")
-        for result in smoke.glob("rgbd/*/trials/*/result.json"):
-            r = read(result)
-            if r["termination"] in ("invalid_model_output", "gpu_memory_limit", "context_limit", "repeated_forbidden_stop"):
-                raise RuntimeError("spatial smoke requires diagnosis before formal evaluation")
+        smoke_results = [read(p) for p in smoke.glob("rgbd/*/trials/*/result.json")]
+        if len(smoke_results) != 2 or not any(r['autonomous_actions'] for r in smoke_results):
+            raise RuntimeError("spatial smoke has no demonstrated executable model action")
+        if any(r['termination'] in ('gpu_memory_limit', 'context_limit', 'repeated_forbidden_stop') for r in smoke_results):
+            raise RuntimeError("spatial smoke resource/action-constraint failure")
+        # A checkpoint's incomplete schema is a measured interface failure, not
+        # a reason to hide it or invent fields/actions. Report it separately.
+        state['spatial_smoke_interface_failures'] = sum(r['termination'] == 'invalid_model_output' for r in smoke_results)
         if (root / "STOP").exists():
             raise RuntimeError("queue STOP before spatial full run")
         state.update(phase="running_spatial_interactor8b", updated_unix=time.time())

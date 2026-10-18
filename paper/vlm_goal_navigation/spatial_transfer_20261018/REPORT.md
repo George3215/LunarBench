@@ -1,10 +1,10 @@
 # V4 空间检查点迁移实验
 
-状态：进行中，以下为阶段记录，不能作完整模型比较。
+状态：接口诊断已结束，完成11个Qwen回合；未进行Spatial配对比较。后续正式比较在 ../spatial_transfer_v2_20261018/，不合并分母。
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| qwen3vl8b | 9/22 | 0 | 7 | 0 | 0 |
+| qwen3vl8b | 11/22 | 0 | 8 | 0 | 0 |
 | spatial_interactor8b | 0/22 | 0 | 0 | 0 | 0 |
 
 到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。自动结束可能先于下一次 STOP 决策，因此合法 STOP 数量不是独立的终止能力评分。参考动作准入不计入模型结果。
@@ -15,8 +15,10 @@
 | barrier_a1 | 失败 / budget_exhausted | 待完成 |
 | barrier_a2 | 失败 / budget_exhausted | 待完成 |
 | basin_a1 | 失败 / repeated_forbidden_stop | 待完成 |
+| basin_a2 | 失败 / budget_exhausted | 待完成 |
 | pit_a0 | 失败 / budget_exhausted | 待完成 |
 | pit_a1 | 失败 / budget_exhausted | 待完成 |
+| pit_a2 | 失败 / repeated_forbidden_stop | 待完成 |
 | slope_up_a2 | 失败 / repeated_forbidden_stop | 待完成 |
 | stairs_up_a2 | 失败 / repeated_forbidden_stop | 待完成 |
 | trench_a0 | 失败 / repeated_forbidden_stop | 待完成 |

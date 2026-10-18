@@ -56,6 +56,9 @@ def episode(path):
     turns = ("TURN_LEFT", "TURN_RIGHT")
     alternating = sum(x in turns and y in turns and x != y for x, y in zip(actions, actions[1:]))
     loss_types = collections.Counter()
+    grammar_interceptions = 0
+    for output in path.glob('steps/*/inference_*/output.json'):
+        grammar_interceptions += read(output).get('action_grammar', {}).get('forbidden_stop_path_interceptions', 0)
     visibility_correct = near_claims = false_near_claims = 0
     valid_decisions = 0
     for t in transitions:
@@ -91,6 +94,7 @@ def episode(path):
            "model_near_claims": near_claims,
            "model_near_claims_outside_1m_gate": false_near_claims,
            "rejected_stops": result["rejected_stop_count"], "initial_plan_valid": result["initial_plan_valid"],
+           "stop_paths_masked_during_generation": grammar_interceptions,
            "inference_count": result["inference_count"],
            "amortized_actor_inference_s": result["amortized_inference_s"],
            "resource_limit": result["resource_limit"]}
@@ -154,6 +158,7 @@ def summary(rows):
             "legal_vlm_stop": sum(r["legal_vlm_stop"] for r in rows),
             "forward_only_arrivals": sum(r["arrived"] and r["policy_forward_only"] for r in rows),
             "rejected_stops": sum(r["rejected_stops"] for r in rows),
+            "stop_paths_masked_during_generation": sum(r["stop_paths_masked_during_generation"] for r in rows),
             "valid_initial_plans": sum(r["initial_plan_valid"] for r in rows),
             "valid_decisions": sum(r["valid_decisions"] for r in rows),
             "current_visibility_correct_decisions": sum(r["current_visibility_correct_decisions"] for r in rows),
@@ -278,7 +283,7 @@ def main():
     complete = all(v["completed"] == 22 for v in metrics.values())
     common_settings = ("version", "scenes", "admission_manifest_sha256", "system_prompt", "plan_system_prompt",
                        "action_budget", "max_new_tokens", "plan_max_new_tokens", "batch_size", "frame_area_cap",
-                       "event_selection", "sensors", "stop_gate", "arrival_endpoint", "seed", "decoding")
+                       "event_selection", "sensors", "stop_gate", "action_constraint", "shared_output_adapter", "arrival_endpoint", "seed", "decoding")
     protocols = [root / "runs" / key / "protocol.json" for key in MODELS]
     mismatches = []
     if all(p.exists() for p in protocols):

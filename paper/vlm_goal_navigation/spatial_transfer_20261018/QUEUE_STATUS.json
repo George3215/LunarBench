@@ -1,9 +1,35 @@
 {
   "pid": 60386,
   "started_unix": 1792302832.019606,
-  "phase": "waiting_for_qwen",
+  "phase": "stopped_with_error",
   "baseline": "already running outside this queue",
   "branch": "experiments/task3-spatial-transfer-20261018",
   "push_authorized": true,
-  "backups": []
+  "backups": [
+    {
+      "reason": "qwen3vl8b 9 of 22 episodes",
+      "commit": "adeda437d1cdac121a4bce54fecc7ca3b7e30bf3",
+      "pushed": true,
+      "unix": 1792302836.3937268
+    }
+  ],
+  "current": {
+    "status": "running",
+    "completed": 10,
+    "expected": 22,
+    "arrivals": 0,
+    "legal_vlm_stop": 0,
+    "terminations": {
+      "budget_exhausted": 4,
+      "repeated_forbidden_stop": 6
+    },
+    "active": {
+      "basin_a2": 62,
+      "waves_a0": 48
+    },
+    "generation_calls": 249,
+    "wall_s": 1428.1484396790001
+  },
+  "updated_unix": 1792303236.4100661,
+  "error": "RuntimeError('queue STOP present; no next experiment launched')"
 }

@@ -48,12 +48,12 @@ def request_for(frames,horizon,mode):
         'all_recorded_frame_count':len(frames),'input_description':f'{horizon} frames, {mode}; no past outputs/actions/GT'}
 
 
-def parse(raw):
+def parse(raw, allowed_sources=('current_rgb','past_rgb','current_depth','past_depth')):
     value=nt.parse_decision(raw)
     if value is None:return None
     refs=value.get('evidence_frames');sources=value.get('evidence_sources')
     if not isinstance(refs,list) or not refs or not all(isinstance(i,int) and not isinstance(i,bool) for i in refs):return None
-    if not isinstance(sources,list) or not sources or not all(s in ('current_rgb','past_rgb','current_depth','past_depth') for s in sources):return None
+    if not isinstance(sources,list) or not sources or not all(s in allowed_sources for s in sources):return None
     return value
 
 
@@ -127,7 +127,8 @@ class Policy(nt.Policy):
             start=time.perf_counter();torch.cuda.reset_peak_memory_stats();self.generation_calls+=1
             try:
                 inputs=inputs.to('cuda:0')
-                with torch.inference_mode():outputs=self.model.generate(**inputs,max_new_tokens=OUTPUT_TOKEN_LIMIT,do_sample=False,return_dict_in_generate=True)
+                options=self.generation_options(group,inputs) if hasattr(self,'generation_options') else {}
+                with torch.inference_mode():outputs=self.model.generate(**inputs,max_new_tokens=OUTPUT_TOKEN_LIMIT,do_sample=False,return_dict_in_generate=True,**options)
                 torch.cuda.synchronize();elapsed=time.perf_counter()-start
                 eos=self.model.generation_config.eos_token_id;end_ids=eos if isinstance(eos,list) else [eos]
                 for row,index in enumerate(indices):
@@ -135,7 +136,7 @@ class Policy(nt.Policy):
                     ids=outputs.sequences[row,inputs['input_ids'].shape[1]:].tolist()
                     for j,token in enumerate(ids):
                         if token in end_ids:ids=ids[:j+1];break
-                    raw=self.processor.decode(ids,skip_special_tokens=True).strip();parsed=parse(raw)
+                    raw=self.processor.decode(ids,skip_special_tokens=True).strip();parsed=self.parse_output(raw) if hasattr(self,'parse_output') else parse(raw)
                     record={'raw_output':raw,'raw_output_with_special_tokens':self.processor.decode(ids,skip_special_tokens=False),
                         'parsed':parsed,'generated_token_ids':ids,'generated_token_count':len(ids),'hit_token_limit':len(ids)>=OUTPUT_TOKEN_LIMIT,
                         'elapsed_s':elapsed,'batch_amortized_s':elapsed/len(indices),'batch_size':len(indices),

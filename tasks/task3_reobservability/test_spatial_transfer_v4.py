@@ -5,9 +5,37 @@ import unittest
 import numpy as np
 
 from spatial_transfer_v4 import event_frames, odometry, stop_allowed
+from action_grammar import valid_extension, MOTION
+from model_output_adapter import final_json, initial_plan, decision_json
+import json
 
 
 class ProtocolTests(unittest.TestCase):
+    def test_common_adapter_uses_only_explicit_final_complete_json(self):
+        raw='<think>{"action":"STOP"}</think>Answer: {"action":"FORWARD"}'
+        self.assertEqual(json.loads(final_json(raw)), {"action":"FORWARD"})
+        self.assertEqual(final_json('Action: FORWARD'), '')
+        self.assertEqual(final_json('Answer: {"action":"FORWARD"'), '')
+        raw='\n'.join(k+': observed text' for k in ('goal_evidence','tentative_route','occlusion_hypothesis','uncertainty','revision_trigger'))
+        self.assertEqual(initial_plan(raw)[1], 'labeled_fields')
+        self.assertEqual(initial_plan('tentative_route: go forward'), (None, 'invalid'))
+        self.assertEqual(json.loads(decision_json('Answer: {"confidence":0.9}\nAction: FORWARD')),
+                         {'confidence': .9, 'action': 'FORWARD'})
+        self.assertEqual(decision_json('I should move forward.'), '')
+        self.assertEqual(decision_json('{"action":"FORWARD"}\nAction: STOP'), '')
+        self.assertFalse(valid_extension('ST', 'OP\n', MOTION, quoted=False))
+        self.assertTrue(valid_extension('ST', 'RAFE_LEFT\n', MOTION, quoted=False))
+    def test_stop_cannot_complete_by_single_token_or_fragments(self):
+        self.assertFalse(valid_extension('', '"STOP"', MOTION))
+        self.assertTrue(valid_extension('', '"ST', MOTION))
+        self.assertFalse(valid_extension('"ST', 'OP"', MOTION))
+        self.assertFalse(valid_extension('"ST', 'O', MOTION))
+        self.assertTrue(valid_extension('"ST', 'RAFE_LEFT"', MOTION))
+        self.assertTrue(valid_extension('', ' "STOP",', MOTION + ('STOP',)))
+        for action in MOTION:
+            self.assertTrue(valid_extension('', '"'+action+'"', MOTION))
+            self.assertFalse(valid_extension('"'+action, '_INVALID"', MOTION))
+
     def test_current_range_required_for_stop(self):
         for pixels, distance, expected in [(20, .999, True), (19, .5, False),
                 (20, 1., False), (20, 0., False), (20, -1., False),
