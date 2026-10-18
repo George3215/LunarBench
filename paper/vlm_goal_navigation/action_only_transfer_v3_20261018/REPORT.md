@@ -10,7 +10,7 @@
 | spatial_interactor8b | 22/22 | 7 | 19 | 0/22 | {"budget_exhausted": 11, "out_of_bounds": 3, "success_visible_near": 7, "fallen": 1} |
 | spatialreasoner | 22/22 | 7 | 21 | 0/22 | {"budget_exhausted": 6, "out_of_bounds": 8, "success_visible_near": 7, "fallen": 1} |
 | spatialrgpt | 0/22 | 待测 | 待测 | 3/22 | {} |
-| robobrain25_8b_nv | 12/22 | 0 | 7 | 5/22 | {"budget_exhausted": 12} |
+| robobrain25_8b_nv | 16/22 | 0 | 8 | 5/22 | {"budget_exhausted": 16} |
 
 ## 成功场景与剩余失败
 
@@ -18,7 +18,7 @@
 - spatial_interactor8b: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 12；有效首帧计划 22/22；仅前进/STOP成功 7。
 - spatialreasoner: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 14；有效首帧计划 4/22；仅前进/STOP成功 7。
 - spatialrgpt: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
-- robobrain25_8b_nv: 成功 暂无；恢复可见但未到达 7；有效首帧计划 12/12；仅前进/STOP成功 0。
+- robobrain25_8b_nv: 成功 暂无；恢复可见但未到达 8；有效首帧计划 16/16；仅前进/STOP成功 0。
 
 ## 完整场景比较
 
