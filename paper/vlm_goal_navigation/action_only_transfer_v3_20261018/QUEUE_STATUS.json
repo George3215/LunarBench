@@ -1,6 +1,6 @@
 {
   "pid": 183505,
-  "phase": "running_spatialreasoner",
+  "phase": "running_spatial_interactor8b",
   "started_unix": 1792321029.1429737,
   "models": {
     "spatialreasoner": {
@@ -26,23 +26,7 @@
       }
     },
     "spatial_interactor8b": {
-      "state": "smoke_passed_queued",
-      "smoke": {
-        "exit_code": 0,
-        "status": {
-          "status": "complete_pending_analysis",
-          "completed": 2,
-          "expected": 2,
-          "arrivals": 0,
-          "legal_vlm_stop": 0,
-          "terminations": {
-            "budget_exhausted": 2
-          },
-          "active": {},
-          "generation_calls": 5,
-          "wall_s": 25.845947425001214
-        }
-      }
+      "state": "running"
     },
     "spatialrgpt": {
       "state": "smoke_requires_review",
@@ -208,24 +192,30 @@
       "commit": "a0f793af94da0b28a31d057ae258d607e2e551e5",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "spatialreasoner final",
+      "commit": "a9907fc465b04f3bb2fe88473034ada87cfa2bde",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "complete_pending_analysis",
-    "completed": 22,
+    "status": "running",
+    "completed": 4,
     "expected": 22,
-    "arrivals": 7,
-    "legal_vlm_stop": 0,
+    "arrivals": 2,
+    "legal_vlm_stop": 1,
     "terminations": {
-      "out_of_bounds": 8,
-      "success_visible_near": 7,
-      "budget_exhausted": 6,
-      "fallen": 1
+      "success_visible_near": 2,
+      "budget_exhausted": 2
     },
-    "active": {},
-    "generation_calls": 376,
-    "wall_s": 520.7613207380018
+    "active": {
+      "barrier_a2": 16
+    },
+    "generation_calls": 83,
+    "wall_s": 128.44695194700034
   },
-  "current_pid": 191300,
-  "updated_unix": 1792322339.7646663
+  "current_pid": 195720,
+  "updated_unix": 1792322491.2938855
 }
