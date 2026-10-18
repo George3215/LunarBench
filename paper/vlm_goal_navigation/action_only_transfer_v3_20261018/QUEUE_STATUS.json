@@ -1,27 +1,10 @@
 {
   "pid": 183505,
-  "phase": "running_qwen3vl8b",
+  "phase": "running_spatialreasoner",
   "started_unix": 1792321029.1429737,
   "models": {
     "spatialreasoner": {
-      "state": "smoke_passed_queued",
-      "smoke": {
-        "exit_code": 0,
-        "status": {
-          "status": "complete_pending_analysis",
-          "completed": 2,
-          "expected": 2,
-          "arrivals": 0,
-          "legal_vlm_stop": 0,
-          "terminations": {
-            "budget_exhausted": 2
-          },
-          "active": {},
-          "generation_calls": 5,
-          "wall_s": 19.708920922999823
-        },
-        "reused_completed_run": true
-      }
+      "state": "running"
     },
     "spatial_interactor8b": {
       "state": "smoke_passed_queued",
@@ -170,24 +153,31 @@
       "commit": "63a65727ce65c48ed383f504222942899506dd46",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "qwen3vl8b final",
+      "commit": "d9b5180c742bfe239019075bff83943d807e8595",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "complete_pending_analysis",
-    "completed": 22,
+    "status": "running",
+    "completed": 4,
     "expected": 22,
-    "arrivals": 8,
-    "legal_vlm_stop": 3,
+    "arrivals": 2,
+    "legal_vlm_stop": 0,
     "terminations": {
-      "out_of_bounds": 5,
-      "success_visible_near": 8,
-      "budget_exhausted": 7,
-      "fallen": 2
+      "success_visible_near": 2,
+      "budget_exhausted": 1,
+      "out_of_bounds": 1
     },
-    "active": {},
-    "generation_calls": 411,
-    "wall_s": 617.1428950010013
+    "active": {
+      "barrier_a2": 53
+    },
+    "generation_calls": 84,
+    "wall_s": 121.155909178
   },
-  "current_pid": 186017,
-  "updated_unix": 1792321800.0937986
+  "current_pid": 191300,
+  "updated_unix": 1792321941.1052485
 }
