@@ -120,21 +120,21 @@
       "state": "not_evaluated"
     },
     "spatialrgpt": {
-      "completed": 20,
+      "completed": 22,
       "arrivals": 3,
-      "reobserved": 7,
+      "reobserved": 8,
       "legal_vlm_stop": 1,
       "forward_only_arrivals": 3,
       "rejected_stops": 0,
-      "stop_paths_masked_during_generation": 68,
-      "valid_initial_plans": 20,
-      "valid_decisions": 100,
-      "current_visibility_correct_decisions": 39,
-      "model_near_claims": 95,
-      "model_near_claims_outside_1m_gate": 94,
-      "mean_autonomous_actions": 5.0,
+      "stop_paths_masked_during_generation": 102,
+      "valid_initial_plans": 22,
+      "valid_decisions": 131,
+      "current_visibility_correct_decisions": 64,
+      "model_near_claims": 126,
+      "model_near_claims_outside_1m_gate": 125,
+      "mean_autonomous_actions": 5.954545454545454,
       "terminations": {
-        "invalid_model_output": 17,
+        "invalid_model_output": 19,
         "success_visible_near": 3
       },
       "successful_scenes": [
@@ -144,6 +144,7 @@
       ],
       "reobserved_without_arrival_scenes": [
         "perlin_a1",
+        "perlin_rough_a0",
         "slope_up_a2",
         "stairs_up_a2",
         "waves_a0"
@@ -154,6 +155,7 @@
         "barrier_a2",
         "basin_a2",
         "perlin_a1",
+        "perlin_rough_a0",
         "perlin_rough_a1",
         "perlin_rough_a2",
         "pit_a0",
@@ -165,10 +167,11 @@
         "waves_a1",
         "waves_a2",
         "window_a0",
-        "window_a1"
+        "window_a1",
+        "window_a2"
       ],
-      "visibility_accuracy_on_valid_decisions": 0.39,
-      "state": "partial"
+      "visibility_accuracy_on_valid_decisions": 0.48854961832061067,
+      "state": "complete"
     },
     "robobrain25_8b_nv": {
       "completed": 0,
@@ -199,9 +202,19 @@
       "input_audit_passed_for_comparison": false
     },
     "spatialrgpt": {
-      "ready": false,
-      "reason": "full 22-scene results required; no partial ranking",
-      "input_audit_passed_for_comparison": false
+      "ready": true,
+      "paired_scenes": 22,
+      "terrain_families": 10,
+      "candidate_minus_qwen_arrival_rate": -0.09090909090909091,
+      "terrain_family_cluster_bootstrap_95_ci": [
+        -0.3,
+        0.08008333333332605
+      ],
+      "candidate_only_arrivals": 1,
+      "qwen_only_arrivals": 3,
+      "mcnemar_exact_two_sided_p": 0.625,
+      "interpretation": "descriptive fixed-suite cross-backbone transfer; small correlated sample; no single-factor causal claim",
+      "input_audit_passed_for_comparison": true
     },
     "robobrain25_8b_nv": {
       "ready": false,
