@@ -1,0 +1,343 @@
+{
+  "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+  "initial_plan": {
+    "goal_evidence": "red sphere",
+    "tentative_route": "forward",
+    "occlusion_hypothesis": "no occlusion",
+    "uncertainty": "unknown terrain behind visible surfaces",
+    "revision_trigger": "when the quadruped reaches the red sphere or encounters an obstacle"
+  },
+  "result": {
+    "scene": "perlin_rough_a1",
+    "mode": "rgbd",
+    "horizon": "event4_odom_plan",
+    "success": false,
+    "termination": "invalid_model_output",
+    "action_steps": 4,
+    "controlled_approach_actions": 2,
+    "autonomous_actions": 2,
+    "inference_count": 4,
+    "total_inference_s": 25.672522046001177,
+    "amortized_inference_s": 25.672522046001177,
+    "wall_s_including_scheduler_wait": 46.41190248100065,
+    "simulated_s": 5.699999999999594,
+    "path_m": 1.034540270688214,
+    "state_samples": 58,
+    "min_upright": 0.9329458586663585,
+    "final_evaluator": {
+      "sim_time_s": 5.699999999999594,
+      "target_segment_pixels": 4,
+      "target_visible_rgb_pixels": 4,
+      "red_false_positive_pixels": 0,
+      "centroid_uv": [
+        0.609765625,
+        0.16666666666666666
+      ],
+      "median_target_axial_depth_m": 2.876802921295166,
+      "median_target_surface_range_m": 3.495709733677166,
+      "camera_to_target_centre_m": 3.5455690685253702,
+      "base_xy_target_distance_m_diagnostic": 3.5756476873739107,
+      "camera_xyz_evaluator": [
+        -0.2566801835738036,
+        2.0445991876139757,
+        -0.426108530437858
+      ],
+      "target_centre_xyz_evaluator": [
+        3.0,
+        2.0,
+        0.975
+      ],
+      "upright": 0.9931454987505516,
+      "in_bounds": true,
+      "near_and_visible": false
+    },
+    "success_streak": 0,
+    "model_stopped": false,
+    "action_sequence": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "action_counts": {
+      "FORWARD": 4
+    },
+    "max_steps": 64,
+    "observation_frame_count": 5,
+    "resource_limit": false,
+    "protocol": "v4-spatial-transfer-recovery/2-action-grammar",
+    "terrain_id": "terrain_design_v4/perlin_rough_a1",
+    "visible_near_arrival": false,
+    "arrival_endpoint": "automatic 3 consecutive evaluator samples; separate from VLM STOP",
+    "legal_vlm_stop": false,
+    "rejected_stop_count": 0,
+    "initial_plan_valid": true,
+    "reappearance_predictions": [],
+    "policy_action_counts": {
+      "FORWARD": 2
+    },
+    "policy_action_sequence": [
+      "FORWARD",
+      "FORWARD"
+    ],
+    "low_translation_actions": 2,
+    "autonomous_budget": 64
+  },
+  "steps": [
+    {
+      "step": 3,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.9,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          2
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the quadruped is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 2,
+      "actual_displacement_xy_m": 0.07453354627516463,
+      "self_odometry_after": {
+        "x_m": 0.9125,
+        "y_m": -0.0543,
+        "z_m": -0.3991,
+        "yaw_rad": 0.1589,
+        "roll_rad": 0.0074,
+        "pitch_rad": 0.205
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 0,
+        "median_target_surface_range_m": null,
+        "upright": 0.9790346269337095,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "perlin_rough_a1_32_35",
+        "hit_distance_m": 1.0834065529054218,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "ab99e0589e729ba23bec7c205602169017a0d2477e31560d6f7ada1e7f5cdafc",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "284101e685d16fd826cee92e7015e876cdb6203a720d07aab25f01ad5ffd555a",
+          "pixel_values_float32_sha256": "58df6f2770d16cab5fdf3166642f5c7990c6f2cc3a8eefac850ca4aceaaea3e9"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8a5296dfeec9970d00cf22886adc189d1102b7f6f62d269ad878936802ab7c7c",
+          "pixel_values_float32_sha256": "0b2c5a83b02f0c646e770adbbf577f0486b5fe6abc40c56c2bd19f7152ed6230"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "acfb698a8c8d2080966b24bb27d1bc4d97f3f47c47ad79edb7caaa7fa88cdfcc",
+          "pixel_values_float32_sha256": "dd9f38b6008e705efe0b863f306483c34217503dc6125c074e4425fa2d2ca3e8"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1847704efeab80962c2afec251d07172eb9a4c78d9800fa5d5ac98e651666756",
+          "pixel_values_float32_sha256": "110c709fcef6bba93eab04077f329ccfefe549bd3d62e58726a6e50b14e2fcd8"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s RGB",
+          "image_sha256": "28374c44429e39e45cb6c9c8728eec44eec7153ea86fbfeaea4631f04b417493",
+          "pixel_values_float32_sha256": "4dd4bf11303fc8c2b6c9139abdbc903598314f3a004799237f24ea21075f05d5"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ef4518adac3b195819e566c68d612a76217411a1127567e0e6f2c2574e2682bd",
+          "pixel_values_float32_sha256": "7d87ce1385de2d525f7b64dc2251163155960b57e9fa5c92b6014e30973bafa9"
+        }
+      ]
+    },
+    {
+      "step": 4,
+      "action": "FORWARD",
+      "decision": {
+        "target_visible": true,
+        "target_location": "centre",
+        "proximity": "near",
+        "confidence": 0.8,
+        "visual_assessment": "the red sphere is visible and within 1 metre of the camera",
+        "decision_rationale": "the quadruped has approached the red sphere and is now within 1 metre of it",
+        "evidence_frames": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "evidence_sources": [
+          "current_rgb"
+        ],
+        "action": "FORWARD",
+        "spatial_belief": "the quadruped is facing the red sphere",
+        "plan_update": null,
+        "expected_reappearance_m": null
+      },
+      "current_frame_before": 3,
+      "actual_displacement_xy_m": 0.006604895113375105,
+      "self_odometry_after": {
+        "x_m": 0.9065,
+        "y_m": -0.0516,
+        "z_m": -0.3865,
+        "yaw_rad": 0.1709,
+        "roll_rad": -0.0158,
+        "pitch_rad": 0.1161
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 4,
+        "median_target_surface_range_m": 3.495709733677166,
+        "upright": 0.9931454987505516,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "perlin_rough_a1_32_36",
+        "hit_distance_m": 1.3681850990591125,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": null,
+      "prompt_token_ids_sha256": "bb794c4dde1d79083c50d42f00dc4f34537a2ffb17f8a4c742d32cc14fcb1715",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "284101e685d16fd826cee92e7015e876cdb6203a720d07aab25f01ad5ffd555a",
+          "pixel_values_float32_sha256": "58df6f2770d16cab5fdf3166642f5c7990c6f2cc3a8eefac850ca4aceaaea3e9"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8a5296dfeec9970d00cf22886adc189d1102b7f6f62d269ad878936802ab7c7c",
+          "pixel_values_float32_sha256": "0b2c5a83b02f0c646e770adbbf577f0486b5fe6abc40c56c2bd19f7152ed6230"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "acfb698a8c8d2080966b24bb27d1bc4d97f3f47c47ad79edb7caaa7fa88cdfcc",
+          "pixel_values_float32_sha256": "dd9f38b6008e705efe0b863f306483c34217503dc6125c074e4425fa2d2ca3e8"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1847704efeab80962c2afec251d07172eb9a4c78d9800fa5d5ac98e651666756",
+          "pixel_values_float32_sha256": "110c709fcef6bba93eab04077f329ccfefe549bd3d62e58726a6e50b14e2fcd8"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s RGB",
+          "image_sha256": "28374c44429e39e45cb6c9c8728eec44eec7153ea86fbfeaea4631f04b417493",
+          "pixel_values_float32_sha256": "4dd4bf11303fc8c2b6c9139abdbc903598314f3a004799237f24ea21075f05d5"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ef4518adac3b195819e566c68d612a76217411a1127567e0e6f2c2574e2682bd",
+          "pixel_values_float32_sha256": "7d87ce1385de2d525f7b64dc2251163155960b57e9fa5c92b6014e30973bafa9"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.700s RGB",
+          "image_sha256": "503783bd37f4644dcb4ce62404d31ba61d102baeb63a05dfb7360b09428f4342",
+          "pixel_values_float32_sha256": "3809297d24170d9664031804244c4db8dcaebf90a48a82b6e34993005637435b"
+        },
+        {
+          "label": "Observation frame 3, simulation time 4.700s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "b5dacdca163e4ca7c30565986ea2fa210be7eb0dc9f2a0958b132bbcedd6af1e",
+          "pixel_values_float32_sha256": "977538fa0d8af00de83cd119d990cc3b7627dd991c8131c5d0f49e644ab79e9a"
+        }
+      ]
+    },
+    {
+      "step": 5,
+      "action": null,
+      "decision": null,
+      "current_frame_before": 4,
+      "actual_displacement_xy_m": 0.0,
+      "self_odometry_after": {
+        "x_m": 0.9065,
+        "y_m": -0.0516,
+        "z_m": -0.3865,
+        "yaw_rad": 0.1709,
+        "roll_rad": -0.0158,
+        "pitch_rad": 0.1161
+      },
+      "current_evaluator_after": {
+        "target_visible_rgb_pixels": 4,
+        "median_target_surface_range_m": 3.495709733677166,
+        "upright": 0.9931454987505516,
+        "in_bounds": true
+      },
+      "evaluator_only_loss_diagnosis": {
+        "target_centre_in_fov": true,
+        "blocking_geom": "perlin_rough_a1_32_36",
+        "hit_distance_m": 1.3681850990591125,
+        "entity_occlusion": true
+      },
+      "rejected_stop_count": 0,
+      "termination": "invalid_model_output",
+      "prompt_token_ids_sha256": "c43f89ab9985507caecf4e7b71f9e2f710e5ae730b2453cf893efb107d94af23",
+      "input_images": [
+        {
+          "label": "Observation frame 0, simulation time 1.800s RGB",
+          "image_sha256": "284101e685d16fd826cee92e7015e876cdb6203a720d07aab25f01ad5ffd555a",
+          "pixel_values_float32_sha256": "58df6f2770d16cab5fdf3166642f5c7990c6f2cc3a8eefac850ca4aceaaea3e9"
+        },
+        {
+          "label": "Observation frame 0, simulation time 1.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "8a5296dfeec9970d00cf22886adc189d1102b7f6f62d269ad878936802ab7c7c",
+          "pixel_values_float32_sha256": "0b2c5a83b02f0c646e770adbbf577f0486b5fe6abc40c56c2bd19f7152ed6230"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s RGB",
+          "image_sha256": "acfb698a8c8d2080966b24bb27d1bc4d97f3f47c47ad79edb7caaa7fa88cdfcc",
+          "pixel_values_float32_sha256": "dd9f38b6008e705efe0b863f306483c34217503dc6125c074e4425fa2d2ca3e8"
+        },
+        {
+          "label": "Observation frame 1, simulation time 2.800s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "1847704efeab80962c2afec251d07172eb9a4c78d9800fa5d5ac98e651666756",
+          "pixel_values_float32_sha256": "110c709fcef6bba93eab04077f329ccfefe549bd3d62e58726a6e50b14e2fcd8"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s RGB",
+          "image_sha256": "28374c44429e39e45cb6c9c8728eec44eec7153ea86fbfeaea4631f04b417493",
+          "pixel_values_float32_sha256": "4dd4bf11303fc8c2b6c9139abdbc903598314f3a004799237f24ea21075f05d5"
+        },
+        {
+          "label": "Observation frame 2, simulation time 3.700s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "ef4518adac3b195819e566c68d612a76217411a1127567e0e6f2c2574e2682bd",
+          "pixel_values_float32_sha256": "7d87ce1385de2d525f7b64dc2251163155960b57e9fa5c92b6014e30973bafa9"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.700s RGB",
+          "image_sha256": "359b44aedbc507c76f4d15340221af69bc707f95d155df15605f7f92a4515a88",
+          "pixel_values_float32_sha256": "69d86e7e398d2cff55980df540e98df5483d8783359d59780096184d37651dfa"
+        },
+        {
+          "label": "Observation frame 4, simulation time 5.700s aligned depth (white 0m, black 10m+)",
+          "image_sha256": "22f864451d6881dd1e0a46a4175e01ea5e4c6a262e70f0e63c56a39665a04701",
+          "pixel_values_float32_sha256": "afaae7f372dc1a3bdd5f8129e1ff9de6e8deba10d95d19b2c06d9c022d7c701d"
+        }
+      ],
+      "rejected_or_invalid_outputs": [
+        {
+          "raw_output": "{\n\"target_visible\": true,\n\"target_location\": \"centre\",\n\"proximity\": \"near\",\n\"confidence\": 0.8,\n\"visual_assessment\": \"the red sphere is visible and within 1 metre of the camera\",\n\"decision_rationale\": \"the quadruped has approached the red sphere and is now within 1 metre of it\",\n\"evidence_frames\": [0, 1, 2, 4],\n\"evidence_sources\": [\"current_rgb\"],\n\"action\": \"FORWARD\",\n\"self_odometry\": {\"x_m\": 0.9065, \"y_m\": -0.0516, \"z_m\": -0.3865, \"yaw_rad\": 0.1709, \"roll_rad\": -0.0158, \"pitch_rad\": 0.1161},\n\"recent_executed_motion\": [{\"action\": \"FORWARD\", \"from_frame\": 3, \"to_frame\": 4, \"displacement_xy_m\": 0.0066, \"yaw_change_rad\": 0.012, \"low_translation\": true}]\n}.ComponentPlacement>.ComponentPlacement>",
+          "rejected_stop": false
+        },
+        {
+          "raw_output": "{\"target_visible\":true,\"target_location\":\"centre\",\"proximity\":\"near\",\"confidence\":0.8,\"visual_assessment\":\"the red sphere is visible and within 1 metre of the camera\",\"decision_rationale\":\"the quadruped has approached the red sphere and is now within 1 metre of it\",\"evidence_frames\":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222",
+          "rejected_stop": false
+        }
+      ]
+    }
+  ]
+}
