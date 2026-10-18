@@ -1,13 +1,23 @@
 {
   "pid": 107851,
-  "phase": "smoke_spatialreasoner",
+  "phase": "smoke_spatialrgpt",
   "models": {
     "spatialreasoner": {
       "state": "smoke_requires_review",
       "completed_smoke_cases": 2,
       "exit_code": 0
+    },
+    "spatialrgpt": {
+      "state": "smoke_passed_queued",
+      "completed_smoke_cases": 2
     }
   },
-  "backups": [],
+  "backups": [
+    {
+      "reason": "spatialreasoner interface diagnostic",
+      "commit": "79929266623c461a060641c4c535451d751f9ec3",
+      "pushed": true
+    }
+  ],
   "robobrain_source": "official ModelScope; same NV weight SHA256 as HF"
 }
