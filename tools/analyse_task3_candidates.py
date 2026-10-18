@@ -140,7 +140,7 @@ def main():
         report.append(f"| {key} | {value['completed']}/2 | {value['valid_decisions']} | {value['current_visibility_correct_decisions']}/{value['valid_decisions']} | {json.dumps(value['terminations'])} |")
     report.extend(['', 'SpatialReasoner 的前两例没有执行自主动作：首次输出为不完整自然语言字段；纠正后仍缺 action，或 evidence_frames 类型错误。',
         '这属于当前复杂结构化接口的直接迁移失败，不能推出它没有空间能力；两个接口样例不能代替22场景正式评测。',
-        'SpatialReasoner 已另排完整22场景诊断，保留相同 prompt 与解析规则，以免只根据两个样例作判断；执行状态见 REASONER_QUEUE_STATUS.json。',
+        ('SpatialReasoner 已完成完整22场景诊断；同一 prompt 和解析规则下，22例均以 invalid_model_output 结束。部分回合执行过少量自主动作；这些受接口主导的结果不足以单独评价空间能力。' if metrics['spatialreasoner']['completed']==22 else 'SpatialReasoner 已另排完整22场景诊断，保留相同 prompt 与解析规则，以免只根据两个样例作判断；执行状态见 REASONER_QUEUE_STATUS.json。'),
         'SpatialRGPT、RoboBrain 通过接口诊断后接续正式场景。SpatialRGPT 的通用多图配置与原生区域深度输入不同。'])
     report.extend(['', 'Qwen/Spatial-Interactor 是前轮冻结协议记录；新增模型有原生 tokenizer/vision/chat template 差异。',
         'RoboBrain 使用作者链接的官方 ModelScope NV 权重，分片与 HF 哈希一致。SpatialRGPT 首轮为无额外region的通用多图配置，不能代表其原生区域深度分支完整能力。',
