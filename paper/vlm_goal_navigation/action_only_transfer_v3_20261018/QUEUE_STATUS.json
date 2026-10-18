@@ -63,7 +63,26 @@
       }
     },
     "qwen3vl8b": {
-      "state": "running"
+      "state": "complete",
+      "formal": {
+        "exit_code": 0,
+        "status": {
+          "status": "complete_pending_analysis",
+          "completed": 22,
+          "expected": 22,
+          "arrivals": 8,
+          "legal_vlm_stop": 3,
+          "terminations": {
+            "out_of_bounds": 5,
+            "success_visible_near": 8,
+            "budget_exhausted": 7,
+            "fallen": 2
+          },
+          "active": {},
+          "generation_calls": 411,
+          "wall_s": 617.1428950010013
+        }
+      }
     },
     "robobrain25_8b_nv": {
       "state": "smoke_passed_queued",
@@ -145,26 +164,30 @@
       "commit": "845062d459d6ab024cf07782cd25edf4e4a86a1a",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "qwen3vl8b 20/22",
+      "commit": "63a65727ce65c48ed383f504222942899506dd46",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "running",
-    "completed": 20,
+    "status": "complete_pending_analysis",
+    "completed": 22,
     "expected": 22,
     "arrivals": 8,
     "legal_vlm_stop": 3,
     "terminations": {
       "out_of_bounds": 5,
       "success_visible_near": 8,
-      "fallen": 2,
-      "budget_exhausted": 5
+      "budget_exhausted": 7,
+      "fallen": 2
     },
-    "active": {
-      "window_a1": 6
-    },
-    "generation_calls": 346,
-    "wall_s": 539.6619194270024
+    "active": {},
+    "generation_calls": 411,
+    "wall_s": 617.1428950010013
   },
   "current_pid": 186017,
-  "updated_unix": 1792321725.4247193
+  "updated_unix": 1792321800.0937986
 }
