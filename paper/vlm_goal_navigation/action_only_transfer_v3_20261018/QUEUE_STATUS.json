@@ -1,6 +1,6 @@
 {
   "pid": 183505,
-  "phase": "smoke_spatial_interactor8b",
+  "phase": "smoke_spatialrgpt",
   "started_unix": 1792321029.1429737,
   "models": {
     "spatialreasoner": {
@@ -41,6 +41,26 @@
           "wall_s": 25.845947425001214
         }
       }
+    },
+    "spatialrgpt": {
+      "state": "smoke_requires_review",
+      "smoke": {
+        "exit_code": 1,
+        "status": {
+          "status": "error_incomplete_not_navigation_result",
+          "completed": 0,
+          "expected": 2,
+          "arrivals": 0,
+          "legal_vlm_stop": 0,
+          "terminations": {},
+          "active": {
+            "barrier_a0": 0,
+            "pit_a0": 0
+          },
+          "generation_calls": 2,
+          "wall_s": 17.292396422999445
+        }
+      }
     }
   },
   "backups": [
@@ -55,21 +75,28 @@
       "commit": "fad7a957f975ae4dcbe7e7f52c12769e6768f7f5",
       "pushed": true,
       "push_error": null
+    },
+    {
+      "reason": "spatial_interactor8b action-only interface diagnostic",
+      "commit": "b1091ec17fd6a41ac73173d7dcc2e13ddf61a99c",
+      "pushed": true,
+      "push_error": null
     }
   ],
   "current": {
-    "status": "complete_pending_analysis",
-    "completed": 2,
+    "status": "error_incomplete_not_navigation_result",
+    "completed": 0,
     "expected": 2,
     "arrivals": 0,
     "legal_vlm_stop": 0,
-    "terminations": {
-      "budget_exhausted": 2
+    "terminations": {},
+    "active": {
+      "barrier_a0": 0,
+      "pit_a0": 0
     },
-    "active": {},
-    "generation_calls": 5,
-    "wall_s": 25.845947425001214
+    "generation_calls": 2,
+    "wall_s": 17.292396422999445
   },
-  "current_pid": 183841,
-  "updated_unix": 1792321061.7430902
+  "current_pid": 184432,
+  "updated_unix": 1792321090.6021364
 }

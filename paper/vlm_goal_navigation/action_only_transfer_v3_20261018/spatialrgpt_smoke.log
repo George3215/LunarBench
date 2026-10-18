@@ -1,0 +1,10 @@
+MODEL_READY /home/lry/MoonUnrealEnv/LunarBench/.local/models/spatialrgpt
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_candidate_driver.py", line 207, in <module>
+    base.main()
+  File "/home/lry/MoonUnrealEnv/LunarBench/tasks/task3_reobservability/spatial_transfer_v4.py", line 409, in main
+    records = policy.decide_batch([t.prepare() for t in active])
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_candidate_driver.py", line 102, in decide_batch
+    raise RuntimeError('SpatialRGPT inference failed: ' + response['error'])
+RuntimeError: SpatialRGPT inference failed: RuntimeError: Invalid action trie prefix: [128000]
