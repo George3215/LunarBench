@@ -7,7 +7,7 @@
 | qwen3vl8b | 22/22 | 5 | 13 | {"budget_exhausted": 17, "success_visible_near": 5} |
 | spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
 | spatialreasoner | 0/22 | 未测 | 未测 | {} |
-| spatialrgpt | 12/22 | 2 | 4 | {"invalid_model_output": 10, "success_visible_near": 2} |
+| spatialrgpt | 16/22 | 3 | 7 | {"invalid_model_output": 13, "success_visible_near": 3} |
 | robobrain25_8b_nv | 0/22 | 未测 | 未测 | {} |
 
 ## 已完成回合的行为与失败分析
@@ -17,8 +17,8 @@
 - **spatial_interactor8b**：成功场景 无；只执行前进/STOP即到达 0 回合；恢复可见但未到达 10 回合。
   有效动作判断 193 次，其中当前可见性一致 95 次；宣称 near 46 次，其中 46 次不满足当前可见且<1m。非法 STOP 路径屏蔽 68 次，实际拒绝 STOP 0 次。
   当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。
-- **spatialrgpt**：成功场景 basin_a1, trench_a0；只执行前进/STOP即到达 2 回合；恢复可见但未到达 2 回合。
-  有效动作判断 62 次，其中当前可见性一致 23 次；宣称 near 61 次，其中 61 次不满足当前可见且<1m。非法 STOP 路径屏蔽 39 次，实际拒绝 STOP 0 次。
+- **spatialrgpt**：成功场景 basin_a1, perlin_a2, trench_a0；只执行前进/STOP即到达 3 回合；恢复可见但未到达 4 回合。
+  有效动作判断 84 次，其中当前可见性一致 38 次；宣称 near 80 次，其中 79 次不满足当前可见且<1m。非法 STOP 路径屏蔽 59 次，实际拒绝 STOP 0 次。
   当前完成样本主要受结构化输出失败影响，不能据此把差异归因为空间感知或遮挡推理能力。
   当前所有成功都只含前进/STOP，尚不能证明学会了需要转向、侧移或绕行的遮挡恢复策略。
 
