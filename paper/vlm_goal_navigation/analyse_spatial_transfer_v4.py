@@ -52,6 +52,16 @@ def episode(path):
         if streak >= 3 and first_reobserved is None:
             first_reobserved = sample["sim_time_s"]
     actions = result["policy_action_sequence"]
+    transitions = [t for t in lines(path / "trace.jsonl") if t.get("phase") == "vlm_autonomous"]
+    turns = ("TURN_LEFT", "TURN_RIGHT")
+    alternating = sum(x in turns and y in turns and x != y for x, y in zip(actions, actions[1:]))
+    loss_types = collections.Counter()
+    for t in transitions:
+        if t["after_evaluator"]["target_visible_rgb_pixels"] >= 20:
+            continue
+        ray = t["evaluator_ray"]
+        loss_types["fov_exit" if not ray["target_centre_in_fov"] else
+                   "terrain_occlusion" if ray["entity_occlusion"] else "other"] += 1
     row = {"scene": result["scene"], "terrain_id": result["terrain_id"],
            "arrived": result["visible_near_arrival"], "legal_vlm_stop": result["legal_vlm_stop"],
            "reobserved": first_reobserved is not None,
@@ -60,6 +70,11 @@ def episode(path):
            "path_m_including_prefix": result["path_m"],
            "policy_forward_only": bool(actions) and all(a in ("FORWARD", "STOP") for a in actions),
            "low_translation_actions": result["low_translation_actions"],
+           "turn_actions": sum(a in turns for a in actions),
+           "alternating_turn_pairs": alternating,
+           "model_plan_updates": sum(isinstance((t.get("decision") or {}).get("plan_update"), str) and bool(t["decision"]["plan_update"].strip()) for t in transitions),
+           "fov_exit_boundaries": loss_types["fov_exit"],
+           "terrain_occlusion_boundaries": loss_types["terrain_occlusion"],
            "rejected_stops": result["rejected_stop_count"], "initial_plan_valid": result["initial_plan_valid"],
            "inference_count": result["inference_count"],
            "amortized_actor_inference_s": result["amortized_inference_s"],
@@ -129,6 +144,39 @@ def summary(rows):
             "terminations": dict(collections.Counter(r["termination"] for r in rows))}
 
 
+def preserve_case(root, key, folder):
+    """Compact auditable decisions, not the full multi-GB request/image archive."""
+    steps = []
+    for t in lines(folder / "trace.jsonl"):
+        if t.get("phase") != "vlm_autonomous":
+            continue
+        decision = t.get("decision")
+        value = {"step": t["step"], "action": t["action"], "decision": decision,
+                 "current_frame_before": t["frame_before"],
+                 "actual_displacement_xy_m": t["actual_displacement_xy_m"],
+                 "self_odometry_after": t["self_odometry_after"],
+                 "current_evaluator_after": {k: t["after_evaluator"][k] for k in
+                     ("target_visible_rgb_pixels", "median_target_surface_range_m", "upright", "in_bounds")},
+                 "evaluator_only_loss_diagnosis": t["evaluator_ray"],
+                 "rejected_stop_count": t["rejected_stop_count"], "termination": t["termination"]}
+        inputs = folder / "steps" / f"{t['step']:04d}" / "inference_1/network_input.json"
+        if inputs.exists():
+            net = read(inputs)
+            ids = unpadded(net)
+            value["prompt_token_ids_sha256"] = hashlib.sha256(json.dumps(ids).encode()).hexdigest()
+            value["input_images"] = [{k: image[k] for k in ("label", "image_sha256", "pixel_values_float32_sha256")} for image in net["images"]]
+        if not decision:
+            outputs = sorted((folder / "steps" / f"{t['step']:04d}").glob("inference_*/output.json"))
+            value["rejected_or_invalid_outputs"] = [{"raw_output": read(p)["raw_output"],
+                 "rejected_stop": read(p).get("rejected_stop", False)} for p in outputs]
+        steps.append(value)
+    plan = folder / "initial_plan/output.json"
+    write(root / "case_records" / key / f"{folder.name}.json", {
+          "scope": "derived compact evidence; evaluator fields never sent to model; raw images and full inputs remain local",
+          "initial_plan": read(plan).get("plan_parsed") if plan.exists() else None,
+          "result": read(folder / "result.json"), "steps": steps})
+
+
 def trajectories(root, by_model):
     import matplotlib
     matplotlib.use("Agg")
@@ -182,6 +230,8 @@ def main():
     for key in MODELS:
         run = root / "runs" / key
         by_model[key] = [episode(f.parent) for f in sorted(run.glob("rgbd/*/trials/*/result.json"))]
+        for path in sorted(run.glob("rgbd/*/trials/*/result.json")):
+            preserve_case(root, key, path.parent)
         audit[key] = audit_run(run)
     metrics = {key: summary(rows) for key, rows in by_model.items()}
     pairs = matched_initial_inputs(root / "runs" / MODELS[0], root / "runs" / MODELS[1])
@@ -196,6 +246,14 @@ def main():
         prob = min(1., 2*sum(math.comb(n, k) for k in range(min(better, worse)+1))/2**n) if n else 1.
         paired.update(arrival_difference=float(difference.mean()), bootstrap_95_ci=ci.tolist(),
                       spatial_only_arrived=better, qwen_only_arrived=worse, mcnemar_exact_two_sided_p=prob)
+        clusters = collections.defaultdict(list)
+        for scene, delta in zip(common, difference):
+            clusters[scene.rsplit("_a", 1)[0]].append(delta)
+        groups = [np.asarray(v) for v in clusters.values()]
+        rng = np.random.default_rng(17)
+        draws = [float(np.concatenate([groups[i] for i in rng.integers(len(groups), size=len(groups))]).mean())
+                 for _ in range(20000)]
+        paired.update(terrain_families=len(groups), family_cluster_bootstrap_95_ci=np.quantile(draws, [.025, .975]).tolist())
     complete = all(v["completed"] == 22 for v in metrics.values())
     write(root / "metrics.json", {"status": "complete" if complete else "partial", "models": metrics, "paired": paired,
                                    "uncertainty_scope": "scene bootstrap, not repeated-seed or checkpoint-training uncertainty"})
@@ -224,6 +282,7 @@ def main():
     if len(common):
         text += ["", f"已完成配对数 {len(common)}；Spatial−Qwen 到达率差 {paired['arrival_difference']*100:.1f} 个百分点。",
                  f"配对场景 bootstrap 95% 区间 [{paired['bootstrap_95_ci'][0]*100:.1f}, {paired['bootstrap_95_ci'][1]*100:.1f}] 个百分点；精确 McNemar p={paired['mcnemar_exact_two_sided_p']:.4f}。",
+                 f"考虑同一地形族 a0/a1/a2 的相关性：{paired['terrain_families']} 个族的 cluster bootstrap 区间 [{paired['family_cluster_bootstrap_95_ci'][0]*100:.1f}, {paired['family_cluster_bootstrap_95_ci'][1]*100:.1f}] 个百分点。McNemar 的独立场景假设在此不完全成立，仅作描述。",
                  "单回合/固定种子的场景级小样本区间，不覆盖多次训练或生成随机性的方差。"]
     text += ["", "## 解释边界", "",
              "本轮检验相同适配协议下两个完整检查点的零样本迁移，不单独隔离空间训练数据、训练目标或其他检查点变化的因果作用。",

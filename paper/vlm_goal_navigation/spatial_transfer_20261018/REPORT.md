@@ -4,7 +4,7 @@
 
 | 模型 | 完成 | 确认到达 | 遮挡后恢复可见 | 合法 VLM STOP | 到达中仅前进 |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| qwen3vl8b | 1/22 | 0 | 1 | 0 | 0 |
+| qwen3vl8b | 4/22 | 0 | 4 | 0 | 0 |
 | spatial_interactor8b | 0/22 | 0 | 0 | 0 | 0 |
 
 到达由连续三次当前可见且 <1m 的 evaluator 证据自动结束；不等同于模型主动 STOP。参考动作准入不计入模型结果。
@@ -12,6 +12,9 @@
 | 场景 | Qwen 到达 / 终止 | Spatial 到达 / 终止 |
 | --- | --- | --- |
 | barrier_a0 | 失败 / repeated_forbidden_stop | 待完成 |
+| barrier_a1 | 失败 / budget_exhausted | 待完成 |
+| stairs_up_a2 | 失败 / repeated_forbidden_stop | 待完成 |
+| trench_a0 | 失败 / repeated_forbidden_stop | 待完成 |
 
 ## 解释边界
 

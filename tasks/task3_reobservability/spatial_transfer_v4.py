@@ -18,7 +18,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
+from transformers import AutoProcessor, GenerationConfig, Qwen3VLForConditionalGeneration
 
 import all_terrain_context_trial as act
 import context_navigation_policy as cp
@@ -102,6 +102,12 @@ class Policy(cp.Policy):
         self.model = Qwen3VLForConditionalGeneration.from_pretrained(
             str(model_path), dtype=torch.bfloat16, local_files_only=True,
             attn_implementation="sdpa").to("cuda:0").eval()
+        # The spatial release saves training-time use_cache=false and a different
+        # EOS list. Match Qwen's inference settings instead of inheriting these.
+        self.model.generation_config = GenerationConfig.from_pretrained(
+            str(processor_path), local_files_only=True)
+        self.model.generation_config.use_cache = True
+        self.model.config.text_config.use_cache = True
         self.generation_calls = 0
         self.model_context_limit = int(self.model.config.text_config.max_position_embeddings)
         self.actor_max_tokens = max_tokens
