@@ -7,7 +7,7 @@
 | qwen3vl8b | 22/22 | 5 | 13 | {"budget_exhausted": 17, "success_visible_near": 5} |
 | spatial_interactor8b | 22/22 | 0 | 10 | {"budget_exhausted": 1, "invalid_model_output": 21} |
 | spatialreasoner | 0/22 | 未测 | 未测 | {} |
-| spatialrgpt | 4/22 | 1 | 1 | {"invalid_model_output": 3, "success_visible_near": 1} |
+| spatialrgpt | 8/22 | 1 | 3 | {"invalid_model_output": 7, "success_visible_near": 1} |
 | robobrain25_8b_nv | 0/22 | 未测 | 未测 | {} |
 
 ## 两场景接口诊断（每场景最多2动作，不纳入正式成功率）
