@@ -8,7 +8,7 @@
 | --- | --- | --- | --- | --- | --- |
 | qwen3vl8b | 22/22 | 8 | 18 | 5/22 | {"out_of_bounds": 5, "budget_exhausted": 7, "success_visible_near": 8, "fallen": 2} |
 | spatial_interactor8b | 0/22 | 待测 | 待测 | 0/22 | {} |
-| spatialreasoner | 12/22 | 6 | 11 | 0/22 | {"budget_exhausted": 2, "out_of_bounds": 4, "success_visible_near": 6} |
+| spatialreasoner | 16/22 | 7 | 15 | 0/22 | {"budget_exhausted": 2, "out_of_bounds": 6, "success_visible_near": 7, "fallen": 1} |
 | spatialrgpt | 0/22 | 待测 | 待测 | 3/22 | {} |
 | robobrain25_8b_nv | 0/22 | 待测 | 待测 | 5/22 | {} |
 
@@ -16,7 +16,7 @@
 
 - qwen3vl8b: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0, window_a0；恢复可见但未到达 10；有效首帧计划 22/22；仅前进/STOP成功 7。
 - spatial_interactor8b: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
-- spatialreasoner: 成功 basin_a1, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 5；有效首帧计划 2/12；仅前进/STOP成功 6。
+- spatialreasoner: 成功 basin_a1, perlin_a2, pit_a2, slope_up_a2, stairs_up_a2, trench_a0, waves_a0；恢复可见但未到达 8；有效首帧计划 3/16；仅前进/STOP成功 7。
 - spatialrgpt: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
 - robobrain25_8b_nv: 成功 暂无；恢复可见但未到达 0；有效首帧计划 0/0；仅前进/STOP成功 0。
 
