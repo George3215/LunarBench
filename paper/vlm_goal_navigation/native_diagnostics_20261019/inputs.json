@@ -1,0 +1,470 @@
+[
+  {
+    "id": "barrier_a0_first_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. Yes, it is visible.\nB. No, it is not visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "barrier_a0_first_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. middle third\nB. right third\nC. left third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "barrier_a0_pointing",
+    "task": "pointing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "Identify a spot within the red sphere. Please provide its 2D coordinates. Your answer should be formatted as a tuple, i.e. [(x, y)], where the tuple contains the x and y coordinates of a point satisfying the conditions above.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "barrier_a0_grounding",
+    "task": "grounding",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "Please provide the bounding box coordinate of the region this sentence describes: the red sphere.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "barrier_a0_region_left",
+    "task": "region_left",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "<image>\nIs region 0 <mask> to the left of region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_region1.png"
+    ]
+  },
+  {
+    "id": "barrier_a0_region_depth",
+    "task": "region_depth_sensor_variant",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png"
+    ],
+    "question": "<image>\nWhich is closer to the camera, region 0 <mask> or region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_region1.png"
+    ],
+    "depth": "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_relative_sensor_depth.png"
+  },
+  {
+    "id": "barrier_a0_lost_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_lost.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. Yes, it is visible.\nB. No, it is not visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "barrier_a0_offset_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_offset.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. No, it is not visible.\nB. Yes, it is visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "barrier_a0_offset_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_offset.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. right third\nB. left third\nC. middle third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "barrier_a0_visibility_change",
+    "task": "temporal_visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_lost.png"
+    ],
+    "question": "Question: The images are in chronological order. How does visibility of the red target sphere change from the first image to the second?\nOptions:\nA. not visible to visible\nB. visible in both\nC. not visible in either\nD. visible to not visible\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "barrier_a0_image_motion",
+    "task": "temporal_image_motion",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/barrier_a0_offset.png"
+    ],
+    "question": "Question: The images are in chronological order. In which horizontal image direction does the red sphere move from the first image to the second?\nOptions:\nA. toward the right\nB. no horizontal change\nC. toward the left\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "pit_a0_first_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. No, it is not visible.\nB. Yes, it is visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "pit_a0_first_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. left third\nB. middle third\nC. right third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "pit_a0_pointing",
+    "task": "pointing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "Identify a spot within the red sphere. Please provide its 2D coordinates. Your answer should be formatted as a tuple, i.e. [(x, y)], where the tuple contains the x and y coordinates of a point satisfying the conditions above.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "pit_a0_grounding",
+    "task": "grounding",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "Please provide the bounding box coordinate of the region this sentence describes: the red sphere.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "pit_a0_region_left",
+    "task": "region_left",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "<image>\nIs region 0 <mask> to the left of region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_region1.png"
+    ]
+  },
+  {
+    "id": "pit_a0_region_depth",
+    "task": "region_depth_sensor_variant",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png"
+    ],
+    "question": "<image>\nWhich is closer to the camera, region 0 <mask> or region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_region1.png"
+    ],
+    "depth": "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_relative_sensor_depth.png"
+  },
+  {
+    "id": "pit_a0_lost_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_lost.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. No, it is not visible.\nB. Yes, it is visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "pit_a0_offset_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_offset.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. Yes, it is visible.\nB. No, it is not visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "pit_a0_offset_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_offset.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. middle third\nB. right third\nC. left third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "pit_a0_visibility_change",
+    "task": "temporal_visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_lost.png"
+    ],
+    "question": "Question: The images are in chronological order. How does visibility of the red target sphere change from the first image to the second?\nOptions:\nA. visible to not visible\nB. not visible to visible\nC. visible in both\nD. not visible in either\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "pit_a0_image_motion",
+    "task": "temporal_image_motion",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/pit_a0_offset.png"
+    ],
+    "question": "Question: The images are in chronological order. In which horizontal image direction does the red sphere move from the first image to the second?\nOptions:\nA. toward the left\nB. toward the right\nC. no horizontal change\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "window_a0_first_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. Yes, it is visible.\nB. No, it is not visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "window_a0_first_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. right third\nB. left third\nC. middle third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "window_a0_pointing",
+    "task": "pointing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "Identify a spot within the red sphere. Please provide its 2D coordinates. Your answer should be formatted as a tuple, i.e. [(x, y)], where the tuple contains the x and y coordinates of a point satisfying the conditions above.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "window_a0_grounding",
+    "task": "grounding",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "Please provide the bounding box coordinate of the region this sentence describes: the red sphere.",
+    "models": [
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "window_a0_region_left",
+    "task": "region_left",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "<image>\nIs region 0 <mask> to the left of region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_region1.png"
+    ]
+  },
+  {
+    "id": "window_a0_region_depth",
+    "task": "region_depth_sensor_variant",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png"
+    ],
+    "question": "<image>\nWhich is closer to the camera, region 0 <mask> or region 1 <mask>?",
+    "models": [
+      "spatialrgpt"
+    ],
+    "masks": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_region0.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_region1.png"
+    ],
+    "depth": "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_relative_sensor_depth.png"
+  },
+  {
+    "id": "window_a0_lost_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_lost.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. Yes, it is visible.\nB. No, it is not visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "window_a0_offset_visibility",
+    "task": "visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_offset.png"
+    ],
+    "question": "Question: Is any part of the red target sphere visible in this image?\nOptions:\nA. No, it is not visible.\nB. Yes, it is visible.\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "window_a0_offset_bearing",
+    "task": "bearing",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_offset.png"
+    ],
+    "question": "Question: Which horizontal third of the image contains the center of the visible red target sphere?\nOptions:\nA. left third\nB. middle third\nC. right third\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "spatialreasoner",
+      "robobrain25_8b_nv",
+      "spatialrgpt"
+    ]
+  },
+  {
+    "id": "window_a0_visibility_change",
+    "task": "temporal_visibility",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_lost.png"
+    ],
+    "question": "Question: The images are in chronological order. How does visibility of the red target sphere change from the first image to the second?\nOptions:\nA. not visible in either\nB. visible to not visible\nC. not visible to visible\nD. visible in both\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  },
+  {
+    "id": "window_a0_image_motion",
+    "task": "temporal_image_motion",
+    "images": [
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_first.png",
+      "paper/vlm_goal_navigation/native_diagnostics_20261019/assets/window_a0_offset.png"
+    ],
+    "question": "Question: The images are in chronological order. In which horizontal image direction does the red sphere move from the first image to the second?\nOptions:\nA. no horizontal change\nB. toward the left\nC. toward the right\nPlease select the correct answer from the options above.",
+    "models": [
+      "qwen3vl8b",
+      "spatial_interactor8b",
+      "robobrain25_8b_nv"
+    ]
+  }
+]
