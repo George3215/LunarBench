@@ -1,0 +1,80 @@
+{
+  "scope": "post-hoc read-only result audit; no new model inference or trial changes",
+  "formal_episodes_across_two_protocols": 220,
+  "all_new_protocol_input_pairing_pass": true,
+  "models": {
+    "qwen3vl8b": {
+      "action_counts": {
+        "FORWARD": 545,
+        "TURN_RIGHT": 87,
+        "TURN_LEFT": 133,
+        "STOP": 3,
+        "BACKWARD": 6
+      },
+      "autonomous_actions": 774,
+      "turn_fraction": 0.2842377260981912,
+      "translation_actions": 551,
+      "legal_vlm_stop": 3,
+      "invalid_output_episodes": 0
+    },
+    "spatial_interactor8b": {
+      "action_counts": {
+        "FORWARD": 625,
+        "TURN_LEFT": 282,
+        "STOP": 2,
+        "TURN_RIGHT": 1
+      },
+      "autonomous_actions": 910,
+      "turn_fraction": 0.310989010989011,
+      "translation_actions": 625,
+      "legal_vlm_stop": 2,
+      "invalid_output_episodes": 0
+    },
+    "spatialreasoner": {
+      "action_counts": {
+        "FORWARD": 696,
+        "TURN_LEFT": 3
+      },
+      "autonomous_actions": 699,
+      "turn_fraction": 0.004291845493562232,
+      "translation_actions": 696,
+      "legal_vlm_stop": 0,
+      "invalid_output_episodes": 0
+    },
+    "spatialrgpt": {
+      "action_counts": {
+        "TURN_LEFT": 1216,
+        "TURN_RIGHT": 192
+      },
+      "autonomous_actions": 1408,
+      "turn_fraction": 1.0,
+      "translation_actions": 0,
+      "legal_vlm_stop": 0,
+      "invalid_output_episodes": 0
+    },
+    "robobrain25_8b_nv": {
+      "action_counts": {
+        "TURN_RIGHT": 1191,
+        "TURN_LEFT": 217
+      },
+      "autonomous_actions": 1408,
+      "turn_fraction": 1.0,
+      "translation_actions": 0,
+      "legal_vlm_stop": 0,
+      "invalid_output_episodes": 0
+    }
+  },
+  "qwen_protocol_change": {
+    "original_arrivals": 5,
+    "new_arrivals": 8,
+    "new_only_scenes": [
+      "pit_a2",
+      "perlin_a2",
+      "window_a0"
+    ],
+    "old_only_scenes": [],
+    "mcnemar_exact_two_sided_p": 0.25,
+    "interpretation": "several actor protocol components changed; descriptive result, not learned spatial improvement"
+  },
+  "metrics_sha256": "a8e8b41242311f24fd41ac258c8ec513e456c11e15b3058e271caa039e2ba5a8"
+}
