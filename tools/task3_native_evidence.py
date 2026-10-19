@@ -48,7 +48,8 @@ def main():
             body.append('<img src="data:image/png;base64,'+b+'">')
         body.append('<pre>'+html.escape(row['question'])+'</pre>')
         for s in [s for s in scores if s['id']==row['id']]:
-            body.append('<details><summary class="'+('ok' if s['correct'] else 'fail')+'">'+html.escape(s['model'])+(' ✓' if s['correct'] else ' ×')+'</summary><pre>'+html.escape(s['raw_final_output'])+'</pre></details>')
+            escaped=html.escape(s['raw_final_output']).replace('\n','&#10;').replace('\r','&#13;')
+            body.append('<details><summary class="'+('ok' if s['correct'] else 'fail')+'">'+html.escape(s['model'])+(' ✓' if s['correct'] else ' ×')+'</summary><pre>'+escaped+'</pre></details>')
         body.append('</article>')
     (ROOT/'evidence.html').write_text('\n'.join(body)+'\n')
 

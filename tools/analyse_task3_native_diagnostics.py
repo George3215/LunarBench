@@ -68,8 +68,9 @@ def main():
             for task in sorted(set(x['task'] for x in rr)) if (a:=[x for x in rr if x['task']==task])}
     diag.dump(root/'scores.json',rows);diag.dump(root/'metrics.json',metrics);diag.dump(root/'unparsed_outputs.json',unparsed)
     with (root/'results.csv').open('w',newline='') as f:
-        fields=['model','id','task','prediction','correct','parseable','hit_token_limit','non_answer_artifact','raw_final_output']
-        w=csv.DictWriter(f,fields,extrasaction='ignore');w.writeheader();w.writerows(rows)
+        fields=['model','id','task','prediction','correct','parseable','hit_token_limit','non_answer_artifact','raw_final_output_json']
+        w=csv.DictWriter(f,fields,extrasaction='ignore',lineterminator='\n');w.writeheader()
+        w.writerows(dict(x,raw_final_output_json=json.dumps(x['raw_final_output'],ensure_ascii=False)) for x in rows)
     # Independent evidence counts, request pairing and stored assets.
     failures=[];calls=0
     for model in diag.MODELS:
@@ -87,6 +88,9 @@ def main():
     diag.dump(root/'FINAL_AUDIT.json',dict(completed_calls=calls,expected_calls=sum(len(x['models']) for x in items.values()),
         failures=failures,passed=not failures,scoring='final answer only: letters, boxed letters, exact text of any option',
         excluded_from_inputs='labels_evaluator_only.json; simulator target geometry/pose and evaluation trajectory',
+        frozen_inputs_sha256=diag.sha(root/'inputs.json'),
+        native_final_answers_all_parseable=all(x['parseable'] for x in rows),
+        token_limit_hits=sum(x['hit_token_limit'] for x in rows),
         limitations='Key/hash checks plus source review, not a general natural-language leakage detector.'))
     common=['visibility','bearing','temporal_visibility','temporal_image_motion']
     lines=['# 原生格式诊断结果（2026-10-19）','',
