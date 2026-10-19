@@ -1,0 +1,402 @@
+{
+  "states": 29,
+  "layouts": 22,
+  "formal_branches": 116,
+  "additional_replay_branches": 29,
+  "ineligible": [
+    {
+      "id": "S03_1",
+      "layout": "basin_a1",
+      "delayed_variant": true,
+      "eligible": false
+    }
+  ],
+  "replay_checks_passed": 29,
+  "input_audit_count": 58,
+  "all_failure_states": 2,
+  "all_success_states": 11,
+  "discriminative_states": 16,
+  "oracle_covered": 27,
+  "oracle_rate": 0.9310344827586207,
+  "branch_event_prevalence": 0.6206896551724138,
+  "constant_half_brier": 0.25,
+  "baselines": {
+    "advance": {
+      "recovered": 19,
+      "rate": 0.6551724137931034,
+      "rate_layout_bootstrap95": [
+        0.43993750000000004,
+        0.8666666666666667
+      ],
+      "discriminative_recovered": 8
+    },
+    "left_bypass": {
+      "recovered": 15,
+      "rate": 0.5172413793103449,
+      "rate_layout_bootstrap95": [
+        0.3076923076923077,
+        0.7307692307692307
+      ],
+      "discriminative_recovered": 4
+    },
+    "right_bypass": {
+      "recovered": 23,
+      "rate": 0.7931034482758621,
+      "rate_layout_bootstrap95": [
+        0.6,
+        0.9375
+      ],
+      "discriminative_recovered": 12
+    },
+    "retreat_scan": {
+      "recovered": 15,
+      "rate": 0.5172413793103449,
+      "rate_layout_bootstrap95": [
+        0.2962962962962963,
+        0.7333333333333333
+      ],
+      "discriminative_recovered": 4
+    },
+    "uniform_random": {
+      "expected_recovered": 18.0,
+      "expected_rate": 0.6206896551724138,
+      "discriminative_expected_recovered": 7.0
+    }
+  },
+  "models": {
+    "qwen3vl8b": {
+      "valid_states": 29,
+      "total_states": 29,
+      "schema_valid_states": 29,
+      "invalid_time_fields": 0,
+      "strict_json_states": 29,
+      "syntax_repaired_states": 0,
+      "selected_recovered": 18,
+      "selected_rate": 0.6206896551724138,
+      "selected_rate_layout_bootstrap95": [
+        0.42857142857142855,
+        0.8148148148148148
+      ],
+      "selected_rate_on_oracle_covered": 0.6666666666666666,
+      "discriminative_recovered": 7,
+      "discriminative_total": 16,
+      "brier": 0.3707758620689656,
+      "brier_denominator": 116,
+      "time_mae_s": 1.9473684210527158,
+      "time_prediction_count_on_true_recoveries": 19,
+      "true_recovery_branches": 72,
+      "chosen_recovery_time_s": 2.4333333333331666,
+      "chosen_path_m": 2.0735113210531075,
+      "chosen_turn_rad": 0.5715624458857554,
+      "chosen_falls": 0,
+      "chosen_oob": 0,
+      "choice_not_argmax_probability": 0,
+      "token_limit_states": 0,
+      "selected_branch_counts": {
+        "advance": 8,
+        "left_bypass": 14,
+        "right_bypass": 7,
+        "retreat_scan": 0
+      },
+      "state_briers": [
+        0.03500000000000001,
+        0.315,
+        0.3275,
+        0.3025,
+        0.385,
+        0.25749999999999995,
+        0.635,
+        0.3950000000000001,
+        0.38500000000000006,
+        0.5450000000000002,
+        0.525,
+        0.635,
+        0.66,
+        0.38999999999999996,
+        0.38999999999999996,
+        0.395,
+        0.345,
+        0.525,
+        0.195,
+        0.19500000000000003,
+        0.6050000000000001,
+        0.45250000000000007,
+        0.395,
+        0.45250000000000007,
+        0.3275,
+        0.27749999999999997,
+        0.09500000000000001,
+        0.15249999999999997,
+        0.1575
+      ],
+      "choice_letter_counts": {
+        "A": 8,
+        "B": 10,
+        "C": 4,
+        "D": 7
+      },
+      "constant_probability_states": 0,
+      "one_base_state_per_layout": {
+        "states": 22,
+        "selected_recovered": 15,
+        "rate": 0.6818181818181818,
+        "brier": 0.3598863636363636
+      },
+      "per_family": {
+        "barrier": {
+          "states": 6,
+          "selected_recovered": 1
+        },
+        "basin": {
+          "states": 3,
+          "selected_recovered": 3
+        },
+        "perlin": {
+          "states": 4,
+          "selected_recovered": 3
+        },
+        "perlin_rough": {
+          "states": 4,
+          "selected_recovered": 3
+        },
+        "pit": {
+          "states": 3,
+          "selected_recovered": 0
+        },
+        "slope_up": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "stairs_up": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "trench": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "waves": {
+          "states": 3,
+          "selected_recovered": 2
+        },
+        "window": {
+          "states": 3,
+          "selected_recovered": 3
+        }
+      },
+      "difference_from_fixed_branches": {
+        "advance": {
+          "rate_difference": -0.034482758620689655,
+          "layout_bootstrap95": [
+            -0.19230769230769232,
+            0.1111111111111111
+          ]
+        },
+        "left_bypass": {
+          "rate_difference": 0.10344827586206896,
+          "layout_bootstrap95": [
+            -0.03571428571428571,
+            0.25
+          ]
+        },
+        "right_bypass": {
+          "rate_difference": -0.1724137931034483,
+          "layout_bootstrap95": [
+            -0.40625,
+            0.07692307692307693
+          ]
+        },
+        "retreat_scan": {
+          "rate_difference": 0.10344827586206896,
+          "layout_bootstrap95": [
+            -0.06666666666666667,
+            0.2857142857142857
+          ]
+        }
+      },
+      "brier_layout_bootstrap95": [
+        0.3042850529100529,
+        0.4378252919911012
+      ]
+    },
+    "spatial_interactor8b": {
+      "valid_states": 29,
+      "total_states": 29,
+      "schema_valid_states": 28,
+      "invalid_time_fields": 3,
+      "strict_json_states": 19,
+      "syntax_repaired_states": 10,
+      "selected_recovered": 19,
+      "selected_rate": 0.6551724137931034,
+      "selected_rate_layout_bootstrap95": [
+        0.4444444444444444,
+        0.8620689655172413
+      ],
+      "selected_rate_on_oracle_covered": 0.7037037037037037,
+      "discriminative_recovered": 8,
+      "discriminative_total": 16,
+      "brier": 0.27198275862068966,
+      "brier_denominator": 116,
+      "time_mae_s": 1.4739130434782892,
+      "time_prediction_count_on_true_recoveries": 23,
+      "true_recovery_branches": 72,
+      "chosen_recovery_time_s": 2.415789473684052,
+      "chosen_path_m": 2.069314959707433,
+      "chosen_turn_rad": 0.5041627019017658,
+      "chosen_falls": 0,
+      "chosen_oob": 0,
+      "choice_not_argmax_probability": 0,
+      "token_limit_states": 0,
+      "selected_branch_counts": {
+        "advance": 23,
+        "left_bypass": 5,
+        "right_bypass": 1,
+        "retreat_scan": 0
+      },
+      "state_briers": [
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.3975,
+        0.31,
+        0.1875,
+        0.25,
+        0.25,
+        0.25,
+        0.19,
+        0.31,
+        0.31,
+        0.31,
+        0.25,
+        0.25,
+        0.25,
+        0.75,
+        0.25,
+        0.25,
+        0.20500000000000007,
+        0.25,
+        0.16749999999999998,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "choice_letter_counts": {
+        "A": 8,
+        "B": 3,
+        "C": 10,
+        "D": 8
+      },
+      "constant_probability_states": 18,
+      "one_base_state_per_layout": {
+        "states": 22,
+        "selected_recovered": 15,
+        "rate": 0.6818181818181818,
+        "brier": 0.27625000000000005
+      },
+      "per_family": {
+        "barrier": {
+          "states": 6,
+          "selected_recovered": 0
+        },
+        "basin": {
+          "states": 3,
+          "selected_recovered": 3
+        },
+        "perlin": {
+          "states": 4,
+          "selected_recovered": 4
+        },
+        "perlin_rough": {
+          "states": 4,
+          "selected_recovered": 4
+        },
+        "pit": {
+          "states": 3,
+          "selected_recovered": 1
+        },
+        "slope_up": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "stairs_up": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "trench": {
+          "states": 1,
+          "selected_recovered": 1
+        },
+        "waves": {
+          "states": 3,
+          "selected_recovered": 2
+        },
+        "window": {
+          "states": 3,
+          "selected_recovered": 2
+        }
+      },
+      "difference_from_fixed_branches": {
+        "advance": {
+          "rate_difference": 0.0,
+          "layout_bootstrap95": [
+            -0.10344827586206896,
+            0.10344827586206896
+          ]
+        },
+        "left_bypass": {
+          "rate_difference": 0.13793103448275862,
+          "layout_bootstrap95": [
+            0.0,
+            0.3
+          ]
+        },
+        "right_bypass": {
+          "rate_difference": -0.13793103448275862,
+          "layout_bootstrap95": [
+            -0.4074074074074074,
+            0.14814814814814814
+          ]
+        },
+        "retreat_scan": {
+          "rate_difference": 0.13793103448275862,
+          "layout_bootstrap95": [
+            0.03125,
+            0.2857142857142857
+          ]
+        }
+      },
+      "brier_layout_bootstrap95": [
+        0.24096153846153848,
+        0.31533392857142856
+      ]
+    }
+  },
+  "differences": {
+    "spatial_minus_qwen_selection": {
+      "rate_difference": 0.034482758620689655,
+      "layout_bootstrap95": [
+        -0.1111111111111111,
+        0.1875
+      ],
+      "only_spatial": 3,
+      "only_qwen": 2
+    },
+    "spatial_minus_qwen_brier": {
+      "difference": -0.09879310344827588,
+      "layout_bootstrap95": [
+        -0.17266372358175755,
+        -0.02675407088122614
+      ]
+    }
+  },
+  "posthoc_prevalence_constant_brier": 0.23543400713436385,
+  "all_branch_terminations": {
+    "horizon_exhausted": 116,
+    "fallen": 0,
+    "out_of_bounds": 0
+  }
+}

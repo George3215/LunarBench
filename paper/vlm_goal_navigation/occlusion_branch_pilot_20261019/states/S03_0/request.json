@@ -1,0 +1,150 @@
+{
+  "target": "red sphere",
+  "observations": [
+    {
+      "time_s": 0.0,
+      "rgb": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/initial/rgb.png",
+      "depth": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/initial/depth.png",
+      "rgb_sha256": "fa62f748765a9b28f3a601debe97a39c00db0aee2dd1e18793098448009f7ca6",
+      "depth_sha256": "218b63cb277ff6731ab6dda9dfbac51614eda594cbf8bbdf4286cf382c1498a0",
+      "self_odometry": {
+        "forward_m": 0.0,
+        "left_m": 0.0,
+        "up_m": 0.0,
+        "yaw_rad": 0.0
+      },
+      "camera_measurement": {
+        "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+        "red_pixel_count": 193,
+        "valid_red_depth_count": 193,
+        "red_region_median_axial_depth_m": 4.403652667999268,
+        "red_region_median_surface_range_m": 5.9729956797075054,
+        "centroid_uv": [
+          0.49396049222797933,
+          0.01611614853195164
+        ],
+        "image_width": 640,
+        "image_height": 480,
+        "vertical_fov_deg": 87.0,
+        "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+        "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+      }
+    },
+    {
+      "time_s": 2.599999999999736,
+      "rgb": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/last_visible/rgb.png",
+      "depth": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/last_visible/depth.png",
+      "rgb_sha256": "8b0c87e55ac5edea4ca41f89052bbacc36d2f3cbb2366bccc3f977083ce7cd72",
+      "depth_sha256": "e2bb63afab5abd41f38f7f385709bedae057acb75f0d4951344dc41bc20b1ac8",
+      "self_odometry": {
+        "forward_m": 1.1479935503912462,
+        "left_m": 0.1181890502786388,
+        "up_m": 0.04837424686911396,
+        "yaw_rad": 0.1605313051835952
+      },
+      "camera_measurement": {
+        "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+        "red_pixel_count": 24,
+        "valid_red_depth_count": 24,
+        "red_region_median_axial_depth_m": 4.79960298538208,
+        "red_region_median_surface_range_m": 4.947270855083426,
+        "centroid_uv": [
+          0.5688802083333333,
+          0.4068576388888889
+        ],
+        "image_width": 640,
+        "image_height": 480,
+        "vertical_fov_deg": 87.0,
+        "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+        "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+      }
+    },
+    {
+      "time_s": 2.999999999999692,
+      "rgb": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/current/rgb.png",
+      "depth": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S03_0/inputs/current/depth.png",
+      "rgb_sha256": "a0e244b56855e850b73336425415172d47e3464320004e8848ac622b4c20d4d6",
+      "depth_sha256": "6caa202649a3dd2481ee89b17de20cd3ddb14958dfea69dac78fbd9add0f0960",
+      "self_odometry": {
+        "forward_m": 1.3446431577139144,
+        "left_m": 0.12824042118613765,
+        "up_m": 0.08343143096141015,
+        "yaw_rad": 0.11463705856751896
+      },
+      "camera_measurement": {
+        "source": "aligned rendered depth + RGB red threshold; no target geom/pose/segmentation",
+        "red_pixel_count": 0,
+        "valid_red_depth_count": 0,
+        "red_region_median_axial_depth_m": null,
+        "red_region_median_surface_range_m": null,
+        "centroid_uv": null,
+        "image_width": 640,
+        "image_height": 480,
+        "vertical_fov_deg": 87.0,
+        "depth_encoding": "fixed linear grayscale white=0m axial, black=10m+ or invalid",
+        "sensor_simulation": "ideal MuJoCo rendered metric depth; no physical-camera noise model"
+      }
+    }
+  ],
+  "coarse_target_belief": {
+    "available": true,
+    "source": "last RGB red region + rendered camera depth + own extrinsics and odometry",
+    "forward_m": 4.92101892610271,
+    "left_m": -0.5930915033150286,
+    "up_m": 1.1224419813768478,
+    "bearing_deg": -6.872260701860427,
+    "horizontal_range_m": 4.956630387911283,
+    "estimate_kind": "observed surface point, not hidden object centre",
+    "uncertainty_calibrated": false,
+    "uncertainty": "Unknown target radius, partial-view bias and later motion error; no hidden-geometry inference."
+  },
+  "candidate_actions": [
+    {
+      "id": "A",
+      "actions": [
+        "FORWARD",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD"
+      ]
+    },
+    {
+      "id": "B",
+      "actions": [
+        "STRAFE_LEFT",
+        "STRAFE_LEFT",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD"
+      ]
+    },
+    {
+      "id": "C",
+      "actions": [
+        "BACKWARD",
+        "BACKWARD",
+        "TURN_LEFT",
+        "TURN_LEFT",
+        "TURN_RIGHT",
+        "TURN_RIGHT"
+      ]
+    },
+    {
+      "id": "D",
+      "actions": [
+        "STRAFE_RIGHT",
+        "STRAFE_RIGHT",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD",
+        "FORWARD"
+      ]
+    }
+  ],
+  "horizon_s": 6.0,
+  "coordinate_convention": "body +x forward, +y left; positive yaw left",
+  "allowed_sensors": "RGB-D, own ideal odometry, own kinematic calibration; no prebuilt map"
+}

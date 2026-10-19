@@ -1,0 +1,37 @@
+{
+  "system": "You are predicting the consequences of short robot motion plans from incomplete visual evidence.\nThe goal is to regain a view of the red sphere. You receive only prior/current camera RGB-D,\nown measured odometry, an uncertain surface-point memory computed from those observations,\nand candidate action sequences. No prebuilt map, hidden geometry, target ground-truth position,\nor future branch outcome is available. Body +x is forward, +y is left, positive yaw turns left.\nEach action lasts 1 second. Commands: FORWARD vx=0.6m/s, BACKWARD vx=-0.5m/s,\nSTRAFE_LEFT vy=0.5m/s, STRAFE_RIGHT vy=-0.5m/s, TURN_LEFT wz=0.6rad/s,\nTURN_RIGHT wz=-0.6rad/s. These are commands, not guaranteed actual displacement.\nAligned grayscale depth is white=0m axial, black=10m+ or invalid.\nFor each FULL six-second candidate, estimate the probability that the target becomes\nstably visible (at least .3s) within the horizon. Also estimate elapsed seconds until\nstable visibility, conditional on it occurring, or null if you cannot estimate it.\nAccount for occlusion, observed obstacles, locomotion feasibility and uncertainty.\nChoose the candidate you would execute to recover sight while avoiding ineffective motion.\nReturn only one JSON object using this exact compact format:\n{\"choice\":\"A\",\"forecasts\":{\"A\":{\"p\":0.5,\"time_s\":null},\"B\":{\"p\":0.5,\"time_s\":null},\"C\":{\"p\":0.5,\"time_s\":null},\"D\":{\"p\":0.5,\"time_s\":null}}}\nThe values above are format examples, not predictions. Probabilities must be in [0,1];\nnon-null times must be in (0,6]. Do not add reasoning text or use a zero time for failure.\n",
+  "max_new_tokens": 768,
+  "do_sample": false,
+  "grammar": null,
+  "seed": 7,
+  "input_scope": "same public RGB-D/own-odometry/sensor-derived goal belief and candidates",
+  "image_processor": {
+    "size": {
+      "longest_edge": 16777216,
+      "shortest_edge": 65536
+    },
+    "data_format": "channels_first",
+    "default_to_square": true,
+    "do_convert_rgb": true,
+    "do_normalize": true,
+    "do_rescale": true,
+    "do_resize": true,
+    "image_mean": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "image_processor_type": "Qwen2VLImageProcessor",
+    "image_std": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "merge_size": 2,
+    "patch_size": 16,
+    "resample": 3,
+    "rescale_factor": 0.00392156862745098,
+    "temporal_patch_size": 2
+  },
+  "source_sha256": "932479c585750a366e221a3fd62b82c5718322c0ec4258a05132c0cc65e21116"
+}

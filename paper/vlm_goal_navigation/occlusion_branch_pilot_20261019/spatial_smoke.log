@@ -1,0 +1,12 @@
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights: 100%|██████████| 750/750 [00:00<00:00, 19525.71it/s]
+Traceback (most recent call last):
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_occlusion_forecasts.py", line 118, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_occlusion_forecasts.py", line 111, in main
+    value=dict(id=key,raw=raw,parsed=parse(raw),generated_ids=ids,generated_tokens=len(ids),
+                                     ^^^^^^^^^^
+  File "/home/lry/MoonUnrealEnv/LunarBench/tools/task3_occlusion_forecasts.py", line 51, in parse
+    if not isinstance(value,dict) or value.get('choice') not in 'ABCD' or len(value['choice'])!=1:continue
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'in <string>' requires string as left operand, not NoneType

@@ -1,0 +1,58 @@
+{
+  "version": "occlusion-branch-pilot/1",
+  "seed": 7,
+  "branches": {
+    "advance": [
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "left_bypass": [
+      "STRAFE_LEFT",
+      "STRAFE_LEFT",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "right_bypass": [
+      "STRAFE_RIGHT",
+      "STRAFE_RIGHT",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD",
+      "FORWARD"
+    ],
+    "retreat_scan": [
+      "BACKWARD",
+      "BACKWARD",
+      "TURN_LEFT",
+      "TURN_LEFT",
+      "TURN_RIGHT",
+      "TURN_RIGHT"
+    ]
+  },
+  "horizon_s": 6.0,
+  "states": "all 22 accepted V4 layouts at first strict loss; first 8 alphabetical layouts additionally after .4s continued approach",
+  "delayed_scenes": [
+    "barrier_a0",
+    "barrier_a1",
+    "barrier_a2",
+    "basin_a1",
+    "basin_a2",
+    "perlin_a1",
+    "perlin_a2",
+    "perlin_rough_a0"
+  ],
+  "expected_states": 30,
+  "expected_labelled_branches": 120,
+  "duplicate_audit": "repeat advance after all four candidates at every eligible state; additional rollouts, not extra data",
+  "replay": "full mj_copyData + TorchScript history + wrapper action + PD targets + ticks + RNG",
+  "recovery": "exact target RGB identity >=20px, upright>=.5 and in bounds, 3 consecutive 10Hz samples",
+  "partial_horizons": "fall/out-of-bounds terminate physically; count no-recovery unless already recovered; never discard",
+  "independent_unit": "physical layout, not individual state or branch",
+  "stage": "collection only; no model tuning"
+}

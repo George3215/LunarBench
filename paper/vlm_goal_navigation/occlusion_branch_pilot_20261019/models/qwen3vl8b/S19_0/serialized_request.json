@@ -1,0 +1,72 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are predicting the consequences of short robot motion plans from incomplete visual evidence.\nThe goal is to regain a view of the red sphere. You receive only prior/current camera RGB-D,\nown measured odometry, an uncertain surface-point memory computed from those observations,\nand candidate action sequences. No prebuilt map, hidden geometry, target ground-truth position,\nor future branch outcome is available. Body +x is forward, +y is left, positive yaw turns left.\nEach action lasts 1 second. Commands: FORWARD vx=0.6m/s, BACKWARD vx=-0.5m/s,\nSTRAFE_LEFT vy=0.5m/s, STRAFE_RIGHT vy=-0.5m/s, TURN_LEFT wz=0.6rad/s,\nTURN_RIGHT wz=-0.6rad/s. These are commands, not guaranteed actual displacement.\nAligned grayscale depth is white=0m axial, black=10m+ or invalid.\nFor each FULL six-second candidate, estimate the probability that the target becomes\nstably visible (at least .3s) within the horizon. Also estimate elapsed seconds until\nstable visibility, conditional on it occurring, or null if you cannot estimate it.\nAccount for occlusion, observed obstacles, locomotion feasibility and uncertainty.\nChoose the candidate you would execute to recover sight while avoiding ineffective motion.\nReturn only one JSON object using this exact compact format:\n{\"choice\":\"A\",\"forecasts\":{\"A\":{\"p\":0.5,\"time_s\":null},\"B\":{\"p\":0.5,\"time_s\":null},\"C\":{\"p\":0.5,\"time_s\":null},\"D\":{\"p\":0.5,\"time_s\":null}}}\nThe values above are format examples, not predictions. Probabilities must be in [0,1];\nnon-null times must be in (0,6]. Do not add reasoning text or use a zero time for failure.\n"
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"target\": \"red sphere\", \"coarse_target_belief\": {\"available\": true, \"source\": \"last RGB red region + rendered camera depth + own extrinsics and odometry\", \"forward_m\": 6.046860812466267, \"left_m\": -1.8240283563396453, \"up_m\": -0.1134439923123711, \"bearing_deg\": -16.785874342089933, \"horizontal_range_m\": 6.3159801400947515, \"estimate_kind\": \"observed surface point, not hidden object centre\", \"uncertainty_calibrated\": false, \"uncertainty\": \"Unknown target radius, partial-view bias and later motion error; no hidden-geometry inference.\"}, \"candidate_actions\": [{\"id\": \"A\", \"actions\": [\"STRAFE_RIGHT\", \"STRAFE_RIGHT\", \"FORWARD\", \"FORWARD\", \"FORWARD\", \"FORWARD\"]}, {\"id\": \"B\", \"actions\": [\"BACKWARD\", \"BACKWARD\", \"TURN_LEFT\", \"TURN_LEFT\", \"TURN_RIGHT\", \"TURN_RIGHT\"]}, {\"id\": \"C\", \"actions\": [\"FORWARD\", \"FORWARD\", \"FORWARD\", \"FORWARD\", \"FORWARD\", \"FORWARD\"]}, {\"id\": \"D\", \"actions\": [\"STRAFE_LEFT\", \"STRAFE_LEFT\", \"FORWARD\", \"FORWARD\", \"FORWARD\", \"FORWARD\"]}], \"horizon_s\": 6.0, \"coordinate_convention\": \"body +x forward, +y left; positive yaw left\", \"allowed_sensors\": \"RGB-D, own ideal odometry, own kinematic calibration; no prebuilt map\", \"observations\": [{\"time_s\": 0.0, \"self_odometry\": {\"forward_m\": 0.0, \"left_m\": 0.0, \"up_m\": 0.0, \"yaw_rad\": 0.0}, \"camera_measurement\": {\"source\": \"aligned rendered depth + RGB red threshold; no target geom/pose/segmentation\", \"red_pixel_count\": 132, \"valid_red_depth_count\": 132, \"red_region_median_axial_depth_m\": 5.671383857727051, \"red_region_median_surface_range_m\": 5.678953853486472, \"centroid_uv\": [0.49825994318181815, 0.5222695707070707], \"image_width\": 640, \"image_height\": 480, \"vertical_fov_deg\": 87.0, \"depth_encoding\": \"fixed linear grayscale white=0m axial, black=10m+ or invalid\", \"sensor_simulation\": \"ideal MuJoCo rendered metric depth; no physical-camera noise model\"}}, {\"time_s\": 3.7999999999996037, \"self_odometry\": {\"forward_m\": -0.0834345191203145, \"left_m\": 1.5169882235607939, \"up_m\": -0.002886228899082799, \"yaw_rad\": 0.016873662485065416}, \"camera_measurement\": {\"source\": \"aligned rendered depth + RGB red threshold; no target geom/pose/segmentation\", \"red_pixel_count\": 24, \"valid_red_depth_count\": 24, \"red_region_median_axial_depth_m\": 5.722966194152832, \"red_region_median_surface_range_m\": 5.971682799483544, \"centroid_uv\": [0.6153645833333333, 0.528125], \"image_width\": 640, \"image_height\": 480, \"vertical_fov_deg\": 87.0, \"depth_encoding\": \"fixed linear grayscale white=0m axial, black=10m+ or invalid\", \"sensor_simulation\": \"ideal MuJoCo rendered metric depth; no physical-camera noise model\"}}, {\"time_s\": 4.19999999999956, \"self_odometry\": {\"forward_m\": -0.09230481807807872, \"left_m\": 1.6803380013753066, \"up_m\": 0.0004352982682169215, \"yaw_rad\": 0.01334453458913501}, \"camera_measurement\": {\"source\": \"aligned rendered depth + RGB red threshold; no target geom/pose/segmentation\", \"red_pixel_count\": 0, \"valid_red_depth_count\": 0, \"red_region_median_axial_depth_m\": null, \"red_region_median_surface_range_m\": null, \"centroid_uv\": null, \"image_width\": 640, \"image_height\": 480, \"vertical_fov_deg\": 87.0, \"depth_encoding\": \"fixed linear grayscale white=0m axial, black=10m+ or invalid\", \"sensor_simulation\": \"ideal MuJoCo rendered metric depth; no physical-camera noise model\"}}]}"
+        },
+        {
+          "type": "text",
+          "text": "initial rgb, observation time 0.000s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/initial/rgb.png",
+          "sha256": "40d3a797f76c2805d0c74fc938c6f13b8dca343c3cb582a00652a2d2bd5ff7d7"
+        },
+        {
+          "type": "text",
+          "text": "initial depth, observation time 0.000s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/initial/depth.png",
+          "sha256": "e8bb460b7d67f1cf4ec8d9df5772f6d379ecc1e56eab593d0772592bae77f5d3"
+        },
+        {
+          "type": "text",
+          "text": "last_visible rgb, observation time 3.800s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/last_visible/rgb.png",
+          "sha256": "414ffcd506c49464989b1ec04afec04ffefd80ef362269ed6996e7d80a1dcac2"
+        },
+        {
+          "type": "text",
+          "text": "last_visible depth, observation time 3.800s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/last_visible/depth.png",
+          "sha256": "32b19eb0ae004fa275322103d66bb1c9985e9a0b9b8c2d43def3fd32f25ce1ec"
+        },
+        {
+          "type": "text",
+          "text": "current rgb, observation time 4.200s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/current/rgb.png",
+          "sha256": "ee2fa0018a68c443f0ddc387cdbcc4e662bad4e7ea8f905643c8f93dfef297fa"
+        },
+        {
+          "type": "text",
+          "text": "current depth, observation time 4.200s"
+        },
+        {
+          "type": "image",
+          "path": "paper/vlm_goal_navigation/occlusion_branch_pilot_20261019/states/S19_0/inputs/current/depth.png",
+          "sha256": "635cfcbbfa1df717f6796d7f1a31ef515cf05aafc379a8932f80481113c5edb2"
+        }
+      ]
+    }
+  ],
+  "public_request_sha256": "505835cb58ebdf692e16c89598eddb7525775359ab67dc3587f19a8179f618c9"
+}
